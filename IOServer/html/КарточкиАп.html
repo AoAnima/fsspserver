@@ -1,0 +1,15 @@
+{{define "КарточкиАП"}}
+
+ {{range $номер, $данные := .data.данные_ад}}
+     {"{{$данные.osp}}{{$данные.id}}":[<?xml version="1.0" encoding="UTF-8"?>
+    <job doc="F360" nfile="{{$данные.osp}}{{$данные.id}}" datform="{{ДатаФормыАП $данные.date}}" datcome="" subject="* Адм. правонарушения - нов." to="a000001" to_desc="" maxrec="300" attachment="" realname="" oper="ins" sost="new" jr="">
+        <request>
+            <DOC_F360 num="1">{{range $имя, $значение := index $данные}}{{ if ne (not $значение) true }}{{if or (ne (Заглавные $имя) "OSP") (ne (Заглавные $имя) "FILE") (ne (Заглавные $имя) "LOGIN") (ne (Заглавные $имя) "DATE") (ne (Заглавные $имя) "ID")}}
+                  <{{Заглавные $имя}}>{{if eq (Тип $значение) "int"}}{{$значение}}{{else}}{{Заглавные $значение}}{{end}}</{{Заглавные $имя}}>{{end}}{{end}}{{end}}
+            </DOC_F360>
+        </request>
+    </job>
+{{if eq  (len $.data.данные_ад) (Сумма 1 $номер)}}]{{else}}],{{end}}{{end}}}
+{{end}}
+
+

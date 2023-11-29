@@ -1,0 +1,40 @@
+{{define "СтатистикаФССП"}}
+    <div class="stat_fssp" id="stat_fssp">
+        <div class="panel_content_wrapper">
+            <div class="left_panel">
+
+                <article id="articles" class="articles_wrapper">
+                    <div class="data_list_wrapper" id="data_list">
+                        <div id="search_panel" class="search_panel">
+                            <form action="создать стат. таблицу" onsubmit="WS.ОтправитьФорму(event)">
+                                <button class="new_kb_article" type="submit">создать новую стат. таблицу</button>
+                            </form>
+
+                        </div>
+                        <div class="tags_list" id="tags_list_wrapper">
+                           {{ template "СписокТаблиц" .}}
+                        </div>
+                    </div>
+                    <div class="article_list" id="article_content">
+
+                    </div>
+                </article>
+            </div>
+{{/*            <div id="full_article_wrapper">*/}}
+
+{{/*            </div>*/}}
+        </div>
+
+{{/*        <div class="left_panel">*/}}
+{{/*            <button onclick="WS.ОтправитьСообщениеИО('Создать стат. таблицу')">*/}}
+{{/*                Создать стат. таблицу*/}}
+{{/*            </button>*/}}
+{{/*        </div>*/}}
+{{/*        <div class="content" id="stat_content">*/}}
+{{/*            {{template  "StatConstructor" .}}*/}}
+{{/*        </div>*/}}
+
+
+
+    </div>
+{{end}}

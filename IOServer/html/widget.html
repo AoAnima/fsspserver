@@ -1,0 +1,127 @@
+{{define "widget"}}
+
+<div class="" id="ws_widget">
+{{/*{{if eq .UserInfo.Info.Login "maksimchuk@r26"}}*/}}
+{{/*    <div id="server_log" class="scroll_wrapper">*/}}
+{{/*        <header>server_log</header>*/}}
+{{/*    </div>*/}}
+{{/*{{end}}*/}}
+
+{{/*        <div class="ws_header"><button class="close_ws_chat" type="button" onclick="WS.CloseChatBox()">Закрыть</button></div>*/}}
+<div class="ws_wrapper">
+{{/*  Панель чата/лог сообщений   */}}
+            <div class="ws_chat" id="" >
+                <div class="ws_messages" id="ws_chat_log">
+                    <div class="log_wrapper" id="log_wrapper_io"></div>
+                </div>
+             <div class="ws_input_wrapper">
+                <button title="Присоеденить файлы" class="ws_attach"  type="button"></button>
+                <div onkeypress="ScanKeys(event)" class="input_box" id ="ws_message_box" data-recipient="io" contenteditable="true"></div>
+                <button title="Отправить сообщение ctrl+enter" class="ws_send"  id="ws_send" type="button" onclick="WS.sendMessage('ws_message_box')"></button>
+            </div>
+            </div>
+    {{/*  Конец Панели чата/лог сообщений   */}}
+    {{/*  Панель Контактов  */}}
+ <div class="ws_contacts">
+     <div class="ws_header">
+         <div  style="order:0" id="io_user_profile"  data-initials="{{.client.UserInfo.Initials}}" data-firestname="{{.client.UserInfo.Info.Givenname}}"  data-lastname="{{.client.UserInfo.Info.Initials}}" data-midlename="{{.client.UserInfo.Info.SecondName}}" data-fullname="{{.client.UserInfo.FullName}}" class="ws_contact">
+             <div class="avatar">
+                 {{.client.UserInfo.Initials}}
+             </div>
+             <div class="user_info">
+                 <div class="name">
+                     {{.client.UserInfo.FullName}}
+                 </div>
+                 <div class="post">
+                    {{.client.UserInfo.Info.PostName}}
+                 </div>
+             </div>
+         </div>
+         <button class="close_ws_chat" type="button" onclick="WS.ToggleChatBox()">X</button>
+     </div>
+    <div class="ws_search_box">
+       <input class="ws_search_uid" placeholder="Введите имя для поиска... ЕЩЕ НЕ РАБОТАЕТ" type="text" oninput="WS.searchUid(event);">
+       <button class="ws_group_chat" title="Создать групповую беседу..."></button>
+     </div>
+
+
+<div class="contacts_wrapper" id="contacts_wrapper">
+    <div class="ws_last_chats_wrapper">
+        <div class="ou_wrapper"  style="order:-1"  >
+            <div class="ou_name" id = "">
+                Последние переписки
+            </div>
+        </div>
+        <div id="ws_last_chats">
+            <div  style="order:0" onclick="WS.ShowChatLog(this, 'io')" id="io" data-initials="IO" data-fullname="Бот IO" class="ws_contact">
+                <div class="avatar">
+                    IO
+                </div>
+                <div class="user_info">
+                    <div class="name">
+                        Бот-Куратор ИО
+                    </div>
+                    <div class="post">
+                        Скоро будет умным
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ws_users_list">
+        <div class="ou_wrapper"  style="order:-1"  >
+            <div class="ou_name" id = "">
+               Сотрудники в сети
+            </div>
+        </div>
+        <div id="ws_online">
+            {{.Onlie}}
+        {{range $Login, $Client := .Online}}
+            {{if ne $Login $.client.Login}}
+                {{if $Client.UserInfo}}
+                    {{$User:=$Client.UserInfo.Info}}
+                {{template "userWindget" $User}}
+                    {{end}}
+            {{end}} {{/*if ne $Login $.client.Login*/}}
+        {{end}}
+        </div>
+        <div class="ou_wrapper"  style="order:-1"  >
+            <div class="ou_name" id = "">
+                Сотрудники не в сети
+            </div>
+        </div>
+        <div id="ws_offline">
+
+        </div>
+    </div>
+      </div>
+    </div>
+    {{/*  Конец Панель Контактов  */}}
+</div>
+    <button type="button" onclick="WS.ToggleChatBox()" id="ws_widget_btn">
+    </button>
+
+    <div id="float_doc">
+        <div id="termanals_container">
+
+        </div>
+        <div id="doc_container">
+
+        </div>
+        <div id="doc_modal"></div>
+    </div>
+
+</div>
+{{end}}
+
+{{if eq .UserInfo.Info.OspCode 26911}}
+    <div id="ws_terminal">
+        <div class="ws_terminal_header">
+            <button class="close_ws_chat" type="button">X</button>
+        </div>
+        <div id="ws_terminal_log"></div>
+        <textarea name="cmd" id="cmd" cols="30" rows="10">
+    </textarea>
+
+    </div>
+{{end}}

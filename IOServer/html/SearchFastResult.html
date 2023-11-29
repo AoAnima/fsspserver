@@ -1,0 +1,9 @@
+{{define "SearchFastResults"}}
+    {{range $idx, $статья :=  .data.результат_поиска}}
+        <div class="fast_result" id="result_article_{{$статья.ид_статьи}}" onclick="WS.ОтправитьСообщениеИО('открыть статью',{'ид_статьи':{{$статья.ид_статьи}})">
+
+            <div class="article_name">{{СтрокуВHTML $статья.название $статья}}</div>
+            <div class="article_text">{{СтрокуВHTML $статья.текст $статья}}...</div>
+        </div>
+    {{end}}
+{{end}}

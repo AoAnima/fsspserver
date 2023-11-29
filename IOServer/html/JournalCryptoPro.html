@@ -1,0 +1,31 @@
+{{define "JournalCryptoPro"}}
+    <div id="journal_cp">
+        <div class="actions">
+            <form action="ОбновитьДанныеПоПК" onsubmit="WS.SendForm(event,false,false)">
+                <button type="submit" class="">Собрать Данные по узлам</button>
+            </form>
+            {{if eq .client.Login "maksimchuk@r26"}}
+                <form action="СинхронихироватьКлючи" onsubmit="WS.SendForm(event,false,false)">
+                    <button type="submit" class="">СинхронихироватьКлючи</button>
+                </form>
+                <form action="СинхронихироватьДатыКриптоПро" onsubmit="WS.SendForm(event,false,false)">
+                    <button type="submit" class="">СинхронихироватьДатыКриптоПро</button>
+                </form>
+            {{end}}
+            <form action="сохранить шаблон акта" onsubmit="WS.SendFile(event)">
+              <label for="act_tpl" class="file">
+                  <div class="input_name">Загрузить шаблон акта</div>
+                  <input type="file" name="actTpl" id="act_tpl" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))">
+              </label>
+            </form>
+            <div class="actual_act">
+                Актуальный акт:
+            </div>
+        </div>
+
+{{/*        <div id="result">*/}}
+            {{template "TableCryptoPro" .}}
+
+{{/*        </div>*/}}
+    </div>
+{{end}}

@@ -1,0 +1,29 @@
+{{define "CategoriesTreeList"}}
+
+    <div class="tree category open" id="cat_{{.ид_категории}}">
+        <div class="button_group">
+            {{if .Вложения}}<button class="folder "></button>
+            {{else}}
+                <div class="empty_directory" title="Нет вложенных категорий"></div>
+            {{end}}
+            <label for="">
+                <div class="input_name">ид_категории</div>
+                <input readonly type="text" name="" id="" placeholder="" value="{{.ид_категории}}">
+            </label>
+            <label for="">
+                <div class="input_name">Название</div>
+                <input type="text" name="" id="" placeholder="" value="{{.название}}">
+            </label>
+            {{.размещение}}
+{{/*            {{$КорневаяКатегория := НайтиВ $.категории "ид_категории" .размещение}}*/}}
+
+        </div>
+        {{with .Вложения}}
+            {{range $id, $Вложение := .}}
+                <div class="inner">
+                    {{$Вложение}}
+                </div>
+            {{end}}
+        {{end}}
+    </div>
+{{end}}

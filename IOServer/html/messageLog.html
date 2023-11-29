@@ -1,0 +1,45 @@
+{{define "messageLog"}}
+    {{with .UserInfo}}
+       <div class="UserLogHeader">
+                <div class="avatar">{{.Initials}}</div>
+                <div class="user_info">
+                    <div class="name">{{.FullName}}  {{.Info.Ip}}</div>
+                    <div class="post">{{.Info.PostName}}</div>
+                </div>
+       </div>
+    {{end}}
+<div class="scroll_wrapper">
+    <div class="ws_user_log" id="log_{{.UserInfo.Info.Login}}">
+        {{$lastMesTime := ""}}
+       {{range $mesId, $message:= .log}}
+            <div id="mes_{{$mesId}}" class="message_wrapper {{if eq $message.Autor $.uid}}mes_from{{else}}mes_to{{end}} history_log">
+                <div class="avatar">
+                    {{$initials := CreatInitails $message.AutorName $message.AutorMiddlename}}
+                    {{$initials}}
+                </div>
+                <div class="ws_message_block">
+                    <div class="autor">
+                        <div class="name">
+                           {{$message.AutorName}} {{$message.AutorMiddlename}}
+                        </div>
+                        <div class="time">
+                            {{ParseTime $message.Date}}
+                        </div>
+                    </div>
+                    <div class="ws_text_message">{{if $message.TextHtml}}{{$message.TextHtml}}{{end}}
+                    </div>
+                </div>
+            </div>
+           {{$lastMesTime = $message.Date}}
+
+        {{end}}
+        <div class="log_separator">Сообщения до {{ParseTime $lastMesTime}}</div>
+        {{if eq .UserInfo.Info.Login "maksimchuk@r26"}}
+            {{template "NewDialog" .}}
+        {{end}}
+    </div>
+</div>
+    {{if eq .UserInfo.Info.Login "io"}}
+        {{template "bot_menu" .}}
+    {{end}}
+{{end}}

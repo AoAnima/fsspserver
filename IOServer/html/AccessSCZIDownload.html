@@ -1,0 +1,10 @@
+{{define "AccessSCZIDownload"}}
+    <a target="_blank"  class="file_download" href="{{.data.path}}{{.data.документ}}/{{.data.Файл}}">
+        <img src="/static/images/{{if СтрокаСодержит .data.документ "prikaz"}}prikaz{{else}}{{.data.документ}}{{end}}.svg" alt="">
+    </a>
+    <div class="edit_panel">
+        <div class="actions">
+            <button onclick="WS.ОтправитьСообщениеИО('удалить документ из журанал допуска скзи', {'uid_number':'{{.data.uid_number}}', 'документ':'{{.data.документ}}'}, true)" class="btn_icon trash"></button>
+        </div>
+    </div>
+{{end}}

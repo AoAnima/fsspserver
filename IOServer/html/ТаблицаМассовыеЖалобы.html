@@ -1,0 +1,71 @@
+{{define "ТаблицаМассовыеЖалобы"}}
+
+
+            <table class="io_table">
+                <thead>
+                <tr>
+                    <th>
+                        ОСП
+                        {{template "ФормаСортировкиТаблиц" "осп"}}
+                    </th>
+                    <th>
+                        Номер обращения
+                    </th>
+                    <th>
+                        Заявитель
+                        {{template "ФормаСортировкиТаблиц" "заявитель"}}
+                    </th>
+                    <th>
+                        Дата поступления
+                    </th>
+                    <th>
+                        Обращения касающиеся
+                    </th>
+                    <th>
+                        Тип обращения/Литер
+                    </th>
+                    <th>
+                        Содержание
+                    </th>
+                    <th>
+                        Примечание
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {{range $N, $строка := .data.жалобы}}
+                <tr>
+                   <td>
+                        {{$строка.осп}}
+                   </td>
+                    <td>
+                        {{$строка.номер}}
+                   </td>
+                    <td>
+                        {{$строка.заявитель}}
+                   </td>
+                    <td>
+                        {{$строка.дата_поступления}}
+                   </td>
+                    <td>
+                        {{$строка.обращение_касающиеся}}
+                   </td>
+                    <td>
+                        {{$строка.тип_обращения}}
+                   </td>
+                    <td>
+                        {{$строка.содержание}}
+                   </td>
+                    <td>
+                        <form action="добавить примечание" class="flex_align-center nowrap" onsubmit="WS.SendForm(event, false, false, false)">
+                            <input class="inviz" readonly type="text" value="{{$строка.номер}}" name="номер">
+                          <textarea name="примечание" id="" cols="30" rows="1">{{$строка.примечание}}</textarea>
+                         <button class="io" type="submit">Сохранить</button>
+                        </form>
+                   </td>
+                </tr>
+                    {{end}}
+                </tbody>
+            </table>
+
+{{end}}

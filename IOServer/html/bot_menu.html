@@ -1,0 +1,82 @@
+{{define "bot_menu"}}
+
+{{/*    <div class="ws-info">*/}}
+{{/*        Данный сервис находиться в разработке.*/}}
+{{/*        <p>*/}}
+{{/*            Вы сможете самостоятельно решать некоторые возникающие проблемы:*/}}
+{{/*            <ul>*/}}
+{{/*                <li>Не открывается папка обмена</li>*/}}
+{{/*                <li>Не запускается аис</li>*/}}
+{{/*                <li>Подключение/переподключение принтеров</li>*/}}
+{{/*                <li>Аис не видит рутокен</li>*/}}
+{{/*                <li>Не открываются документы openoffice</li>*/}}
+{{/*                <li>и др.</li>*/}}
+{{/*            </ul>*/}}
+{{/*        </p>*/}}
+{{/*        <p>*/}}
+{{/*            Если проблем ане может быть решена с помощью Бота, то Вы можете написать своему куратору (если не можете до него дозвониться)*/}}
+{{/*        </p>*/}}
+{{/*        <p>*/}}
+{{/*            Можно отправлять сообщения находящимся на сайте пользователям*/}}
+{{/*        </p>*/}}
+
+{{/*    </div>*/}}
+{{/*    {{.}}*/}}
+{{/*[map[action_id:1 actions:map[cmd:/etc/rc.d/rc.local] creator: date_create: description:Перезапускает rc.local dir:<nil> keywords:<nil> name:rclocal problem:[Не работает папка обмена Не запускается аис] self_use:t]]*/}}
+<div id="fast_answers" class="hidden">
+    <button title="Скрыть быстрые сообщения" class="toogler" onclick="WS.ОткрытьЗакрыть('fast_answers')">
+        {{if eq .client.UserInfo.Info.OspCode 26911}}
+                Меню
+            {{else}}
+                У меня проблема...
+         {{end}}
+    </button>
+        <div class="skillWrapper">
+            {{if eq .client.UserInfo.Info.OspCode 26911}}
+                {{if eq .client.Login "maksimchuk@r26"}}
+                    <button class="fast_answer" onclick="WS.stopServer()">Стоп</button>
+                    <button class="fast_answer" onclick='WS.ServerAction({"action":"collectData","arg":{"module":"complaints", "tables":["treatment"]}})'>Обновить данные</button>
+                {{end}}
+                <button class="fast_answer" onclick="WS.SendFastMessageIO('Добавить навык');WS.ОткрытьЗакрыть('fast_answers')">Добавить навык</button>
+                <button class="fast_answer" onclick="WS.SendFastMessageIO('Покажи навыки');WS.ОткрытьЗакрыть('fast_answers')">Показать навыки</button>
+            {{end}}
+            {{range $idx, $skill := .BotMenu}}
+
+                {{if and $skill.problem }}
+                    {{if ge (len $skill.problem) 1 }}
+                        {{range $idxProblem, $problem := $skill.problem}}
+                              <button class="fast_answer" title="{{$skill.description}}" onclick="WS.RunSkill({{$skill.action_id}}, {{$idxProblem}});WS.ОткрытьЗакрыть('fast_answers')">{{$problem}}</button>
+                        {{end}}
+                    {{else}}
+                        {{if ge (len $skill.description) 0 }}
+                            <button class="fast_answer" title="{{$skill.description}}" onclick="WS.RunSkill({{$skill.action_id}}, -1);WS.ОткрытьЗакрыть('fast_answers')">{{$skill.description}}</button>
+                        {{end}}
+                    {{end}}
+                {{end}}
+            {{end}}
+
+            <div class="fast_dialogs">Быстрые сообщения</div>
+            {{range $idx, $skill := .Dialogs}}
+                {{if and $skill.активирующее_сообщение }}
+                    {{if ge (len $skill.активирующее_сообщение) 1 }}
+                        {{range $idxProblem, $problem := $skill.активирующее_сообщение}}
+                            <button class="fast_answers fast_dialog" title="" onclick="WS.SendFastMessageIO({{$problem}});WS.ОткрытьЗакрыть('fast_answers')">{{$problem}}</button>
+                        {{end}}
+{{/*                    {{else}}*/}}
+{{/*                        {{if ge (len $skill.description) 0 }}*/}}
+{{/*                            <button class="fast_answer" title="{{$skill.description}}" onclick="WS.SendFastMessageIO({{$skill.action_id}}, -1);WS.ОткрытьЗакрыть('fast_answers')">{{$skill.description}}</button>*/}}
+{{/*                        {{end}}*/}}
+                    {{end}}
+                {{end}}
+            {{end}}
+
+
+
+
+                {{if ne .client.UserInfo.Info.OspCode 26911}}
+                        <button type="button" onclick='WS.SendFastMessageIO("Создать заявку");WS.ОткрытьЗакрыть("fast_answers");' class="fast_answer">Другая проблема</button>
+                {{end}}
+
+        </div>
+</div>
+{{end}}

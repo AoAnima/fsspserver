@@ -1,0 +1,43 @@
+{{define "NewSkill"}}
+    <div class="" id="skill_wrapper_{{.action_id}}">
+{{/*    <div>*/}}
+{{/*    {{.client.Givenname}}, проверь пожалуйста всё ли верно заполненно! Если где то ошибка то кликни по этому полю для изменения! (Для сохранениия изменения кликни на любом месте вне редактируемого поля, или нажми TAB.)*/}}
+{{/*    </div>*/}}
+  <div class="new_skill_controll" id="skill_{{.action_id}}" >
+{{/*      onclick="WS.SkillEdit(event, {{.action_id}})"*/}}
+     <div class="skill_name">Название: <div id="skill_name_{{.id}}" data-skillfield="name">{{.name}}</div>
+        <div data- id="skill_id_{{.id}}"> ID: {{.action_id}}</div>
+    </div>
+    <div class="skill_description" >
+      Описание: <div id="skill_description_{{.action_id}}" data-skillfield="description">{{.description}}</div>
+    </div>
+        <div class="skill_problem">
+         Решает проблемы: <div id="skill_problem_{{$.action_id}}" data-skillfield="problem">
+                    {{StringsJoin .problem `;`}}
+            </div>
+        </div>
+    <div class="skill_action">
+      {{with .actions.cmd}}
+        Выполняет команду: <div id="skill_action_{{$.action_id}}" data-skillfield="actions_cmd">{{.}}</div>
+      {{end}}
+      {{with .actions.file}}
+        Выполняет скрипт из файла: <div id="skill_action_{{$.action_id}}" data-skillfield="actions_file">{{.}}</div>
+      {{end}}
+    </div>
+    <div class="skill_keywords">
+      Метки/Тэги: <div id="skill_keywords_{{$.action_id}}" data-skillfield="keywords">
+                {{StringsJoin  .keywords ","}}
+        </div>
+    </div>
+    <div class="skill_selfuse">
+        Полдьзователи могут самы использовать навык: <div id="skill_selfuse_{{.action_id}}">
+            <input type="checkbox" value="self_use" {{if eq .self_use "t"}}checked{{end}} data-skillfield="self_use" >
+        </div>
+    </div>
+    <div class="skill_creator noedit">
+      Создатель: {{.creator}} Дата создания: {{.date_create}}
+    </div>
+  </div>
+    <div>Всё верно ? <button onclick="CloseModal('skill_wrapper_{{.action_id}}')" class="fast_answer">Да</button></div>
+    </div>
+{{end}}

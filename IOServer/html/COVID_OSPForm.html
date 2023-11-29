@@ -1,0 +1,172 @@
+{{define "COVID_OSPForm"}}
+    OSPForm
+
+    <div class="note error">
+        Данные НЕ подлежат редактированию! Пожалуйста внимательно заполняйте таблицу! Если Вы отправили данные и заметили ошибку то необходимо удалить предыдущую запись, а затем потворить воод данных. Для удаления ошибочно введёных данных нажмите кнопку адлить. и обновите страницу.
+    </div>
+
+    <div id="covid" class="">
+        <form style="align-content: first baseline;" name="covid_osp" class="col" action="сохранить данные по covid" onsubmit="WS.SendForm(event, false, false, true)">
+            <table class="io_table" id="covid_table">
+                <caption>
+                    Информация об организации дистанционной профессиональной деятельности работников (сотрудников) территориальных органов ФССП России по состоянию на {{CurrentTime}}
+                </caption>
+                <thead>
+                <tr>
+                    <th rowspan="3" width="100px">
+                        <label for="osp">
+                            {{$OspCode := .client.OspCode}}
+
+                            <div class="input_name">{{(index .OspList (ЧислоВСтроку $OspCode)).OspName}} </div>
+                            <input class="inviz" type="text" name="осп" id="osp" placeholder="" value="{{.client.OspCode}}">
+                        </label>
+                    </th>
+                    <th  rowspan="2" width="100px" >Работники, находящиеся в отпуске в т.ч. без сохранения денежного содержания</th>
+
+
+                    <th colspan="5" >Численность ФГГС/Работников, находящихся на больничном</th>
+                    <th rowspan="2">Работники, переведенные на дистанционный формат работы</th>
+                    <th colspan="2" rowspan="2">ИТОГО работников, находящихся на рабочем месте</th>
+                    <th rowspan="3" width="100px">Кол-во ФГГС/Работников, прошедших исследование на наличие COVID-19</th>
+                    <th colspan="3" rowspan="2">Кол-во ФГГС/ работников, прошедших вакцинацию против COVID-19</th>
+                    <th rowspan="3" width="100px">Кол-во ФГГС/ работников, имеющих медотвод</th>
+                    <th rowspan="3" width="100px">Кол-во ФГГС/ работников, не вакцинированных и не имеющих медотвод </th>
+
+                </tr>
+                <tr>
+                    <th rowspan="2" width="100px">Всего</th>
+                    <th rowspan="2" width="100px">ОРВИ</th>
+                    <th colspan="2" >COVID-19</th>
+                    <th rowspan="2" width="100px">Иное (в т.ч. на карантине)</th>
+
+
+                </tr>
+                <tr>
+                    <th width="100px">Всего</th>
+                    <th width="100px">Всего </th>
+                    <th width="100px">из них болеющие после полной вакцинации</th>
+                    <th width="100px">Всего</th>
+                    <th width="100px">Количество</th>
+                    <th width="100px">Процент</th>
+                    <th width="100px">I этап вакцинации</th>
+                    <th width="100px">II этап вакцинации</th>
+                    <th width="100px">ревакцинация</th>
+                </tr>
+
+                <tr>
+                    <th></th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th>5</th>
+                    <th>6</th>
+                    <th>7</th>
+                    <th>8</th>
+                    <th>9</th>
+                    <th>10</th>
+                    <th>11</th>
+                    <th>12</th>
+                    <th>13</th>
+                    <th>14</th>
+                    <th>15</th>
+                    <th>16</th>
+                    <th>17</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>Всего</th>
+                    <td><input size="2" type="number" value="0" name="отпуск_всего"></td>
+                    <td><input size="2" type="number" value="0" name="больничный_всего"></td>
+                    <td><input size="2" type="number" value="0" name="больничный_всего_орви"></td>
+                    <td><input size="2" type="number" value="0" name="больничный_всего_covid"></td>
+                    <td><input size="2" type="number" value="0" name="больничный_всего_covid_вакц"></td>
+                    <td><input size="2" type="number" value="0" name="больничный_всего_иное"></td>
+                    <td><input size="2" type="number" value="0" name="удаленка_всего"></td>
+                    <td><input size="2" type="number" value="0" name="работает_всего"></td>
+                    <td><input size="2" type="number" value="0" name="работает_процент"></td>
+                    <td><input size="2" type="number" value="0" name="всего_прошли_иccледование"></td>
+                    <td><input size="2" type="number" value="0" name="всего_прошли_вакцинацию_1"></td>
+                    <td><input size="2" type="number" value="0" name="всего_прошли_вакцинацию_2"></td>
+                    <td><input size="2" type="number" value="0" name="всего_прошли_ревакцинация"></td>
+                    <td><input size="2" type="number" value="0" name="метдотвод"></td>
+                    <td><input size="2" type="number" value="0" name="без_вакцины_медотвода"></td>
+
+                </tr>
+                <tr>
+                    <th>Судебные приставы-исполнители</th>
+
+                    <td><input size="2" type="number" value="0" name="спи_отпуск_всего"></td>
+                    <td><input size="2" type="number" value="0" name="спи_больничный_всего"></td>
+                    <td><input size="2" type="number" value="0" name="спи_больничный_всего_орви"></td>
+                    <td><input size="2" type="number" value="0" name="спи_больничный_всего_covid"></td>
+                    <td><input size="2" type="number" value="0" name="спи_больничный_всего_covid_вакц"></td>
+                    <td><input size="2" type="number" value="0" name="спи_больничный_всего_иное"></td>
+                    <td><input size="2" type="number" value="0" name="спи_удаленка_всего"></td>
+                    <td><input size="2" type="number" value="0" name="спи_работает_всего"></td>
+                    <td><input size="2" type="number" value="0" name="спи_работает_процент"></td>
+                    <td><input size="2" type="number" value="0" name="спи_всего_прошли_иccледование"></td>
+                    <td><input size="2" type="number" value="0" name="спи_всего_прошли_вакцинацию_1"></td>
+                    <td><input size="2" type="number" value="0" name="спи_всего_прошли_вакцинацию_2"></td>
+                    <td><input size="2" type="number" value="0" name="спи_всего_прошли_ревакцинация"></td>
+                    <td><input size="2" type="number" value="0" name="спи_метдотвод"></td>
+                    <td><input size="2" type="number" value="0" name="спи_без_вакцины_медотвода"></td>
+                </tr>
+                <tr>
+                    <th>Дознаватели</th>
+                    <td><input size="2" type="number" value="0" name="дозн_отпуск_всего"></td>
+                    <td><input size="2" type="number" value="0" name="дозн_больничный_всего"></td>
+                    <td><input size="2" type="number" value="0" name="дозн_больничный_всего_орви"></td>
+                    <td><input size="2" type="number" value="0" name="дозн_больничный_всего_covid"></td>
+                    <td><input size="2" type="number" value="0" name="дозн_больничный_всего_covid_вакц"></td>
+                    <td><input size="2" type="number" value="0" name="дозн_больничный_всего_иное"></td>
+                    <td><input size="2" type="number" value="0" name="дозн_удаленка_всего"></td>
+                    <td><input size="2" type="number" value="0" name="дозн_работает_всего"></td>
+                    <td><input size="2" type="number" value="0" name="дозн_работает_процент"></td>
+                    <td><input size="2" type="number" value="0" name="дозн_всего_прошли_иccледование"></td>
+                    <td><input size="2" type="number" value="0" name="дозн_всего_прошли_вакцинацию_1"></td>
+                    <td><input size="2" type="number" value="0" name="дозн_всего_прошли_вакцинацию_2"></td>
+                    <td><input size="2" type="number" value="0" name="дозн_всего_прошли_ревакцинация"></td>
+                    <td><input size="2" type="number" value="0" name="дозн_метдотвод"></td>
+                    <td><input size="2" type="number" value="0" name="дозн_без_вакцины_медотвода"></td>
+
+                </tr>
+                <tr>
+                    <th>Судебные приставы по ОУПДС</th>
+                    <td><input size="2" type="number" value="0" name="оупдс_отпуск_всего"></td>
+                    <td><input size="2" type="number" value="0" name="оупдс_больничный_всего"></td>
+                    <td><input size="2" type="number" value="0" name="оупдс_больничный_всего_орви"></td>
+                    <td><input size="2" type="number" value="0" name="оупдс_больничный_всего_covid"></td>
+                    <td><input size="2" type="number" value="0" name="оупдс_больничный_всего_covid_вакц"></td>
+                    <td><input size="2" type="number" value="0" name="оупдс_больничный_всего_иное"></td>
+                    <td><input size="2" type="number" value="0" name="оупдс_удаленка_всего"></td>
+                    <td><input size="2" type="number" value="0" name="оупдс_работает_всего"></td>
+                    <td><input size="2" type="number" value="0" name="оупдс_работает_процент"></td>
+                    <td><input size="2" type="number" value="0" name="оупдс_всего_прошли_иccледование"></td>
+                    <td><input size="2" type="number" value="0" name="оупдс_всего_прошли_вакцинацию_1"></td>
+                    <td><input size="2" type="number" value="0" name="оупдс_всего_прошли_вакцинацию_2"></td>
+                    <td><input size="2" type="number" value="0" name="оупдс_всего_прошли_ревакцинация"></td>
+                    <td><input size="2" type="number" value="0" name="оупдс_метдотвод"></td>
+                    <td><input size="2" type="number" value="0" name="оупдс_без_вакцины_медотвода"></td>
+                </tr>
+
+
+
+                </tbody>
+
+            </table>
+
+            <label for="login">
+                <div class="input_name">Заполнил: <strong>{{.client.SecondName}} {{.client.Givenname}} {{.client.Initials}} </strong> </div>
+                <input type="text" class="inviz" readonly name="заполнил" id="login" placeholder="" value="{{.client.Login}}">
+                <button type="submit">Сохранить</button>
+            </label>
+
+        </form>
+    </div>
+    <div id="covid_state" style="margin-top: 50px">
+        {{template "OspCovidState" .}}
+
+    </div>
+
+{{end}}

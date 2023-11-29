@@ -1,0 +1,30 @@
+{{define "ПоляДетализацииСпецФильтра"}}
+    {{ $id := index .данные (Строка .данные.тип "_id")  }}
+    <div class="">
+        Список полей для детализации спец.фильтра
+        <button type="button" data-button_name="Развернуть" onclick="СвернутьПанель('{{.данные.тип}}_fields_list_{{$id}}', event)">Свернуть</button>
+    </div>
+
+    {{$отмечен := ""}}
+    <div class="details_filed_list" id='{{.данные.тип}}_fields_list_{{$id}}'>
+        {{range $n, $строка := (index .data.поля (ЧислоВСтроку 26000)).МассивСтрок}}
+            <label class="left" for="field_{{$строка.SOBJ_NAME}}.{{$строка.SFLD_NAME}}_{{$id}}">
+                {{ if eq $строка.SFLD_NAME "ID"}}
+                    {{ if ne $отмечен "checked"}}
+                        {{ $отмечен := "checked"}}
+                    {{end}}
+                {{end}}
+                <input {{$отмечен}} type="checkbox"
+                                    id="field_{{$строка.SOBJ_NAME}}.{{$строка.SFLD_NAME}}_{{$id}}"
+                                    value="{{$строка.SOBJ_NAME}}.{{$строка.SFLD_NAME}}"
+                                    name="запрос[{{$id}}].детализация[]"
+                                    form="new_data-table"
+
+                >
+                <div class="input_name">
+                    {{$строка.SFLD_CAPTION}}
+                </div>
+            </label>
+        {{end}}
+    </div>
+{{end}}

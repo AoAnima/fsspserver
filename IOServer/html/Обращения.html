@@ -1,0 +1,126 @@
+{{define "Обращения"}}
+
+    <div id="appels">
+        <div class="flex-row flex_justify-center flex_align-center">
+        <div class="panel white flex-col flex_align-center">
+            <div class="header">
+                Поиск обращений
+            </div>
+            <form style=" max-width: 600px"  class="io_form" action="найти обращение" onsubmit="WS.SendForm(event, false, false, false)">
+                <div class="flex-row">
+                    <label for="">
+                        <div class="input_name">Номер</div>
+                        <input type="text" name="номер" id="appel_number" placeholder="Номер обращения">
+                    </label>
+                    <label for="">
+                        <div class="input_name">Статус</div>
+                        <input type="text" name="" id="" placeholder="">
+                    </label>
+                    <label for="">
+                         <div class="input_name">Заголовок</div>
+                         <input type="text" name="" id="" placeholder="">
+                    </label>
+                </div>
+                <div class="flex-row">
+                    <label for="">
+                        <div class="input_name">Дата запроса</div>
+                       c <input type="date" name="" id="" placeholder="">
+                       по  <input type="date" name="" id="" placeholder="">
+                    </label>
+                    <label for="">
+                        <div class="input_name">Контрольный срок</div>
+                        c <input type="date" name="" id="" placeholder="">
+                        по <input type="date" name="" id="" placeholder="">
+                    </label>
+                </div>
+                <label for="">
+                    <div class="input_name">Отдел инициатор</div>
+                    <select name="" id="">
+                        <option value="">Название отдела</option>
+                    </select>
+                </label>
+                <label for="">
+                    <div class="input_name">Отдел исплнитель</div>
+                    <select name="" id="">
+                        <option value="">Название отдела</option>
+                    </select>
+                </label>
+
+             <button class="io" type="submit">Найти</button>
+            </form>
+        </div>
+        <div id="new_appel" class="panel white flex-col flex_align-center">
+            <div class="header">Новое обращение</div>
+            <form style=" max-width: 600px" class="io_form" action="добавить обращение" onsubmit="WS.SendForm(event, false, false, false)">
+            <label for="">
+                <div class="input_name">Номер</div>
+                <input type="text" name="номер" id="" placeholder="">
+            </label>
+                <label for="">
+                    <div class="input_name">Контрольный срок</div>
+                    <input type="date" name="срок" id="" placeholder="">
+                </label>
+                <label for="">
+                    <div class="input_name">Заголовок</div>
+                    <input type="text" name="заголовок" id="" placeholder="">
+                </label>
+                <label for="">
+                    <div class="input_name">Исполнитель</div>
+                    <select name="" id="">
+                        <option value="">Название отдела</option>
+                    </select>
+                </label>
+                <label for="">
+                    <div class="input_name">Описание</div>
+                    <textarea name="описание" id="" cols="30" rows="5"></textarea>
+                </label>
+                <label for="">
+                    <div class="input_name">Вложения</div>
+                    <input type="text" class="inviz" name="filePath" value="uploads/documents/обращения/запрос" readonly>
+                    <input type="file" name="вложения" id="">
+                    <div id="file_list">
+
+                    </div>
+                </label>
+
+             <button class="io" type="submit">Сохранить</button>
+            </form>
+        </div>
+        </div>
+        <div id="appels_wrapper">
+              <table class="io_table">
+                    <thead>
+                        <tr>
+                            <th>ИД</th>
+                            <th>Номер</th>
+                            <th>Дата</th>
+                            <th>Контрольный срок</th>
+                            <th>Заголовок</th>
+                            <th>Описание</th>
+                            <th>Инициатор</th>
+                            <th>Исполнитель</th>
+                            <th>Вложения</th>
+                            <th>Дата ответа</th>
+                            <th>Ответ</th>
+                            <th>Ответ вложение</th>
+                            <th>Исполнил</th>
+                        </tr>
+                    </thead>
+                   <tfoot>
+                  <tr>
+                      <td> страницы</td>
+                  </tr>
+                   </tfoot>
+                    <tbody>
+                    <tr>
+                        <td></td>
+                    </tr>
+
+
+                    </tbody>
+              </table>
+        </div>
+    </div>
+
+
+{{end}}

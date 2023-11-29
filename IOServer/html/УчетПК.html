@@ -1,0 +1,86 @@
+{{define "УчетПК"}}
+
+{{/*    {{УчетПК .data}}*/}}
+<div id="zabbix">
+
+    <form action="синхронизировать данные пк" onsubmit="WS.SendForm(event, false, false, false)">
+
+     <button class="io" type="submit">Обновить данные пк</button>
+    </form>
+
+
+    <form class="io_form" action="загрузить данные бухгалтерии" onsubmit="WS.ЗагрузитьФайл(event)">
+    <label for="">
+        <div class="input_name">Файл бухгалтерии</div>
+        <input type="file" name="pclist" id="" placeholder="">
+    </label>
+     <button class="io" type="submit">Сохранить</button>
+    </form>
+
+  <table class="io_table">
+      <thead>
+      <tr>
+          <th colspan="4">Zabbix</th>
+          <th colspan="6">ТМА</th>
+          <th colspan="5">Бухгалтерия</th>
+      </tr>
+      <tr>
+          <th>#</th>
+          <th>МАК</th>
+          <th>Мат. плата</th>
+          <th>ОЗУ</th>
+          <th>Проц.</th>
+
+          <th>ОСП</th>
+          <th>Инв. №</th>
+          <th>Мак</th>
+          <th>Мат. плата</th>
+          <th>ОЗУ</th>
+          <th>Проц.</th>
+
+          <th>Инв. №</th>
+          <th>Мат. плата</th>
+
+          <th>Проц.</th>
+          <th>ОСП</th>
+
+      </tr>
+      </thead>
+      <tbody>
+       {{range $n, $Строка := .data.пк}}
+            <tr>
+               <td> {{Сумма $n 1}}</td>
+               <td> {{index $Строка "hw.addr"}}</td>
+               <td> {{index $Строка "hw.motherboard"}}</td>
+               <td> {{index $Строка "vm.memory.size[total]"}}</td>
+               <td> {{index $Строка "hw.cpu"}}</td>
+
+               <td> {{index $Строка.осп}}</td>
+               <td> {{index $Строка.inventory_num}}</td>
+               <td> {{index $Строка.main_mac}}</td>
+               <td> {{index $Строка.motherboard_model}}</td>
+               <td> {{index $Строка.ram_total}}</td>
+               <td> {{index $Строка.cpu_name}}</td>
+
+                <td> {{index $Строка.б_инвентарный}} </td>
+
+                <td> {{index $Строка.b_motherboard}} </td>
+
+                <td> {{index $Строка.b_cpu}} </td>
+
+                <td> {{index $Строка.б_осп}} </td>
+
+
+            </tr>
+       {{end}}
+
+
+      </tbody>
+  </table>
+
+
+
+
+
+</div>
+{{end}}

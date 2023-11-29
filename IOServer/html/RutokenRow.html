@@ -1,0 +1,14 @@
+{{define "RutokenRow"}}
+{{range $index, $row := .data.rutokens_list}}
+
+<tr>
+    <td>{{Плюс $index 1}}</td>
+    <td>{{$row.серийный_номер}}</td>
+    <td><label class="{{if eq $row.цвет `Зелёный`}} green {{else if eq $row.цвет `Красный`}} red {{end}}">{{$row.цвет}}</label></td>
+    <td>{{ParseTime $row.дата_записи}}</td>
+    <td>{{$row.кто_вносил}}</td>
+    <td>{{$row.целостность}}</td>
+    <td>{{if eq $row.сервер "t"}}Да{{end}}</td>
+</tr>
+{{end}}
+{{end}}

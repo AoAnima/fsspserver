@@ -1,0 +1,40 @@
+{{define "CategoriesListRow"}}
+            {{range $n, $кат := .data.категории}}
+                <tr>
+                    <td>
+                        <form class="" action="" name="category_{{.ид_категории}}" id="category_{{.ид_категории}}">
+                            <label for="cat_id">
+                                <input  size="5" type="number" class="center" name="ид_категории"  readonly id="cat_id" value="{{.ид_категории}}">
+                            </label>
+                        </form>
+                    </td>
+                    <td>
+                        <label for="cat_name">
+
+                            <input form="category_{{.ид_категории}}" class="full-width" type="text" name="название" id="cat_name"  value="{{.название}}">
+                        </label>
+                    </td>
+                    <td>
+                        <label for="cat_parent">
+                            {{$КорневаяКатегория := НайтиВ $.data.категории "ид_категории" .размещение}}
+                            <select  form="category_{{.ид_категории}}" name="размещение" id="cat_parent">
+                                <option {{if not $КорневаяКатегория}} selected {{end}}value="0">Корень</option>
+                                {{range $n, $кат := $.data.категории}}
+                                    <option  {{if $КорневаяКатегория}}
+                                        {{if eq  $КорневаяКатегория.ид_категории $кат.ид_категории}}selected{{end}}
+                                    {{end}}
+                                            value="{{$кат.ид_категории}}">
+                                        {{$кат.название}}
+                                    </option>
+                                {{end}}
+                            </select>
+                        </label>
+                    </td>
+                    <td>
+                        <label for="cat_access">
+                            <input  form="category_{{.ид_категории}}" type="text" name="доступ" id="cat_access" value="{{.доступ}}">
+                        </label>
+                    </td>
+                </tr>
+            {{end}}
+{{end}}

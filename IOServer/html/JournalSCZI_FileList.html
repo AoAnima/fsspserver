@@ -1,0 +1,45 @@
+{{define "JournalSCZI_FileList"}}
+    {{$формы:=.}}
+
+                                  <div id="form_{{$формы.форма}}" class="carusel_wrapper">
+                                      <div class="modal_header">
+                                          <button class="close" onclick="ЗакрытьКарусель('form_{{$формы.форма}}')"></button>
+                                      </div>
+                                      <div class="full_view" id="full_form_{{$формы.форма}}">
+
+                                      </div>
+
+                                  <div class="files_list">
+                                  {{range $n,$лист := $формы.файлы}}
+                                      <div class="file" id="file_{{$лист.ид_листа}}" data-file_object="full_{{$лист.ид_листа}}" data-src="/{{$лист.путь}}/{{$лист.папка}}/{{$лист.файл}}">
+
+                                             {{if not $лист.контроль}}
+                                                 <button class="btn_preview" onclick="ПросмотрФайла('form_{{$лист.форма}}','{{$лист.ид_листа}}','/{{$лист.путь}}/{{$лист.папка}}/{{$лист.файл}}', this)">
+                                                     <img class="icon" src="/static/images/pending.svg" title="Ожидает проверки">
+                                                 </button>
+                                                 <div class="file_status">Ожидает проверки</div>
+                                             {{else}}
+                                                    {{if eq $лист.контроль "верно"}}
+                                                        <button class="btn_preview" onclick="ПросмотрФайла('form_{{$лист.форма}}','{{$лист.ид_листа}}', '/{{$лист.путь}}/{{$лист.папка}}/{{$лист.файл}}',this)">
+                                                            <img class="icon" src="/static/images/succes.svg" title="Проверка пройдена">
+                                                        </button>
+                                                        <div class="file_status">Проверка пройдена</div>
+                                                    {{else if eq $лист.контроль  "исправить"}}
+
+                                                        <button class="btn_preview" onclick="ПросмотрФайла('form_{{$лист.форма}}','{{$лист.ид_листа}}','/{{$лист.путь}}/{{$лист.папка}}/{{$лист.файл}}',this)">
+                                                            <img class="icon" src="/static/images/broken.svg" title="Необходима корректировка">
+                                                        </button>
+                                                        <div class="file_status">Необходима корректировка</div>
+                                                        {{if $лист.комментарий}}
+                                                            <div class="journal_list_comment">
+                                                                {{$лист.комментарий}}
+                                                            </div>
+                                                        {{end}}
+                                                    {{end}}
+                                              {{end}}
+
+                                      </div>
+                                  {{end}}
+                                  </div>
+                              </div>
+{{end}}

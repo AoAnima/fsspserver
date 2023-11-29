@@ -1,0 +1,52 @@
+{{define "CategoriesList"}}
+    <div class="" id = "CategoriesList">
+        <table class="io_table text_center" id="categories_list">
+            <caption>Список категорий</caption>
+            <thead>
+                <tr>
+                    <th>Номер</th>
+                    <th>Название</th>
+                    <th>Размещение</th>
+                    <th>Доступ</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{template "CategoriesListRow" .}}
+            </tbody>
+            <tfoot>
+           <tr>
+               <td>
+                   <form action="создать категорию в базе данных" onsubmit="WS.SendForm(event, false, true)" name="category_new" id="category_new">
+                       <label for="cat_id">
+                           <input size="5" type="text" disabled class="center" name="ид_категории"  readonly id="cat_id" value="Авто">
+                       </label>
+                   </form>
+               </td>
+               <td>
+                   <label for="cat_name">
+                       <input class="full-width" form="category_new" type="text" name="название" id="cat_name"  value="">
+                   </label>
+               </td>
+               <td>
+                   <label for="cat_parent">
+                       <select  form="category_new" name="размещение" id="cat_parent">
+                           <option value="0">Корень</option>
+                           {{range $n, $кат := $.data.категории}}
+                               <option value="{{$кат.ид_категории}}">
+                                   {{$кат.название}}
+                               </option>
+                           {{end}}
+                       </select>
+                   </label>
+               </td>
+               <td>
+                   <label for="cat_access">
+                       <input form="category_new" type="text" name="доступ" id="cat_access" value="">
+                       <button  form="category_new" type="submit" >ОК</button>
+                   </label>
+               </td>
+           </tr>
+            </tfoot>
+        </table>
+    </div>
+{{end}}

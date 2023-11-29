@@ -1,0 +1,421 @@
+{{define "АдминистративныеДелаБезДанных"}}
+
+  <div id="ad_cards">
+
+    <div class="block">
+        <div class="input_name">Заполнил: <strong>{{.client.SecondName}} {{.client.Givenname}} {{.client.Initials}} </strong>
+        <div class="input_name">{{(index .OspList (ЧислоВСтроку .client.OspCode)).OspName}} </div>
+
+        </div>
+
+    </div>
+
+    <div class="block"> <h3>КАРТОЧКА "АДМИНИСТPАТИВНОЕ  ПРАВОНАРУШЕНИЕ"</h3></div>
+    <form id="ad_form" action="" class="io_form flex-row" onsubmit="WS.SendForm(event, false, false, false)">
+        <fieldset class="row border">
+        <label for="IBD_ARX">
+            <div class="input_name auto">Статус</div>
+            <select required name="IBD_ARX" id="IBD_ARX">
+                <option value="1"></option>
+            </select>
+        </label>
+        <label for="VID_DOC">
+            <div class="input_name auto">Вид документа</div>
+            <input list="VID_DOC_LIST" required type="text" name="VID_DOC" id="VID_DOC" value="">
+            <datalist id="VID_DOC_LIST">
+                <option value="1.Адм. протокол">1#Адм. протокол</option>
+                <option value=""></option>
+            </datalist>
+{{/*            <select required name="VID_DOC" id="VID_DOC">*/}}
+{{/*                <option value="1"></option>*/}}
+{{/*            </select>*/}}
+        </label>
+         <label for="N_PROT">
+            <div class="input_name auto">N документа</div>
+             <input required type="text" name="N_PROT" id="N_PROT" value="">
+        </label>
+        <label for="N_BLANK">
+            <div class="input_name auto">N бланка документа</div>
+             <input required type="text" name="N_BLANK" id="N_BLANK" value="">
+        </label>
+        <label for="UIN">
+            <div class="input_name auto">УИН</div>
+             <input  type="text" name="UIN" id="UIN" value="">
+        </label>
+        <label for="KODRAI1_KOD">
+            <div class="input_name auto">ОВД,выявивший правонарушение</div>
+            <input list="KODRAI1_KOD_LIST" required type="text" name="KODRAI1_KOD" id="KODRAI1_KOD" value="ФССП">
+            <datalist id="KODRAI1_KOD_LIST">
+                <option value="46.ФССП">46#ФССП</option>
+                <option value=""></option>
+            </datalist>
+
+{{/*            <select required name="KODRAI1_KOD" id="KODRAI1_KOD">*/}}
+{{/*                <option value=""></option>*/}}
+{{/*            </select>*/}}
+        </label>
+        </fieldset>
+        <fieldset class="row border">
+            <legend class="fieldset_legend">Вид правонар.:</legend>
+            <label for="PR_VID1">
+                <div class="input_name auto">Глава</div>
+                <input list="PR_VID1_LIST" required type="text" name="PR_VID1" id="PR_VID1" value="">
+                <datalist id="PR_VID1_LIST">
+                    <option value=""></option>
+                    <option value=""></option>
+                </datalist>
+{{/*                <select required name="PR_VID1" id="PR_VID1">*/}}
+{{/*                    <option value="1"></option>*/}}
+{{/*                </select>*/}}
+            </label>
+            <label for="PR_VID2">
+                <div class="input_name auto">Статья</div>
+                <input list="PR_VID2_LIST" required type="text" name="PR_VID2" id="PR_VID2" value="">
+                <datalist id="PR_VID2_LIST">
+                    <option value="25">6#ГЛ.5.5.10-5.43 ПОСЯГАЮЩИЕ НА ПРАВА ГРАЖДАН</option>
+                    <option value="6">6#103-140 НА ТРАНСПОРТЕ И В ОБЛ ДОР. ХОЗ-ВА И СВЯЗИ</option>
+                </datalist>
+
+
+{{/*                <select required name="PR_VID2" id="PR_VID2">*/}}
+{{/*                    <option value="1"></option>*/}}
+{{/*                </select>*/}}
+            </label>
+        </fieldset>
+        <fieldset class=" border ">
+        <label for="DATE_SOVER">
+            <div class="input_name auto">Дата совершения нарушения</div>
+            <input required type="date" name="DATE_SOVER" id="DATE_SOVER" placeholder="">
+        </label>
+        <label for="MESTO_SOVER">
+            <div class="input_name auto">Место правонарушения</div>
+            <input list="MESTO_SOVER_LIST" required type="text" name="MESTO_SOVER" id="MESTO_SOVER" value="">
+            <datalist id="MESTO_SOVER_LIST">
+                <option value="1#УЛИЦА">УЛИЦА</option>
+                <option value="17#ГОРОД">ГОРОД</option>
+            </datalist>
+        </label>
+        <label for="SLUGBA">
+            <div class="input_name auto">Служба,выявившая правонарушение</div>
+            <input list="SLUGBA_LIST" required type="text" name="SLUGBA" id="SLUGBA" value="">
+            <datalist id="SLUGBA_LIST">
+                <option value="1">1#ССП</option>
+            </datalist>
+        </label>
+        <label for="SLUGBA_SOST">
+            <div class="input_name auto">Служба,составившая адм.протокол</div>
+            <input list="SLUGBA_SOST_LIST"  type="text" name="SLUGBA_SOST" id="SLUGBA_SOST" value="">
+            <datalist id="SLUGBA_SOST_LIST">
+                <option value="1">1#ССП</option>
+            </datalist>
+        </label>
+        <label for="SOTR_SOST">
+            <div class="input_name auto">Сотрудник,составивший адм.протокол</div>
+            <input list="SOTR_SOST_LIST" required type="text" name="SOTR_SOST" id="SOTR_SOST" value="">
+            <datalist id="SOTR_SOST_LIST">
+                <option value="1">1#ССП</option>
+            </datalist>
+        </label>
+</fieldset>
+
+
+        <fieldset class="row border" >
+            <legend class="fieldset_legend">Адрес совершения правонарушения:</legend>
+            <label for="RESP_SOVER">
+                <div class="input_name auto">республика
+                </div>
+                <input list="RESP_SOVER_LIST"  type="text" name="RESP_SOVER" id="RESP_SOVER" value="">
+                <datalist id="RESP_SOVER_LIST">
+                    <option value="1">1#ССП</option>
+                </datalist>
+            </label>
+             <label for="KRAJ_SOVER">
+                <div class="input_name auto">Край,область</div>
+                 <input list="KRAJ_SOVER_LIST" required type="text" name="KRAJ_SOVER" id="KRAJ_SOVER" value="">
+                 <datalist id="KRAJ_SOVER_LIST">
+                     <option value="1">1#ССП</option>
+                 </datalist>
+            </label>
+             <label for="RAJON_SOVER">
+                <div class="input_name auto">Район (совершения)</div>
+                 <input list="RAJON_SOVER_LIST" required type="text" name="RAJON_SOVER" id="RAJON_SOVER" value="">
+                 <datalist id="RAJON_SOVER_LIST">
+                     <option value="1">1#ССП</option>
+                 </datalist>
+            </label>
+
+             <label for="KW_PUNKT_SOVER">
+                <div  required class="input_name auto">Населенный пункт (совершения)</div>
+                 <input list="KW_PUNKT_SOVER_LIST" required type="text" name="KW_PUNKT_SOVER" id="KW_PUNKT_SOVER" value="">
+                 <datalist id="KW_PUNKT_SOVER_LIST">
+                     <option value="1">1#ССП</option>
+                 </datalist>
+            </label>
+             <label for="POS_IN_GOROD_SOVER">
+                <div class="input_name auto">Поселок внутри города</div>
+                 <input list="POS_IN_GOROD_SOVER_LIST"  type="text" name="POS_IN_GOROD_SOVER" id="POS_IN_GOROD_SOVER" value="">
+                 <datalist id="POS_IN_GOROD_SOVER_LIST">
+                     <option value="1">1#ССП</option>
+                 </datalist>
+            </label>
+             <label for="MICK_RN_SOVER">
+                <div class="input_name auto">Микрорайон</div>
+                <input list="MICK_RN_SOVER_LIST"  type="text" name="MICK_RN_SOVER" id="MICK_RN_SOVER" value="">
+                 <datalist id="MICK_RN_SOVER_LIST">
+                     <option value="1">1#ССП</option>
+                 </datalist>
+            </label>
+             <label for="ULICA_SOVER">
+                <div class="input_name auto">Улица</div>
+                 <input list="ULICA_SOVER_LIST" required type="text" name="ULICA_SOVER" id="ULICA_SOVER" value="">
+                 <datalist id="ULICA_SOVER_LIST">
+                     <option value="1">1#ССП</option>
+                 </datalist>
+            </label>
+            <label for="N_DOM_SOVER">
+                <div class="input_name auto">Номер дома</div>
+                <input type="number" required name="N_DOM_SOVER" id="N_DOM_SOVER" placeholder="">
+            </label>
+            <label for="KORPUS_SOVER">
+                <div class="input_name auto">Корпус</div>
+                <input type="text"  name="KORPUS_SOVER" id="KORPUS_SOVER" placeholder="">
+            </label>
+            <label for="KW_SOVER">
+                <div class="input_name auto">Квартира</div>
+                <input type="number" name="KW_SOVER" id="KW_SOVER" placeholder="">
+            </label>
+        </fieldset>
+
+
+        <fieldset class="row border">
+            <legend class="fieldset_legend">Сведения об АМТ (гл. 12)</legend>
+            <label for="NOMER">
+                <div class="input_name auto">Гос номер</div>
+                <input type="text" name="NOMER" id="NOMER" placeholder="">
+            </label>
+            <label for="REGION">
+                <div class="input_name auto">Регион</div>
+                <input type="text" name="REGION" id="REGION" placeholder="">
+            </label>
+            <label for="MODEL">
+                <div class="input_name auto">Модель</div>
+                <input type="text" name="MODEL" id="MODEL" placeholder="">
+            </label>
+            <label for="N_UDOST">
+                <div class="input_name auto">Номер водительского удостоверения</div>
+                <input type="text" name="N_UDOST" id="N_UDOST" placeholder="">
+            </label>
+        </fieldset>
+
+        <fieldset class="border">
+            <label for="AREA_SOVER" class="center">
+                <div class="input_name auto">№ АДМИНИСТРАТИВНОГО УЧАСТКА МЕСТА СОВЕРШЕНИЯ</div>
+                <input required type="number" name="AREA_SOVER" id="AREA_SOVER" placeholder="">
+            </label>
+            <label for="NAIM">
+                <div class="input_name auto">Наименование лица</div>
+                <input list="NAIM_LIST" required type="text" name="NAIM" id="NAIM" value="">
+                <datalist id="NAIM_LIST">
+                    <option value="1">1#ССП</option>
+                </datalist>
+            </label>
+            <div class="flex-row">
+            <label for="FAM">
+                <div class="input_name auto">Фамилия</div>
+                <input required type="text" name="FAM" id="FAM" placeholder="">
+            </label>
+            <label for="IMJ">
+                <div class="input_name auto">Имя</div>
+                <input required type="text" name="IMJ" id="IMJ" placeholder="">
+            </label>
+            <label for="OTCH">
+                <div class="input_name auto">Отчество</div>
+                <input required type="text" name="OTCH" id="OTCH" placeholder="">
+            </label>
+            </div>
+
+
+            <div class="flex-row">
+                <label for="DATE_ROJD">
+                    <div class="input_name auto">Дата рождения</div>
+                    <input required type="date" name="DATE_ROJD" id="DATE_ROJD" placeholder="">
+                </label>
+            <label for="GRAJDAN">
+                <div class="input_name auto">Гражданство</div>
+                <input required list="GRAJDAN_LIST" type="text" name="GRAJDAN" id="GRAJDAN" placeholder="">
+                <datalist id="GRAJDAN_LIST">
+                    <option value="1">1#ССП</option>
+                </datalist>
+            </label>
+            <label for="DOLJN">
+                <div class="input_name auto">Должность</div>
+                <input required type="text" name="DOLJN" id="DOLJN" placeholder="" value="">
+            </label>
+            <label for="KATEG">
+                <div class="input_name auto">Категория</div>
+                <input required list="KATEG" type="text" name="KATEG" id="KATEG" placeholder="">
+                <datalist id="KATEG_LIST">
+                    <option value="1">1#ССП</option>
+                </datalist>
+            </label>
+            </div>
+        </fieldset>
+        <fieldset class="row border ">
+            <legend class="fieldset_legend">Регистрация по месту жительства:</legend>
+            <label for="RESP">
+                <div class="input_name auto">Республика</div>
+                <input required list="RESP_LIST" type="text" name="RESP" id="RESP" placeholder="">
+                <datalist id="RESP_LIST">
+                    <option value="1">1#ССП</option>
+                </datalist>
+            </label>
+            <label for="KRAJ">
+                <div class="input_name auto">Край(область)</div>
+                <input required list="KRAJ_LIST" type="text" name="KRAJ" id="KRAJ" placeholder="">
+                <datalist id="KRAJ_LIST">
+                    <option value="1">1#ССП</option>
+                </datalist>
+            </label>
+            <label for="RAJON">
+                <div class="input_name auto">Район</div>
+                <input required  list="RAJON_LIST" type="text" name="RAJON" id="RAJON" placeholder="">
+                <datalist id="RAJON_LIST">
+                    <option value="1">1#ССП</option>
+                </datalist>
+            </label>
+            <label for="KW_PUNKT">
+                <div class="input_name auto">Нас.пункт</div>
+                <input required  list="KW_PUNKT_LIST" type="text" name="KW_PUNKT" id="KW_PUNKT" placeholder="">
+                <datalist id="KW_PUNKT_LIST">
+                    <option value="1">1#ССП</option>
+                </datalist>
+            </label>
+            <label for="POS_IN_GOROD">
+                <div class="input_name auto">Поселок внутри города</div>
+                <input  list="POS_IN_GOROD_LIST" type="text" name="POS_IN_GOROD" id="POS_IN_GOROD" placeholder="">
+                <datalist id="POS_IN_GOROD_LIST">
+                    <option value="1">1#ССП</option>
+                </datalist>
+            </label>
+            <label for="MICK_RN">
+                <div class="input_name auto">Микрорайон</div>
+                <input  list="MICK_RN_LIST" type="text" name="MICK_RN" id="MICK_RN" placeholder="">
+                <datalist id="MICK_RN_LIST">
+                    <option value="1">1#ССП</option>
+                </datalist>
+            </label>
+            <label for="ULICA">
+                <div class="input_name auto">Улица</div>
+                <input  list="ULICA_LIST" type="text" name="ULICA" id="ULICA" placeholder="">
+                <datalist id="ULICA_LIST">
+                    <option value="1">1#ССП</option>
+                </datalist>
+            </label>
+            <label for="N_DOM">
+                <div class="input_name auto">Дом</div>
+                <input  list="N_DOM_LIST" type="number" name="N_DOM" id="N_DOM" placeholder="">
+                <datalist id="N_DOM_LIST">
+                    <option value="1">1#ССП</option>
+                </datalist>
+            </label>
+            <label for="KORPUS">
+                <div class="input_name auto">корпус</div>
+                <input  list="KORPUS_LIST" type="text" name="KORPUS" id="KORPUS" placeholder="">
+                <datalist id="KORPUS_LIST">
+                    <option value="1">1#ССП</option>
+                </datalist>
+            </label>
+            <label for="KW">
+                <div class="input_name auto">Кв</div>
+                <input  list="KW_LIST" type="text" name="KW" id="KW" placeholder="">
+                <datalist id="KW_LIST">
+                    <option value="1">1#ССП</option>
+                </datalist>
+            </label>
+            <label for="AREA">
+                <div class="input_name auto">Административный участок</div>
+                <input  list="AREA_LIST" type="text" name="AREA" id="AREA" placeholder="">
+                <datalist id="AREA_LIST">
+                    <option value="1">1#ССП</option>
+                </datalist>
+            </label>
+            <fieldset class="row border">
+                <legend class="fieldset_legend">
+                    Паспорт
+                </legend>
+                <label for="PSP_S">
+                    <div class="input_name auto">серия</div>
+                    <input type="text" name="PSP_S" id="PSP_S" placeholder="">
+                </label>
+                <label for="PSP_N">
+                    <div class="input_name auto">№</div>
+                    <input type="text" name="PSP_N" id="PSP_N" placeholder="">
+                </label>
+                <label for="DATE_PSP">
+                    <div class="input_name auto">Дата выдачи</div>
+                    <input type="date" name="DATE_PSP" id="DATE_PSP" placeholder="">
+                </label>
+                <label for="VYDAN">
+                    <div class="input_name auto">Выдан</div>
+                    <input type="text" name="VYDAN" id="VYDAN" placeholder="">
+                </label>
+            </fieldset>
+            <fieldset class="border">
+                <label for="KODRAI1_RESH">
+                    <div class="input_name auto">ОВД,принявший решение (куда передано)</div>
+                    <input list="KODRAI1_RESH_LIST" type="text" name="KODRAI1_RESH" id="KODRAI1_RESH" placeholder="">
+                    <datalist id="KODRAI1_RESH_LIST">
+                        <option value="1">1#ССП</option>
+                    </datalist>
+                </label>
+                <label for="ORG_RESH">
+                    <div class="input_name auto">Орган вынесший постановление</div>
+                    <input list="ORG_RESH_LIST" type="text" name="ORG_RESH" id="ORG_RESH" placeholder="">
+                    <datalist id="ORG_RESH_LIST">
+                        <option value="1">1#ССП</option>
+                    </datalist>
+                </label>
+                <label for="N_POST">
+                    <div class="input_name auto">N постановления, квитанции</div>
+                    <input type="text" name="N_POST" id="N_POST" placeholder="">
+
+                </label>
+                <label for="DATE_RESH">
+                    <div class="input_name auto">Дата вынесения постановления</div>
+                    <input type="date" name="DATE_RESH" id="DATE_RESH" placeholder="">
+
+                </label>
+                <fieldset class="row">
+                <label for="MERA_NAK">
+                    <div class="input_name auto">Мера наказания</div>
+                    <input list="MERA_NAK_LIST" type="text" name="MERA_NAK" id="MERA_NAK" placeholder="">
+                    <datalist id="MERA_NAK_LIST">
+                        <option value="1">1#ССП</option>
+                    </datalist>
+                </label>
+                <label for="RAZ_NAK">
+                    <div class="input_name auto">Штраф</div>
+                    <input type="number" name="RAZ_NAK" id="RAZ_NAK" placeholder=""> руб.
+
+                </label>
+                <label for="AREST">
+                    <div class="input_name auto">Арест(сут) / обязательные работы(час.)</div>
+                    <input  type="number" name="AREST" id="AREST" placeholder="">
+
+                </label>
+                </fieldset>
+            </fieldset>
+        </fieldset>
+        <label for="FABULA">
+            <div class="input_name auto">Фабула правонарушения</div>
+            <textarea name="FABULA" id="FABULA" cols="30" rows="10"></textarea>
+        </label>
+
+        <input type="text" class="inviz" readonly name="USER" id="USER" placeholder="" value="{{.client.Login}}">
+        <input type="text" class="inviz" readonly name="OSP" id="OSP" placeholder="" value="{{.client.OspCode}}">
+
+     <button class="io" type="submit">Сохранить</button>
+    </form>
+
+    </div>
+ {{end}}

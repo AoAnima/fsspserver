@@ -1,0 +1,72 @@
+{{define "КонтрольСовершеннолетних"}}
+   <div id="control_adult">
+
+{{ $строки := (index .data.контроль_совершеннолетних "260").МассивСтрок}}
+       <table class="io_table">
+           <thead>
+           <tr>
+               <th>№ п.п. </th>
+               <th>ОСП</th>
+               <th>Статус</th>
+               <th>Дата возбуждения</th>
+               <th>Рег. номер</th>
+               <th>Должник</th>
+               <th>Взыскатель</th>
+               <th>Сущность</th>
+               <th>Остаток долга</th>
+               <th>Дата рождения ребенка</th>
+               <th>Дата совершеннолетия ребенка</th>
+               <th>Дней до наступления совершеннолетия ребенка</th>
+           </tr>
+           <tr>
+               <th></th>
+               <th>1</th>
+               <th>2</th>
+               <th>3</th>
+               <th>4</th>
+               <th>5</th>
+               <th>6</th>
+               <th>7</th>
+               <th>8</th>
+               <th>9</th>
+               <th>10</th>
+               <th>11</th>
+           </tr>
+           </thead>
+           <tbody>
+
+{{range $н, $строка := $строки}}
+{{/*    background-color: hsl(120, 50%, 90%);*/}}
+{{$td:="<td>"}}
+{{ if lt (Целое $строка.ADULT_DAYS) 1 }}
+
+{{ $td =  " <td  style=\"background-color:hsl(0, 100%, 35%);color:#fff  !important\" >" }}
+{{/*    {{else}}*/}}
+
+
+{{/*{{$яркость := Сумма $строка.ADULT_DAYS 35}}*/}}
+{{/*{{ $td =  Строка " <td  style=\"background-color:hsl(302, 68%, " (ЧислоВСтроку $яркость) "%);color:#fff  !important\" >" }}*/}}
+{{end}}
+
+
+               <td  >{{$н}} </td>
+               <td>{{$строка.OSP_DEP_NAME}}</td>
+               <td>{{$строка.DOCSTATUS_CAPTION}}</td>
+               <td>{{$строка.IP_RISEDATE}}</td>
+               <td>{{$строка.DOC_NUMBER}}</td>
+               <td>{{$строка.ID_DBTR_NAME}}</td>
+               <td>{{$строка.ID_CRDR_NAME}}</td>
+               <td>{{$строка.ID_DEBTCLS_NAME}}</td>
+               <td>{{$строка.IP_REST_DEBTSUM}}</td>
+               <td>{{$строка.CHLD_BIRTHDATE}}</td>
+                {{СтрокуВHTML $td nil}} {{$строка.CHLD_BIRTHDATE_ADULT}}</td>
+                {{СтрокуВHTML $td nil}} {{$строка.ADULT_DAYS}} </td>
+
+           </tr>
+
+{{end}}
+           </tbody>
+       </table>
+
+   </div>
+{{end}}

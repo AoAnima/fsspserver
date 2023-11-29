@@ -1,0 +1,23 @@
+{{define "HelpDesc"}}
+
+
+  <div id="help_list" class="block_wrapper">
+
+    {{if eq .client.OspCode 26911}}
+    <div class="catalog_problems  left_wrapper">
+    {{range  $номер, $категория := .data.каталог}}
+        <div class="category_problems flex-row" id="category_{{$категория.ид_категории}}">
+          <button type="button" class="flex-row noradius full-width" onclick="WS.ОтправитьСообщениеИО('проблемы из категории',{'ид_категории':{{$категория.ид_категории}}} )">
+            <img src="http://10.26.6.25/static/images/{{$категория.иконка}}" alt="">
+            <div class="category_name">{{$категория.название}}</div>
+          </button>
+        </div>
+
+      {{end}}
+    </div>
+      <div class="problem_list preview" id="problems_list">
+
+      </div>
+    {{end}}
+  </div>
+{{end}}

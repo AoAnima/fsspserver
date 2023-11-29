@@ -1,0 +1,17 @@
+{{define "UserMenu"}}
+  <div id = "menu" class="float_menu">
+      <div class="menu_bg">
+      <div class="menu_wrapper">
+      {{range $i, $menu := .}}
+          {{if not $menu.меню.вложен}}
+              <button class="menu_btn" onclick="WS.SendFastMessageIO('{{index $menu.активирующее_сообщение 0}}')">
+                  <div class="menu_name">{{$menu.меню.название}}</div><i class="icon"><img src="static/images/{{$menu.меню.иконка}}" alt=""></i>
+              </button>
+          {{else}}
+
+          {{end}}
+      {{end}}
+          </div>
+      </div>
+  </div>
+{{end}}

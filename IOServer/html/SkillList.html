@@ -1,0 +1,37 @@
+{{define "SkillList"}}
+    <div class="io_skills_list">
+
+    {{range $SkillIdx, $Skill := .Skills}}
+
+        <div class="io_skill">
+            <div class="skill_info">
+                <div class="skill_name">Навык {{.name}}</div>
+                <div class="skill_description">{{.description}}</div>
+                <div class="skill_problem">Решает проблемы: {{StringsJoin  .problem ", "}}</div>
+                <div class="skill_keywords">Метки: {{StringsJoin  .keywords ", "}}</div>
+            </div>
+            <div class="skill_meta_data">
+                <div class="skill_self_use">
+                    Разрешить использовать всем:
+                        <input type="checkbox" class="disabled" value="self_use" {{if eq .self_use "t"}}checked{{end}} data-skillfield="self_use" disabled>
+                </div>
+                <div class="skill_creator">
+                    Создатель{{.creator}}
+                </div>
+                <div class="skill_date_create">
+                    Дата: {{.date_create}}
+                </div>
+{{/*                {{if not .readonly}}*/}}
+                <div class="skill_action">
+                    <button class="fast_answer success" onclick="WS.SendFastMessageIO('Изменить навыки',{'action_id':{{.action_id}}})">Изменить</button>
+                    <button class="fast_answer cancel"  onclick="WS.SendFastMessageIO('Удалить навыки',{'action_id':{{.action_id}}})">Удалить</button>
+                </div>
+{{/*                {{end}}*/}}
+            </div>
+            <div class="skill_cmd">Команды навыка: {{index .actions "cmd"}}</div>
+
+        </div>
+    {{end}}
+    </div>
+
+{{end}}

@@ -1,0 +1,131 @@
+{{define "arests_from_period"}}
+
+    <table class="io_table" id="arests_from_period"  onclick="WS.ПоказатьДетализацию(event)" data-period="period_for-arests_from_period">
+        <thead>
+            <tr data-details_arguments="sql_id">
+                <th >ОСП</th>
+                <th id="all_arests">
+                    Общее количество арестов
+                </th>
+                <th id="more_2_months">
+                    Без движения cвыше 2 мес.
+                </th>
+                <th id="more_6_months">
+                    Без движения cвыше 6 мес.
+                </th>
+                <th id="more_12_months">
+                    Без движения cвыше 12 мес.
+                </th>
+                <th id="more_24_months">
+                    Без движения cвыше 24 мес.
+                </th>
+            </tr>
+
+            <tr id="period">
+
+            </tr>
+        </thead>
+        <tbody>
+        {{range $номер_осп, $Осп := .ОСП}}
+        <tr id="OSP.{{$номер_осп}}">
+            <th>{{$Осп}}</th>
+            {{with $.Данные}}
+                {{$ДанныеСтроки := (index . $номер_осп) }}
+            <td>
+                 {{ if not $ДанныеСтроки}} 0 {{else}}
+                    {{$ДанныеЯчейки :=index $ДанныеСтроки "osp.all_arests"}}
+                    {{ if not $ДанныеЯчейки}} 0 {{else}} {{$ДанныеЯчейки.количество}}
+
+                     <div class="wrapper_cell_comment">
+                        {{if $ДанныеЯчейки.время}}
+                            <div class="cell_comment"> Актуально на {{ParseTime $ДанныеЯчейки.время}}</div>
+                        {{end}}
+                        {{ if $ДанныеЯчейки.аргументы_запроса}}
+                            {{if  $ДанныеЯчейки.аргументы_запроса.date_from}}
+                                <div class="cell_comment">Период
+                                    <span class="date_from">{{$ДанныеЯчейки.аргументы_запроса.date_from}}</span> - <span class="date_to">{{$ДанныеЯчейки.аргументы_запроса.date_to}}</span>
+                                </div>
+                            {{end}}
+                        {{end}}
+                     </div>
+                    {{end}}
+                {{end}}
+            </td>
+            <td>
+                {{if not $ДанныеСтроки}} 0 {{else}}
+                    {{$ДанныеЯчейки :=index $ДанныеСтроки "osp.more_2_months"}}
+                    {{ if not $ДанныеЯчейки}} 0 {{else}} {{$ДанныеЯчейки.количество}}
+                    <div class="wrapper_cell_comment">
+                        {{if $ДанныеЯчейки.время}}
+                            <div class="cell_comment"> Актуально на {{ParseTime $ДанныеЯчейки.время}}</div>
+                        {{end}}
+                        {{ if $ДанныеЯчейки.аргументы_запроса}}
+                            <div class="cell_comment">Период
+                                <span class="date_from">{{$ДанныеЯчейки.аргументы_запроса.date_from}}</span> - <span class="date_to">{{$ДанныеЯчейки.аргументы_запроса.date_to}}</span>
+                            </div>
+                        {{end}}
+                    </div>
+                    {{end}}
+                {{end}}
+            </td>
+            <td>
+                {{ if not $ДанныеСтроки}} 0 {{else}}
+                    {{$ДанныеЯчейки :=index $ДанныеСтроки "osp.more_6_months"}}
+                    {{ if not $ДанныеЯчейки}} 0 {{else}} {{$ДанныеЯчейки.количество}}
+                    <div class="wrapper_cell_comment">
+                        {{if $ДанныеЯчейки.время}}
+                            <div class="cell_comment"> Актуально на {{ParseTime $ДанныеЯчейки.время}}</div>
+                        {{end}}
+                        {{ if $ДанныеЯчейки.аргументы_запроса}}
+                            <div class="cell_comment">Период
+                                <span class="date_from">{{$ДанныеЯчейки.аргументы_запроса.date_from}}</span> - <span class="date_to">{{$ДанныеЯчейки.аргументы_запроса.date_to}}</span>
+                            </div>
+                        {{end}}
+                    </div>
+                    {{end}}
+                {{end}}
+            </td>
+            <td>
+                {{ if not $ДанныеСтроки}} 0 {{else}}
+                    {{$ДанныеЯчейки :=index $ДанныеСтроки "osp.more_12_months"}}
+                    {{ if not $ДанныеЯчейки}} 0 {{else}} {{$ДанныеЯчейки.количество}}
+                    <div class="wrapper_cell_comment">
+                        {{if $ДанныеЯчейки.время}}
+                            <div class="cell_comment"> Актуально на {{ParseTime $ДанныеЯчейки.время}}</div>
+                        {{end}}
+                        {{ if $ДанныеЯчейки.аргументы_запроса}}
+                            <div class="cell_comment">Период
+                                <span class="date_from">{{$ДанныеЯчейки.аргументы_запроса.date_from}}</span> - <span class="date_to">{{$ДанныеЯчейки.аргументы_запроса.date_to}}</span>
+                            </div>
+                        {{end}}
+                    </div>
+                    {{end}}
+                {{end}}
+            </td>
+            <td>
+                {{ if not $ДанныеСтроки}} 0 {{else}}
+                    {{$ДанныеЯчейки :=index $ДанныеСтроки "osp.more_24_months"}}
+                    {{ if not $ДанныеЯчейки}} 0 {{else}} {{$ДанныеЯчейки.количество}}
+                    <div class="wrapper_cell_comment">
+                        {{if $ДанныеЯчейки.время}}
+                            <div class="cell_comment"> Актуально на {{ParseTime $ДанныеЯчейки.время}}</div>
+                        {{end}}
+                        {{ if $ДанныеЯчейки.аргументы_запроса}}
+                            <div class="cell_comment">Период
+                                <span class="date_from">{{$ДанныеЯчейки.аргументы_запроса.date_from}}</span> - <span class="date_to">{{$ДанныеЯчейки.аргументы_запроса.date_to}}</span>
+                            </div>
+                        {{end}}
+                    </div>
+                    {{end}}
+                {{end}}
+            </td>
+            {{end}}
+
+        </tr>
+        {{end}}
+        </tbody>
+    </table>
+
+
+{{/*{{ if not (index . $номер_осп).osp.more_2_months}} 0  {{else}} (index . $номер_осп).osp.more_2_months {{end}}*/}}
+{{end}}

@@ -1,0 +1,110 @@
+{{define "JournalSCZI_OSP_1"}}
+    <div id="journal_sczi">
+
+{{/*<table class="io_table">*/}}
+{{/*    <thead>*/}}
+{{/*    <tr>*/}}
+{{/*        <th>ОСП</th>*/}}
+{{/*        <th>Журнал СКЗИ</th>*/}}
+{{/*    </tr>*/}}
+{{/*    </thead>*/}}
+{{/*    <tbody>*/}}
+{{/*    <tr>*/}}
+{{/*        <th>*/}}
+{{/*            ОСП Имя*/}}
+{{/*        </th>*/}}
+{{/*        <td>*/}}
+
+            <div class="journal_wrapper">
+               <div class="uploaded_files flex-col" id="file_list_form1-{{.client.OspCode}}">
+                   {{if .data.журнал}}
+                       {{range $i, $формы := .data.журнал}}
+{{/*                          {{if eq $формы.форма 1}}*/}}
+                                  <div id="form_{{$формы.форма}}" class="carusel_wrapper">
+                                      <div class="">
+                                          Форма журнала СКЗИ {{$формы.форма}}
+                                          </div>
+                                      <div class="modal_header">
+                                          <button class="close" onclick="ЗакрытьКарусель('form_{{$формы.форма}}')"></button>
+                                      </div>
+                                      <div class="full_view" id="full_form_{{$формы.форма}}">
+
+                                      </div>
+
+                                  <div class="files_list">
+                                  {{range $n,$лист := $формы.файлы}}
+                                      <div class="file" id="file_{{$лист.ид_листа}}" data-file_object="full_{{$лист.ид_листа}}" data-src="/{{$лист.путь}}/{{$лист.папка}}/{{$лист.файл}}">
+
+                                             {{if not $лист.контроль}}
+                                                 <button class="btn_preview" onclick="ПросмотрФайла('form_{{$лист.форма}}','{{$лист.ид_листа}}','/{{$лист.путь}}/{{$лист.папка}}/{{$лист.файл}}', this)">
+                                                     <img class="icon" src="/static/images/pending.svg" title="Ожидает проверки">
+                                                 </button>
+                                                 <div class="file_status">Ожидает проверки</div>
+                                             {{else}}
+                                                    {{if eq $лист.контроль "верно"}}
+                                                        <button class="btn_preview" onclick="ПросмотрФайла('form_{{$лист.форма}}','{{$лист.ид_листа}}', '/{{$лист.путь}}/{{$лист.папка}}/{{$лист.файл}}',this)">
+                                                            <img class="icon" src="/static/images/succes.svg" title="Проверка пройдена">
+                                                        </button>
+                                                        <div class="file_status">Проверка пройдена</div>
+                                                    {{else if eq $лист.контроль  "исправить"}}
+
+                                                        <button class="btn_preview" onclick="ПросмотрФайла('form_{{$лист.форма}}','{{$лист.ид_листа}}','/{{$лист.путь}}/{{$лист.папка}}/{{$лист.файл}}',this)">
+                                                            <img class="icon" src="/static/images/broken.svg" title="Необходима корректировка">
+                                                        </button>
+                                                        <div class="file_status">Необходима корректировка</div>
+                                                        {{if $лист.комментарий}}
+                                                            <div class="journal_list_comment">
+                                                                {{$лист.комментарий}}
+                                                            </div>
+                                                        {{end}}
+                                                    {{end}}
+                                              {{end}}
+
+                                      </div>
+                                  {{end}}
+
+                                  </div>
+                              </div>
+
+{{/*                          {{end}}*/}}
+                       {{end}}
+
+                       {{else}}
+
+                   {{end}}
+               </div>
+            </div>
+            <div class="demo_1">
+                Образец "Журнала СКЗИ" форма №1
+            </div>
+            <div class="upload_form">
+                <form action="загрузить журнал скзи" onsubmit="WS.ЗагрузитьФайлы(event)">
+                    <input type="text" class="inviz" name="filePath" value="uploads/documents/journal_sczi/{{.client.OspCode}}" readonly>
+                    <input type="text" class="inviz" name="форма" value="1" readonly>
+                    <label for="upload_form_1" class="btn_upload-with_name">
+                            Загрузить сканы "Журнала СКЗИ" форма №1
+                        <input type="file" class="inviz" id="upload_form_1" name="form_1" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))" multiple>
+                    </label>
+                </form>
+            </div>
+            <div class="demo_2">
+                Образец "Журнала СКЗИ" форма №2
+            </div>
+            <div class="upload_form">
+                <form action="загрузить журнал скзи" onsubmit="WS.ЗагрузитьФайлы(event)">
+                    <input type="text" class="inviz" name="filePath" value="uploads/documents/journal_sczi/{{.client.OspCode}}" readonly>
+                    <input type="text" class="inviz" name="форма" value="2" readonly>
+                    <label for="upload_form_2" class="btn_upload-with_name">
+                           Загрузить сканы "Журнала СКЗИ" форма №2
+                        <input class="inviz"  type="file" name="form_2" id="upload_form_1" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))" multiple>
+                    </label>
+                </form>
+            </div>
+
+{{/*        </td>*/}}
+
+{{/*    </tr>*/}}
+{{/*    </tbody>*/}}
+{{/*</table>*/}}
+    </div>
+{{end}}

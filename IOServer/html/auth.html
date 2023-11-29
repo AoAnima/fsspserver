@@ -1,0 +1,56 @@
+{{define "auth"}}
+
+<div id="auth_block" class="auth_block page_wrapper">
+    <header>Авторизация</header>
+
+    <form action="Авторизация" method="POST" name="authorization" id="" class="col" onsubmit="WS. ОтправитьФорму(event, {форма:this, нелогировать:true, ОбратныйВызов:'СкрытьФормуВхода'})">
+        <fieldset class="col">
+            <div id="user_fullname_wrapper" class="{{if not .second_name}}hidden{{end}}">
+                {{if not .second_name}}
+                    <div id="user_fullname">
+                    </div>
+                    <div class="change_user">
+                        <button type="button" onclick="UserChange()">Сменить пользователя...</button>
+                    </div>
+                {{else}}
+                    <div id="user_fullname">
+                    {{.second_name}} {{.givenname}} {{.initials}}
+                    </div>
+                    <div class="change_user">
+                        <button type="button" onclick="UserChange()">Сменить пользователя...</button>
+                    </div>
+                {{end}}
+            </div>
+            <label for="login" class="uid_label">
+                {{/*<div class="input_name">*/}}
+                   {{/*Логин*/}}
+                {{/*</div>*/}}
+{{/*                {{if not .login}}*/}}
+{{/*                    <input onchange="WS.SendFastMessageIO('проверить логин',  {'login':this.value}, true)" required type="text" placeholder="Ваш логин" name="login" id="login" value="" autocomplete="off">*/}}
+{{/*                {{else}}*/}}
+                    <input onchange="WS.SendFastMessageIO('проверить логин', {'login':this.value}, true)" required type="text" placeholder="Ваш логин" name="login" id="login" value="{{if not .login}}{{else}}{{.login}}{{end}}"  autocomplete="off">
+{{/*                {{end}}*/}}
+
+            </label>
+            <label for="password">
+                {{/*<div class="input_name">*/}}
+                    {{/*Пароль*/}}
+                {{/*</div>*/}}
+                <input required type="password" placeholder="Ваш пароль" name="password" id="password" value="">
+            </label>
+        </fieldset>
+        <button type="submit" class="btn">Войти</button>
+    </form>
+</div>
+
+
+<script>
+{{/*    {{if not .login}}*/}}
+{{/*        WS.host = "10.26.6.25"*/}}
+{{/*    {{else}}{{if eq .login "maksimchuk@r26"}}*/}}
+{{/*        WS.host = "10.26.6.25:8081"*/}}
+{{/*    {{end}}*/}}
+{{/*    {{end}}*/}}
+    WS.init({{if not .login}}"auth"{{else}}{{.login}}{{end}},false)
+</script>
+{{end}}

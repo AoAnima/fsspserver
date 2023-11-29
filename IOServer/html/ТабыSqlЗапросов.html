@@ -1,0 +1,41 @@
+{{define "ТабыSqlЗапросов"}}
+    {{range $n, $список :=  index .data.каталог_sql_запросов}}
+            <div id="sql_list_{{$список.ид_папки}}" class="tab hidden">
+                ТабыSqlЗапросов
+
+                {{ if gt (len  $список.sql_запросы ) 0}}
+
+                {{range $id, $фильтр := $список.sql_запросы}}
+                    {{ if not (not $фильтр) }}
+                        <label class="left" for="sql_id_{{$фильтр.id}}">
+                            <input type="checkbox"
+                                   data-caption="{{$фильтр.имя_запроса}}"
+                                   data-sql_type="sql"
+                                   id="sql_id_{{$фильтр.id}}"
+                                   value="{{$фильтр.id}}"
+                                   name="sql[]"
+                                   form="add_collumns"
+                                   onchange="SettingCustomSQL(event, 'new_stat_table')">
+                            <div class="input_name">
+                                {{$фильтр.имя_запроса}}
+                            </div>
+                            {{if $фильтр.описание}}
+                                <div class="hover_description">
+                                    <div class="hover_title">Описание</div>
+                                    <div class="hover_content">{{$фильтр.описание}}</div>
+                                </div>
+                            {{end}}
+                            {{if $фильтр.запрос}}
+                                <div class="hover_description">
+                                    <div class="hover_title">запрос</div>
+                                    <div class="hover_content">{{$фильтр.запрос}}</div>
+                                </div>
+                            {{end}}
+
+                        </label>
+                    {{end}}
+                {{end}}
+                {{end}}
+            </div>
+    {{end}}
+{{end}}

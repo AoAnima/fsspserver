@@ -1,0 +1,27 @@
+{{define "КаталогСпецФильтров"}}
+                                {{range $n, $строка :=  (index .data.каталог (ЧислоВСтроку 26000)).МассивСтрок}}
+                                    <div id="sql_list_{{$строка.OBJECT_NAME}}" class="tab hidden">
+                                        {{range $id, $фильтр := $строка.FILTERS_JSON}}
+                                            <label class="left" for="custom_sql_id_{{$id}}">
+                                                <input type="checkbox"
+                                                       data-caption="{{$фильтр.название}}"
+                                                       data-sql_type="custom_sql"
+                                                       id="custom_sql_id_{{$id}}"
+                                                       value="{{$id}}"
+                                                       name="custom_sql[]"
+                                                       form="add_collumns"
+                                                       onchange="SettingCustomSQL(event, 'new_stat_table')">
+                                                <div class="input_name">
+                                                    {{$фильтр.название}}
+                                                </div>
+                                                {{if $фильтр.описание}}
+                                                    <div class="hover_description">
+                                                        <div class="hover_title">Описание</div>
+                                                        <div class="hover_content">{{$фильтр.описание}}</div>
+                                                    </div>
+                                                {{end}}
+                                            </label>
+                                        {{end}}
+                                    </div>
+                                {{end}}
+{{end}}

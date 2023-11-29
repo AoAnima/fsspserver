@@ -1,0 +1,134 @@
+{{define "TableCryptoPro"}}
+
+    <div id="crypto_pro_list" class="tabs_wrapper">
+    <div id="osp_list" class="tabs_switcher">
+        {{with .data.ПК}}
+                    <button type="button" onclick="Tabs.ShowTab('cpkey_tabs', 'all')">Открыть/Скрыть все таблицы</button>
+                   {{if gt (len $.data.повторы) 0}}
+                    <button class="red" type="button" onclick="Tabs.ShowTab('cpkey_tabs', 'cpkeys_double_tabs')">Открыть/Скрыть повторы лицензий</button>
+                   {{end}}
+
+            {{range $i, $ОСПЛист := .}}
+                {{$ОСП:=index $.OspList (ЧислоВСтроку $ОСПЛист.осп)}}
+
+                  <button type="button" onclick="Tabs.ShowTab('cpkey_tabs', 'cpkey_{{$ОСП.OspCode}}')">{{$ОСП.OspName}}</button>
+
+            {{end}}
+        {{end}}
+
+    </div>
+    <div class="rutokens_tables tabs_container"  id="cpkey_tabs">
+        {{with .data.ПК}}
+            {{range $i, $ОСПЛист := .}}
+                {{$ОСП:=index $.OspList (ЧислоВСтроку $ОСПЛист.осп)}}
+                    <div id="cpkey_{{$ОСП.OspCode}}" class="tab hidden">
+                    {{$КомпыОСП := $ОСПЛист.пк}}
+                        <table class="io_table text_center">
+                            <thead>
+                            <tr>
+                                <th>ОСП</th>
+                                <th>ФИО</th>
+                                <th>Ключ</th>
+                                <th>Тип Ключа</th>
+                                <th>Дата установки</th>
+                                <th>Инвентарный номер</th>
+                                <th>МАК</th>
+                                <th>IP</th>
+                                <th>Списан</th>
+                                <th>Инфо о ПК</th>
+                                <th>Акт</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{range $i , $PC := $КомпыОСП}}
+
+                                <tr>
+                                    <td>{{$PC.осп}}</td>
+                                    <td>{{$PC.uid}} {{$PC.фио}}</td>
+                                    <td>{{$PC.лицензия}} {{if and ($PC.старый_ключ) ($PC.лицензия)}} {{if ne $PC.старый_ключ $PC.лицензия}}старый ключ: {{$PC.старый_ключ}} {{end}} {{end}}</td>
+                                    <td>{{$PC.тип_лицензии}}</td>
+                                    <td>{{$PC.дата_лицензии}}</td>
+                                    <td>
+
+                                        {{if not $PC.инвентарный_номер}}
+                                            <form action="сохранить инвентарный номер" onsubmit="WS.SendForm(event, false, false,true)">
+                                                <input class="inviz" readonly type="text" name="mac" value="{{$PC.mac}}">
+                                                <input type="number" name="инвентарный_номер" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))" value="">
+                                            </form>
+                                        {{else}}
+                                            {{$PC.инвентарный_номер}}
+                                        {{end}}
+                                    </td>
+                                    <td>{{$PC.mac}}</td>
+                                    <td>{{$PC.ip}}</td>
+                                    <td>{{if not $PC.списан}}<div class="green">Нет</div>{{else}}{{if eq $PC.списан true}}<div class="red">Да</div>{{else}}<div class="green">Нет</div>{{end}}{{end}}</td>
+                                    <td>
+                                        <div>ОС: {{$PC.ОС}}</div>
+                                        {{range $k,$v := $PC.пк}}
+                                            <div>{{$k}} : {{$v}}</div>
+                                        {{end}}
+                                    </td>
+                                    <td>{{$PC.акт}}</td>
+                                </tr>
+
+                            {{end}}
+                                </tbody>
+                        </table>
+                    </div>
+            {{end}}
+        {{end}}
+
+
+            <div id="cpkeys_double_tabs" class="tab hidden">
+
+                   <table id="" class="io_table text_center">
+                       <thead>
+                            <tr>
+                                <th>Ключ</th>
+                                <th>Повторы</th>
+                            </tr>
+                       </thead>
+                       <tbody>
+                       {{range $n, $Лицензии := .data.повторы}}
+                           <tr class="link" onclick="Tabs.ShowTab('cpkeys_double_tabs', 'cpkeys_double_{{$n}}')">
+                               <td>{{$Лицензии.лицензия}}</td>
+                               <td>{{$Лицензии.количество_повторов}}</td>
+                           </tr>
+                           <tr>
+                               <td colspan="2" style="padding: 0">
+                                   <div class="tab hidden" id="cpkeys_double_{{$n}}">
+                                   <table class="io_table text_center">
+                                       <thead>
+                                       <tr>
+                                           <td>IP</td>
+                                           <td>MAC</td>
+                                           <td>Инвентарный №</td>
+                                           <td>ОС</td>
+                                       </tr>
+                                       </thead>
+                                       <tbody>
+                                       {{range $n, $пк := $Лицензии.пк}}
+                                           <tr>
+                                               <td>{{$пк.ip}}</td>
+                                               <td>{{$пк.mac}}</td>
+                                               <td>{{$пк.инвентарный_номер}}
+                                               </td>
+                                               <td>{{$пк.ОС}}</td>
+                                           </tr>
+                                       {{end}}
+                                       </tbody>
+                                   </table>
+                                   </div>
+                               </td>
+                           </tr>
+                       {{end}}
+                       </tbody>
+                   </table>
+
+            </div>
+
+
+
+    </div>
+    </div>
+{{end}}

@@ -1,0 +1,12 @@
+{{define "SkillTpl"}}
+    <div class="io_skill" id="skill_{{.action_id}}">
+        <div class="skill_name">Название: {{.name}}</div>
+        <div class="skill_description">Опсиание: {{.description}}</div>
+        <div class="skill_actions">Комманды: {{index .actions "cmd"}}</div>
+        <div class="skill_problem">Решает проблемы: {{StringsJoin  .problem ","}}</div>
+        <div class="skill_keywords">Метки: {{StringsJoin  .keywords ","}}</div>
+        <div class="skill_self_use">Любой может использовать: {{.self_use}}</div>
+        <div class="skill_creator">Создатель: {{.creator}}</div>
+        <div class="skill_date_create">Дата: {{.date_create}}</div>
+    </div>
+{{end}}

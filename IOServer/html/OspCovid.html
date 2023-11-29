@@ -1,0 +1,22 @@
+{{define "OspCovid"}}
+
+<div id="covid_content">
+
+    {{if and (СтрокаСодержит .client.OspCode "269") (ne .client.OspCode 26911)  (ne .client.OspCode 26905)}}
+       Всё Управление сдаёт информацию на бумажных носителях,  <a href="protected\classes\modules\covid\covid.ods">Скачать</a>
+    {{else}}
+
+    {{template "ShatForCovid" .}}
+{{/*    (eq .client.OspCode 26911)*/}}
+    {{if or (eq .client.OspCode 26905) (eq .client.OspCode 26000) (eq .client.OspCode 26911)}}
+        {{template "COVIDconsolidated" .}}
+
+    {{end}}
+{{/*    {{if eq .client.OspCode 26911}}*/}}
+{{/*        {{template "AllCovidState" .}}*/}}
+{{/*    {{end}}*/}}
+       {{template "COVID_OSPForm" .}}
+    {{end}}
+
+</div>
+{{end}}

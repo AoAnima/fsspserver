@@ -1,0 +1,49 @@
+{{define "arests_from_period-all_arests"}}
+
+    <table class="io_table">
+        <thead>
+        <tr>
+            <th>Акт</th>
+            <th>Дата акта</th>
+            <th>Статус акта</th>
+            <th>ИП</th>
+            <th>Постановление</th>
+            <th>Дата постановления</th>
+            <th>Номер постановления</th>
+            <th>Статус постановления</th>
+        </tr>
+        </thead>
+
+        <tbody>
+            {{range $i, $Строка := .Данные.all_arests.КартаСтрок}}
+               <tr>
+                   <td>
+                       {{$Строка.ACT_INFO}}
+                   </td>
+                   <td>
+                       {{ParseDate $Строка.ACT_DATE}}
+                   </td>
+                   <td>
+                       {{$Строка.ACT_STATUS}}
+                   </td>
+                   <td>
+                       {{$Строка.IP_INFO}}
+                   </td>
+                   <td>
+                       {{$Строка.ORDER_INFO}}
+                   </td>
+                   <td>
+                       {{ParseDate $Строка.ORDER_DATE}}
+                   </td>
+                   <td>
+                       {{$Строка.ORDER_NUMBER}}
+                   </td>
+                   <td>
+                       {{$Строка.ORDER_STATUS}}
+                   </td>
+               </tr>
+            {{end}}
+        </tbody>
+    </table>
+{{/*{{ if not (index . $номер_осп).osp.more_2_months}} 0  {{else}} (index . $номер_осп).osp.more_2_months {{end}}*/}}
+{{end}}

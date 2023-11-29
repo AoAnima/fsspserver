@@ -1,0 +1,16 @@
+{{define "КонтрольПринтера"}}
+<div class="modal_body">
+
+<p> Данное решение подходит только для СЕТЕВЫХ принтеров, принтеры которые подключены по сетевому кабелю. Если принтер подключён по usb то выполнение данного действия может нарушить работу такого принтера.</p>
+
+ <p>Проверьте какой провод подключён к Вашему принтеру ?</p>
+ <div class="flex-row flex_justify-evenly">
+  <button class="tips_image" type="button" onclick="WS.ОткрытьЗакрыть('tips_{{.action_id}}');WS.FloatMessage({MessageType:['error'],Контэнт:{данные:'Данные решение не подойдёт для Вашего принтера, обратитесь к куратору'}})">
+    <img src="http://10.26.6.25/static/images/usb.jpg" alt="">
+  </button>
+ <button class="tips_image" type="button" onclick="WS.ОтправитьСообщениеИО('исправить проблему', {'action_id':{{.action_id}} }, true);WS.ОткрытьЗакрыть('tips_{{.action_id}}}')">
+   <img src="http://10.26.6.25/static/images/lan.webp" alt="">
+ </button>
+ </div>
+</div>
+{{end}}

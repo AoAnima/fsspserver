@@ -1,0 +1,68 @@
+{{define "ShatForCovid"}}
+{{/*{{if  or (eq .client.OspCode 26909) (eq .client.Login "maksimchuk@r26")}}*/}}
+<div class="note error">
+    ВНИМАНИЕ ЕСЛИ В ТАБЛИЦЕ ШТАТНОЙ ЧИСЛЕННОСТИ ВАШЕГО ОТДЕЛА НЕ ПРОСТАВЛЕНО КОЛИЧЕСТВО НЕОБХОДИМО ПРОСТАВИТЬ! И КОНТРОЛИРОВАТЬ КАЖДЫЙ ДЕНЬ ВМЕСТЕ С ОТПРАВКОЙ ДАННЫХ ПО СОТРУДНИКАМ!
+</div>
+    <div class="covid_content ">
+
+        <form class="col" name="shtat_sotr" action="сохранить численность работников" onsubmit="WS.SendForm(event, false, false)">
+            <table class="io_table">
+                <caption class="red">Численность работников {{(index .OspList (ЧислоВСтроку .client.OspCode)).OspName}}</caption>
+                <thead>
+                <tr>
+                    <th>
+                        Численность работников в соответствии со штатным расписанием
+                    </th>
+                    <th>
+                        Фактическая численность работников
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <label for="shtat">
+                            <input type="text" name="штатное_расписание" id="shtat" value="{{if .data.штат}}{{(index .data.штат 0).штатное_расписание}}{{end}}">
+                        </label>
+                    </td>
+                    <td>
+                        <label for="fact">
+                            <input type="text" name="фактическая_численность" id="fact"  value="{{if .data.штат}}{{(index .data.штат 0).фактическая_численность}}{{end}}">
+                        </label>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <label for="">
+                <button type="submit">Сохранить</button>
+            </label>
+        </form>
+    </div>
+{{/*{{else}}*/}}
+{{/*<div class="covid_content">*/}}
+{{/*    <table class="io_table">*/}}
+{{/*        <caption>Численность работников </caption>*/}}
+{{/*        <thead>*/}}
+{{/*        <tr>*/}}
+{{/*            <th>*/}}
+{{/*                Численность работников в соответствии со штатным расписанием*/}}
+{{/*            </th>*/}}
+{{/*            <th>*/}}
+{{/*                Фактическая численность работников*/}}
+{{/*            </th>*/}}
+{{/*        </tr>*/}}
+{{/*        </thead>*/}}
+{{/*        <tbody>*/}}
+{{/*        <tr>*/}}
+{{/*            <td>*/}}
+
+{{/*            </td>*/}}
+{{/*            <td>*/}}
+
+{{/*            </td>*/}}
+{{/*        </tr>*/}}
+{{/*        </tbody>*/}}
+{{/*    </table>*/}}
+{{/*</div>*/}}
+{{/*{{end}}*/}}
+{{end}}

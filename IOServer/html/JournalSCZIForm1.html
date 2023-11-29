@@ -1,0 +1,97 @@
+{{define "JournalSCZIForm1"}}
+    <div id="wrapper_journal_form_1">
+
+        <button onclick="WS.ОтправитьСообщениеИО('выгрузить образцы формы 1 в excel',null,true)">Выгрузить в EXCEL</button>
+
+        <table class="journal_form_1 io_table"  cellspacing="0" id="journal_form_1">
+            <thead>
+            <tr class="mvvtr" style="border: 0px;" >
+                <th colspan="17" style="text-align: left; border: 0px;">
+                    <h3>Журнал СКЗИ (форма 1)</h3>
+                    <p style="text-align: left; font-size:13px;">Журнал поэкземплярного учета СКЗИ</p>
+                </th>
+            <tr>
+
+            <tr style="text-align: center;">
+                <th rowspan=2>№<br>п/п</th>
+                <th rowspan=2 width=200px>ОСП</th>
+                <th rowspan=2 >Наименование СКЗИ, эксплуатационных, технических документов к ним, КД</th>
+                <th rowspan=2 >Серийный номер</th>
+                <th rowspan=2>№ экземпляра</th>
+
+                <th colspan=2>Отметка о получении</th>
+                <th colspan=3>Отметка о рассылке или передаче</th>
+                <th colspan=2>Отметка о возрате</th>
+                <th>Дата ввода в действие</th>
+                <th>Дата вывода из действия</th>
+
+                <th>Дата уничтожения</th>
+                <th>Номер акта или расписка об уничтожении</th>
+                <th>Примечание</th>
+            </tr>
+
+
+            <tr style="text-align: center;">
+                <th width=110px>От кого получены или Ф.И.О сотрудника отдела инфрорматизации</th>
+                <th>Дата изготовления КД и рассписска в изготовлении</th>
+                <th> Кому разосланы или переданы</th>
+                <th> Дата и номер сопроводительного письма</th>
+                <th> Дата и номер подтверждения или расписка о получении</th>
+                <th> Дата и номер сопроводительного письма</th>
+                <th> Дата и номер подтверждения</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+
+            <tr style="text-align: center;">
+                <th>1</th>
+                <th width=200px></th>
+                <th>2</th>
+                <th>3</th>
+                <th >4</th>
+                <th >5</th>
+                <th width=110px>6</th>
+                <th>7</th>
+                <th>8</th>
+                <th>9</th>
+                <th>10</th>
+                <th>11</th>
+                <th>12</th>
+                <th>13</th>
+                <th>14</th>
+                <th>15</th>
+                <th>16</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{range $номер, $строка := .data.журнал }}
+            <tr style="text-align: center;">
+                <td>{{Сумма $номер 1}}</td>
+                <td width=200px>{{$строка.osp_name}}</td>
+                <td>ruToken ({{$строка.token_number}})</td>
+                <td>{{$строка.serial_number}}</td>
+                <td>1</td>
+                <td>Калачев А.А</td>
+                <td width=110px>{{ПолучитьДату $строка.date_start}}</td>
+                <td>{{$строка.common_name}}</td>
+                <td>{{$строка.doc_number}} {{if $строка.doc_date}} ({{ПолучитьДату $строка.doc_date}}) {{end}}</td>
+                <td>подпись</td>
+                <td></td>
+                <td></td>
+                <td>{{ПолучитьДату $строка.date_start}}</td>
+                <td>{{ПолучитьДату $строка.date_end}}</td>
+                <td>{{if  $строка.date_end}}подпись{{end}}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            {{end}}
+            </tbody>
+
+        </table>
+    </div>
+
+
+{{end}}

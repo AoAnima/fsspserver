@@ -1,0 +1,601 @@
+{{define "АдминистративныеДелаКарточка"}}
+
+{{ $данные_ад := index .data.данные_ад 0}}
+{{ $форма := (index .data.форма 0).форма}}
+
+
+
+    <div id="ad_cards">
+
+    <div class="block">
+        АдминистративныеДелаКарточка
+        <div class="input_name">Заполнил: <strong>{{.client.SecondName}} {{.client.Givenname}} {{.client.Initials}} </strong>
+        <div class="input_name">{{(index .OspList (ЧислоВСтроку .client.OspCode)).OspName}} </div>
+
+    </div>
+
+    </div>
+
+    <div class="block"> <h3>КАРТОЧКА "АДМИНИСТPАТИВНОЕ  ПРАВОНАРУШЕНИЕ"</h3></div>
+    <form id="ad_form" action="изменить карточку ап" class="io_form flex-row" onsubmit="WS.SendForm(event, false, false, false)">
+        <fieldset class="row border">
+        <label for="IBD_ARX">
+            <div class="input_name auto">Статус</div>
+
+            <select required name="IBD_ARX" id="IBD_ARX">
+                {{  range $ид, $статус :=  $форма.статус  }}
+                    <option value="{{$ид}}">{{ $статус }}</option>
+                {{end}}
+            </select>
+        </label>
+        <label for="VID_DOC">
+            <div class="input_name auto">Вид документа</div>
+{{/*            <input list="VID_DOC_LIST" required type="text" name="VID_DOC" id="VID_DOC" value="{{ $данные_ад.vid_doc }}">*/}}
+{{/*            <datalist id="VID_DOC_LIST">*/}}
+{{/*                <option value="1.Адм. протокол">1#Адм. протокол</option>*/}}
+{{/*                <option value=""></option>*/}}
+{{/*            </datalist>*/}}
+            <select required name="VID_DOC" id="VID_DOC">
+                {{  range $ид, $вид_документа :=  $форма.вид_документа  }}
+                    <option value="{{$ид}}">{{ $вид_документа }}</option>
+                {{end}}
+            </select>
+        </label>
+         <label for="N_PROT">
+            <div class="input_name auto">N документа</div>
+
+             <input required type="text" name="N_PROT" id="N_PROT" value="{{ $данные_ад.n_prot }}">
+        </label>
+        <label for="N_BLANK">
+            <div class="input_name auto">N бланка документа</div>
+             <input required type="text" name="N_BLANK" id="N_BLANK" value="{{ $данные_ад.n_prot }}">
+        </label>
+        <label for="UIN">
+            <div class="input_name auto">УИН</div>
+             <input  type="text" name="UIN" id="UIN" value="{{ $данные_ад.uin }}">
+        </label>
+        <label for="KODRAI1_KOD">
+            <div class="input_name auto">ОВД,выявивший правонарушение</div>
+{{/*            <input list="KODRAI1_KOD_LIST" required type="text" name="KODRAI1_KOD" id="KODRAI1_KOD" value="46#ФССП">*/}}
+{{/*            <datalist id="KODRAI1_KOD_LIST">*/}}
+{{/*                <option value="46#ФССП">46#ФССП</option>*/}}
+{{/*                <option value=""></option>*/}}
+{{/*            </datalist>*/}}
+            <select required name="KODRAI1_KOD" id="KODRAI1_KOD">
+                {{  range $ид, $овд_выявивший :=  $форма.овд_выявивший  }}
+                    {{ $селект := ""}}
+                    {{if eq (ЧислоВСтроку $данные_ад.kodrai1_kod) $ид }}
+                        {{ $селект = "selected"}}
+                    {{end}}
+                    <option {{$селект}} value="{{$ид}}">{{ $овд_выявивший }}</option>
+                {{end}}
+            </select>
+        </label>
+        </fieldset>
+        <fieldset class="row border">
+            <legend class="fieldset_legend">Вид правонар.:</legend>
+            <div class="block flex-full red flex_align-center">
+                По данным АИС ФССП Статья КОАП:
+                <div>{{ $данные_ад.pr_vid }} Содержание {{ $данные_ад.pr_descr }}</div>
+            </div>
+            <label for="PR_VID1">
+                <div class="input_name auto">Глава</div>
+{{/*                <input list="PR_VID1_LIST" required type="text" name="PR_VID1" id="PR_VID1" value="">*/}}
+{{/*                <datalist id="PR_VID1_LIST">*/}}
+{{/*                    <option value=""></option>*/}}
+{{/*                    <option value=""></option>*/}}
+{{/*                </datalist>*/}}
+                <select required name="PR_VID1" id="PR_VID1" onchange="article_wrapper.querySelectorAll('select:not(.hiden)').forEach(elem => elem.classList.add('hiden'));document.getElementById('PR_VID2_'+this.options[this.selectedIndex ].value).classList.remove('hiden') ">
+{{/*                    <option selected disabled value=''>Выберите главу</option>*/}}
+
+                    {{range $ид, $глава :=  $форма.глава  }}
+                        {{ $селект := ""}}
+                        {{if eq (ЧислоВСтроку $данные_ад.pr_vid1) $ид }}
+                            {{ $селект = "selected"}}
+                        {{end}}
+                        <option value="{{$ид}}">{{ $глава }}</option>
+                    {{end}}
+                </select>
+            </label>
+            <label for="PR_VID2">
+                <div class="input_name auto">Статья</div>
+
+           <div id="article_wrapper">
+            {{range $глава, $статьи :=  $форма.статья.статьи  }}
+{{/*                    $глава {{$глава}} $статьи {{$статьи}}*/}}
+
+                {{$class := "hiden"}}
+                   {{if eq (ЧислоВСтроку $данные_ад.pr_vid1) $глава }}
+                       {{ $class = ""}}
+                   {{end}}
+
+                        <select class="{{$class}}" required name="PR_VID2" id="PR_VID2_{{$глава}}">
+
+                            {{range $ид, $статья :=  $статьи  }}
+                                {{ $селект := ""}}
+                                {{if eq (ЧислоВСтроку $данные_ад.pr_vid2) $ид }}
+                                    {{ $селект = "selected"}}
+                                {{end}}
+                                <option {{$селект}} value="{{$ид}}">{{ $статья }}</option>
+                            {{end}}
+                        </select>
+
+            {{end}}
+           </div>
+
+
+
+
+                {{/*                <select required name="PR_VID2" id="PR_VID2">*/}}
+{{/*                    <option value="1"></option>*/}}
+{{/*                </select>*/}}
+            </label>
+        </fieldset>
+        <fieldset class=" border ">
+        <label for="DATE_SOVER">
+            <div class="input_name auto">Дата совершения нарушения</div>
+
+            <input required type="date" name="DATE_SOVER" id="DATE_SOVER" placeholder="" VALUE="{{if gt (len $данные_ад.y_sover) 1 }}{{$данные_ад.y_sover}}{{else}}0{{$данные_ад.y_sover}}{{end}}-{{if gt (len $данные_ад.m_sover) 1}}{{$данные_ад.m_sover}}{{else}}0{{$данные_ад.m_sover}}{{end}}-{{if gt (len $данные_ад.d_sover) 1 }}{{$данные_ад.d_sover}}{{else}}0{{$данные_ад.d_sover}}{{end}}">
+        </label>
+        <label for="MESTO_SOVER">
+            <div class="input_name auto">Место правонарушения</div>
+{{/*            <input list="MESTO_SOVER_LIST" required type="text" name="MESTO_SOVER" id="MESTO_SOVER" value="{{ $данные_ад.mesto_sover  }}">*/}}
+{{/*            <datalist id="MESTO_SOVER_LIST">*/}}
+{{/*               {{range $ид, $место_преступления :=  $форма.место_преступления  }}*/}}
+{{/*                  <option value="{{$ид}}">{{ $место_преступления }}</option>*/}}
+{{/*               {{end}}*/}}
+{{/*            </datalist>*/}}
+            <select required name="MESTO_SOVER" id="MESTO_SOVER">
+
+                                {{range $ид, $место_преступления :=  $форма.место_преступления  }}
+                                    {{ $селект := ""}}
+                                    {{if eq (ЧислоВСтроку $данные_ад.mesto_sover) $ид }}
+                                        {{ $селект = "selected"}}
+                                    {{end}}
+                                    <option value="{{$ид}}">{{ $место_преступления }}</option>
+                                {{end}}
+            </select>
+
+
+        </label>
+        <label for="SLUGBA">
+            <div class="input_name auto">Служба,выявившая правонарушение</div>
+{{/*            <input list="SLUGBA_LIST" required type="text" name="SLUGBA" id="SLUGBA" value="{{ $данные_ад.slugba  }}">*/}}
+{{/*            <datalist id="SLUGBA_LIST">*/}}
+{{/*                {{range $ид, $служба_выявившая :=  $форма.служба_выявившая  }}*/}}
+{{/*                    <option value="{{$ид}}">{{ $служба_выявившая }}</option>*/}}
+{{/*                {{end}}*/}}
+{{/*            </datalist>*/}}
+            <select required name="SLUGBA" id="SLUGBA">
+
+
+                {{range $ид, $служба_выявившая :=  $форма.служба_выявившая  }}
+                    {{ $селект := ""}}
+                    {{if eq (ЧислоВСтроку $данные_ад.slugba) $ид }}
+                        {{ $селект = "selected"}}
+                    {{end}}
+                    <option {{$селект}} value="{{$ид}}">{{ $служба_выявившая }}</option>
+                {{end}}
+            </select>
+        </label>
+        <label for="SLUGBA_SOST">
+            <div class="input_name auto">Служба,составившая адм.протокол</div>
+{{/*            <input list="SLUGBA_SOST_LIST"  type="text" name="SLUGBA_SOST" id="SLUGBA_SOST" value="">*/}}
+{{/*            <datalist id="SLUGBA_SOST_LIST">*/}}
+{{/*                {{range $ид, $служба_выявившая :=  $форма.служба_выявившая  }}*/}}
+{{/*                    <option value="{{$ид}}">{{$служба_выявившая }}</option>*/}}
+{{/*                {{end}}*/}}
+{{/*            </datalist>*/}}
+            <select required name="SLUGBA_SOST" id="SLUGBA_SOST">
+
+                {{range $ид, $служба_выявившая :=  $форма.служба_выявившая  }}
+                    {{ $селект := ""}}
+                    {{if eq (ЧислоВСтроку $данные_ад.slugba_sost) $ид }}
+                        {{ $селект = "selected"}}
+                    {{end}}
+                    <option {{$селект}} value="{{$ид}}">{{ $служба_выявившая }}</option>
+                {{end}}
+            </select>
+        </label>
+        <label for="SOTR_SOST">
+            <div class="input_name auto">Сотрудник,составивший адм.протокол</div>
+            <input required type="text" name="SOTR_SOST" id="SOTR_SOST" value="{{ $данные_ад.sotr_sost }}">
+        </label>
+</fieldset>
+
+
+        <fieldset class="row border" >
+
+            {{ $адрес_преступления := $данные_ад.sotr_sost }}
+
+            <legend class="fieldset_legend">Адрес совершения правонарушения:</legend>
+            <label for="RESP_SOVER">
+                <div class="input_name auto">Республика
+                </div>
+
+                <input list="RESP_SOVER_LIST"  type="text" name="RESP_SOVER" id="RESP_SOVER" value="РОССИЯ">
+                <datalist id="RESP_SOVER_LIST">
+                    {{range  $республика :=  $форма.республика  }}
+                        <option value="{{$республика}}">{{ $республика }}</option>
+                    {{end}}
+                </datalist>
+            </label>
+             <label for="KRAJ_SOVER">
+                <div class="input_name auto">Край,область</div>
+                 <input list="KRAJ_SOVER_LIST" required type="text" name="KRAJ_SOVER" id="KRAJ_SOVER" value="{{ $данные_ад.kraj_sover }}">
+                 <datalist id="KRAJ_SOVER_LIST">
+                     {{range  $край :=  $форма.край  }}
+                         <option value="{{$край}}">{{ $край }}</option>
+                     {{end}}
+                 </datalist>
+            </label>
+
+             <label for="RAJON_SOVER">
+                <div class="input_name auto">Район (совершения)</div>
+                 <input list="RAJON_SOVER_LIST" required type="text" name="RAJON_SOVER" id="RAJON_SOVER" value="{{ $данные_ад.rajon_sover }}">
+                 <datalist id="RAJON_SOVER_LIST">
+                     {{range  $район :=  $форма.район  }}
+                         <option value="{{$район}}">{{ $район }}</option>
+                     {{end}}
+                 </datalist>
+            </label>
+
+             <label for="KW_PUNKT_SOVER">
+                <div  required class="input_name auto">Населенный пункт (совершения)</div>
+                 <input list="KW_PUNKT_SOVER_LIST" required type="text" name="KW_PUNKT_SOVER" id="KW_PUNKT_SOVER" value="{{ $данные_ад.kw_punkt_sover }}">
+                 <datalist id="KW_PUNKT_SOVER_LIST">
+                     {{range  $нас_пункт :=  $форма.нас_пункт  }}
+                         <option value="{{$нас_пункт}}">{{ $нас_пункт }}</option>
+                     {{end}}
+                 </datalist>
+            </label>
+             <label for="POS_IN_GOROD_SOVER">
+                <div class="input_name auto">Поселок внутри города</div>
+                 <input  type="text" name="POS_IN_GOROD_SOVER" id="POS_IN_GOROD_SOVER" value="{{ $данные_ад.pos_in_gorod_sover }}">
+            </label>
+             <label for="MICK_RN_SOVER">
+                <div class="input_name auto">Микрорайон</div>
+                <input type="text" name="MICK_RN_SOVER" id="MICK_RN_SOVER" value="{{ $данные_ад.mick_rn_sover }}">
+
+            </label>
+             <label for="ULICA_SOVER">
+                <div class="input_name auto">Улица</div>
+                 <input list="ULICA_SOVER_LIST" required type="text" name="ULICA_SOVER" id="ULICA_SOVER" value="{{ $данные_ад.ulica_sover }}">
+                 <datalist id="ULICA_SOVER_LIST">
+                     {{range  $улица :=  $форма.улица  }}
+                         <option value="{{$улица}}">{{ $улица }}</option>
+                     {{end}}
+                 </datalist>
+            </label>
+            <label for="N_DOM_SOVER">
+                <div class="input_name auto">Номер дома</div>
+
+                <input type="number" required name="N_DOM_SOVER" id="N_DOM_SOVER" value="{{ $данные_ад.n_dom_sover }}">
+            </label>
+            <label for="KORPUS_SOVER">
+                <div class="input_name auto">Корпус</div>
+                <input type="text"  name="KORPUS_SOVER" id="KORPUS_SOVER" value ="{{ $данные_ад.korpus_sover }}">
+            </label>
+            <label for="KW_SOVER">
+                <div class="input_name auto">Квартира</div>
+                <input type="number" name="KW_SOVER" id="KW_SOVER" value="{{ $данные_ад.kw_sover }}">
+            </label>
+        </fieldset>
+
+
+        <fieldset class="row border">
+            <legend class="fieldset_legend">Сведения об АМТ (гл. 12)</legend>
+            <label for="NOMER">
+                <div class="input_name auto">Гос номер</div>
+                <input type="text" name="NOMER" id="NOMER" value="{{ $данные_ад.nomer }}">
+            </label>
+            <label for="REGION">
+                <div class="input_name auto">Регион</div>
+                <input type="text" name="REGION" id="REGION" value="{{ $данные_ад.region }}">
+            </label>
+            <label for="MODEL">
+                <div class="input_name auto">Модель</div>
+                <input type="text" name="MODEL" id="MODEL" value="{{ $данные_ад.model }}">
+            </label>
+            <label for="N_UDOST">
+                <div class="input_name auto">Номер водительского удостоверения</div>
+                <input type="text" name="N_UDOST" id="N_UDOST" value="{{ $данные_ад.n_udost }}">
+            </label>
+        </fieldset>
+
+        <fieldset class="border">
+            <label for="AREA_SOVER" class="center">
+                <div class="input_name auto">№ АДМИНИСТРАТИВНОГО УЧАСТКА МЕСТА СОВЕРШЕНИЯ</div>
+                <input required type="number" name="AREA_SOVER" id="AREA_SOVER" value="{{ $данные_ад.area_sover}}">
+            </label>
+            <label for="NAIM">
+                <div class="input_name auto">Наименование лица</div>
+                <input list="NAIM_LIST" required type="text" name="NAIM" id="NAIM" value="{{ $данные_ад.naim}}">
+                <datalist id="NAIM_LIST">
+                    {{range $n,  $наименования_лица :=  $форма.наименования_лица  }}
+                        <option value="{{$наименования_лица}}">{{ $наименования_лица }}</option>
+                    {{end}}
+                </datalist>
+            </label> {{range  $наименования_лица :=  $форма.наименования_лица  }}
+                <option value="{{$наименования_лица}}">{{ $наименования_лица }}</option>
+            {{end}}
+            <div class="flex-row">
+{{/*                {{ $должник := РазбитьСтроку $данные_ад.offender_name " " }}*/}}
+            <label for="FAM">
+                <div class="input_name auto">Фамилия</div>
+                <input required type="text" name="FAM" id="FAM"  value="{{ $данные_ад.fam }}">
+            </label>
+            <label for="IMJ">
+                <div class="input_name auto">Имя</div>
+                <input required type="text" name="IMJ" id="IMJ" value="{{ $данные_ад.imj }}">
+            </label>
+            <label for="OTCH">
+                <div class="input_name auto">Отчество</div>
+                <input required type="text" name="OTCH" id="OTCH" value="{{ $данные_ад.otch }}">
+            </label>
+            </div>
+            <div class="flex-row">
+                <label for="DATE_ROJD">
+                    <div class="input_name auto">Дата рождения</div>
+
+                    {{if gt (len $данные_ад.y_rojd) 1 }}{{$данные_ад.y_rojd}}{{else}}0{{$данные_ад.y_rojd}}{{end}}-{{if gt (len $данные_ад.m_rojd) 1}}{{$данные_ад.m_rojd}}{{else}}0{{$данные_ад.m_rojd}}{{end}}-{{if gt (len $данные_ад.d_rojd) 1 }}{{$данные_ад.d_rojd}}{{else}}0{{$данные_ад.d_rojd}}{{end}}
+
+                    <input required type="date" name="DATE_ROJD" id="DATE_ROJD" value="{{if gt (len $данные_ад.y_rojd) 1 }}{{$данные_ад.y_rojd}}{{else}}0{{$данные_ад.y_rojd}}{{end}}-{{if gt (len $данные_ад.m_rojd) 1}}{{$данные_ад.m_rojd}}{{else}}0{{$данные_ад.m_rojd}}{{end}}-{{if gt (len $данные_ад.d_rojd) 1 }}{{$данные_ад.d_rojd}}{{else}}0{{$данные_ад.d_rojd}}{{end}}">
+                </label>
+            <label for="GRAJDAN">
+                <div class="input_name auto">Гражданство</div>
+
+                <input required list="GRAJDAN_LIST" type="text" name="GRAJDAN" id="GRAJDAN" value ="{{ $данные_ад.grajdan }}">
+                <datalist id="GRAJDAN_LIST">
+{{/*                <select required name="GRAJDAN" id="GRAJDAN">*/}}
+                    {{range  $гражданство :=  $форма.гражданство  }}
+                        <option value="{{$гражданство}}">{{ $гражданство }}</option>
+                    {{end}}
+{{/*                </select>*/}}
+                </datalist>
+            </label>
+            <label for="DOLJN">
+                <div class="input_name auto">Должность</div>
+                <input required type="text" name="DOLJN" id="DOLJN" placeholder="" value="{{$данные_ад.doljn}}">
+            </label>
+            <label for="KATEG">
+                <div class="input_name auto">Категория</div>
+{{/*                <input required list="KATEG" type="text" name="KATEG" id="KATEG" placeholder="">*/}}
+{{/*                <datalist id="KATEG_LIST">*/}}
+{{/*                    {{range  $гражданство :=  $форма.гражданство  }}*/}}
+{{/*                        <option value="{{$гражданство}}">{{ $гражданство }}</option>*/}}
+{{/*                    {{end}}*/}}
+{{/*                </datalist>*/}}
+                <select required name="KATEG" id="KATEG">
+                    {{range $ид, $категория :=  $форма.категория  }}
+                        <option value="{{$ид}}">{{ $категория }}</option>
+                    {{end}}
+                </select>
+            </label>
+            </div>
+        </fieldset>
+        <fieldset class="row border ">
+
+{{/*            {{ $адрес_преступника := РазбитьСтроку $данные_ад.offender_adr "," }}*/}}
+{{/*            - инекс,страна,регион/край, район, город, нас пункт, улица, длм, корпус, квартира*/}}
+
+            <legend class="fieldset_legend">Регистрация по месту жительства:</legend>
+
+            <div class="block flex-full red flex_align-center">
+                По данным АИС ФССП адрес регистрации, сверьте с заполенными полями, при необходимости откорректируйте:
+                <div>{{ $данные_ад.offender_adr }}</div>
+            </div>
+
+            <label for="RESP">
+                <div class="input_name auto">Республика</div>
+{{/*                <input required list="RESP_LIST" type="text" name="RESP" id="RESP" value =" {{ index $адрес_преступника 1 }}">*/}}
+{{/*                <datalist id="RESP_LIST">*/}}
+{{/*                    <option value=""></option>*/}}
+{{/*                </datalist>*/}}
+
+                <input list="RESP_LIST"  type="text" name="RESP" id="RESP" value="">
+                <datalist id="RESP_LIST">
+                    {{range  $республика :=  $форма.республика  }}
+                        <option value="{{$республика}}">{{ $республика }}</option>
+                    {{end}}
+                </datalist>
+
+
+            </label>
+            <label for="KRAJ">
+                <div class="input_name auto">Край(область)</div>
+                <input required list="KRAJ_LIST" type="text" name="KRAJ" id="KRAJ" value=" {{ $данные_ад.kraj }}">
+                <datalist id="KRAJ_LIST">
+                    {{range  $край :=  $форма.край  }}
+                        <option value="{{$край}}">{{ $край }}</option>
+                    {{end}}
+                </datalist>
+            </label>
+            <label for="RAJON">
+                <div class="input_name auto">Район</div>
+                <input required  list="RAJON_LIST" type="text" name="RAJON" id="RAJON" value="{{  $данные_ад.rajon }}">
+                <datalist id="RAJON_LIST">
+                    {{range  $район :=  $форма.район  }}
+                        <option value="{{$район}}">{{ $район }}</option>
+                    {{end}}
+                </datalist>
+            </label>
+            <label for="KW_PUNKT">
+                <div class="input_name auto">Нас.пункт</div>
+                <input required  list="KW_PUNKT_LIST" type="text" name="KW_PUNKT" id="KW_PUNKT" value="{{  $данные_ад.kw_punkt }}">
+                <datalist id="KW_PUNKT_LIST">
+                    {{range  $нас_пункт :=  $форма.нас_пункт  }}
+                        <option value="{{$нас_пункт}}">{{ $нас_пункт }}</option>
+                    {{end}}
+                </datalist>
+            </label>
+            <label for="POS_IN_GOROD">
+                <div class="input_name auto">Поселок внутри города</div>
+                <input  type="text" name="POS_IN_GOROD" id="POS_IN_GOROD" value="{{ $данные_ад.pos_in_gorod }}">
+            </label>
+            <label for="MICK_RN">
+                <div class="input_name auto">Микрорайон</div>
+                <input type="text" name="MICK_RN" id="MICK_RN" placeholder="">
+
+            </label>
+            <label for="ULICA">
+                <div class="input_name auto">Улица</div>
+                <input  list="ULICA_LIST" type="text" name="ULICA" id="ULICA" value="{{ $данные_ад.ulica }}">
+                <datalist id="ULICA_LIST">
+                    {{range  $улица :=  $форма.улица  }}
+                        <option value="{{$улица}}">{{ $улица }}</option>
+                    {{end}}
+                </datalist>
+            </label>
+            <label for="N_DOM">
+                <div class="block flex-full red flex_align-center">
+                   Максимум 4 символа, только номер дома!
+                </div>
+                <div class="input_name auto">Дом</div>
+                <input type="text" name="N_DOM" max="4" id="N_DOM" value="{{ $данные_ад.n_dom }}">
+
+            </label>
+            <label for="KORPUS">
+                <div class="block flex-full red flex_align-center">
+                    Максимум 3 символа, только корпус/дробь дома!
+                </div>
+                <div class="input_name auto">корпус</div>
+
+                <input type="text" name="KORPUS" max="3" id="KORPUS" value="{{ $данные_ад.korpus }}">
+
+            </label>
+            <label for="KW">
+                <div class="input_name auto">Кв</div>
+
+                <input type="text" name="KW" id="KW" value="{{ $данные_ад.kw }}">
+
+            </label>
+            <label for="AREA">
+                <div class="input_name auto">Административный участок</div>
+                <input  type="text" name="AREA" id="AREA" value="{{$данные_ад.area}}">
+
+            </label>
+            <fieldset class="row border">
+                <legend class="fieldset_legend">
+                    Паспорт
+                </legend>
+                <label for="PSP_S">
+                    <div class="input_name auto">серия</div>
+                    <input type="text" name="PSP_S" id="PSP_S" value="{{ $данные_ад.psp_s }}">
+                </label>
+                <label for="PSP_N">
+                    <div class="input_name auto">№</div>
+                    <input type="text" name="PSP_N" id="PSP_N" value="{{ $данные_ад.psp_n }}">
+                </label>
+                <label for="DATE_PSP">
+                    <div class="input_name auto">Дата выдачи</div>
+
+                    <input type="date" name="DATE_PSP" id="DATE_PSP" value="{{$данные_ад.y_psp}}-{{if gt (len $данные_ад.m_psp) 1}}{{$данные_ад.m_psp}}{{else}}0{{$данные_ад.m_psp}}{{end}}-{{if gt (len $данные_ад.d_psp) 1 }}{{$данные_ад.d_psp}}{{else}}0{{$данные_ад.m_psp}}{{end}}">
+                </label>
+                <label for="VYDAN">
+                    <div class="input_name auto">Выдан</div>
+                    <input type="text" name="VYDAN" id="VYDAN" value="{{ $данные_ад.vydan }}">
+                </label>
+            </fieldset>
+            <fieldset class="border">
+                <label for="KODRAI1_RESH">
+                    <div class="input_name auto">ОВД,принявший решение (куда передано)</div>
+{{/*                    <input list="KODRAI1_RESH_LIST" type="text" name="KODRAI1_RESH" id="KODRAI1_RESH" value="">*/}}
+{{/*                    <datalist id="KODRAI1_RESH_LIST">*/}}
+{{/*                        <option value="1">1#ССП</option>*/}}
+{{/*                    </datalist>*/}}
+
+                    <select required name="KODRAI1_RESH" id="KODRAI1_RESH">
+{{/*                        <option selected disabled>Выберите</option>*/}}
+                        {{  range $ид, $овд_принявшее :=  $форма.овд_принявшее  }}
+                            <option disabled value="">Выберите</option>
+                            {{ $селект := ""}}
+                            {{if eq (ЧислоВСтроку $данные_ад.kodrai1_resh) $ид }}
+                                {{ $селект = "selected"}}
+                            {{end}}
+                            <option {{$селект}} value="{{$ид}}">{{ $овд_принявшее }}</option>
+                        {{end}}
+                    </select>
+                </label>
+                <label for="ORG_RESH">
+                    <div class="input_name auto">Орган вынесший постановление</div>
+                    <select required name="ORG_RESH" id="ORG_RESH">
+
+                        {{  range $ид, $орган_вынесший :=  $форма.орган_вынесший  }}
+                            {{ $селект := ""}}
+                            {{if eq (ЧислоВСтроку $данные_ад.org_resh)  $ид }}
+                                {{ $селект = "selected"}}
+                            {{end}}
+                            <option {{$селект}} value="{{$ид}}">{{ $орган_вынесший }}</option>
+                        {{end}}
+                    </select>
+{{/*                    <input list="ORG_RESH_LIST" type="text" name="ORG_RESH" id="ORG_RESH" value="">*/}}
+{{/*                    <datalist id="ORG_RESH_LIST">*/}}
+{{/*                        <option value="1">1#ССП</option>*/}}
+{{/*                    </datalist>*/}}
+                </label>
+                <label for="N_POST">
+                    <div class="input_name auto">N постановления, квитанции</div>
+                    <input type="text" name="N_POST" id="N_POST" value="{{ $данные_ад.n_post }}">
+
+                </label>
+                <label for="DATE_RESH">
+                    <div class="input_name auto">Дата вынесения постановления</div>
+
+                    <input type="date" name="DATE_RESH" id="DATE_RESH" value="{{if gt (len $данные_ад.y_resh) 1 }}{{$данные_ад.y_resh}}{{else}}0{{$данные_ад.y_resh}}{{end}}-{{if gt (len $данные_ад.m_resh) 1}}{{$данные_ад.m_resh}}{{else}}0{{$данные_ад.m_resh}}{{end}}-{{if gt (len $данные_ад.d_resh) 1 }}{{$данные_ад.d_resh}}{{else}}0{{$данные_ад.d_resh}}{{end}}">
+
+                </label>
+                <fieldset class="row">
+
+
+
+                <label for="MERA_NAK" >
+                    <div class="input_name auto">Мера наказания</div>
+                    <div class="flex-col">
+{{/*                    <div class="note">*/}}
+{{/*                        По данным АИС ФССП: {{ $данные_ад.mera_nak }}*/}}
+{{/*                    </div>*/}}
+{{/*                    <input list="MERA_NAK_LIST" type="text" name="MERA_NAK" id="MERA_NAK" value="{{ $данные_ад.mera_nak }}">*/}}
+{{/*                    <datalist id="MERA_NAK_LIST">*/}}
+{{/*                        <option value="1">1#ССП</option>*/}}
+{{/*                    </datalist>*/}}
+
+                    <select required name="MERA_NAK" id="MERA_NAK">
+
+                        {{  range $ид, $наказание :=  $форма.мера_наказания  }}
+                            {{ $селект := ""}}
+                            {{if eq $данные_ад.mera_nak $ид }}
+                                {{ $селект = "selected"}}
+                            {{end}}
+                            <option {{$селект}} value="{{$ид}}">{{ $наказание }}</option>
+                        {{end}}
+                    </select>
+                    </div>
+                </label>
+                <label for="RAZ_NAK">
+                    <div class="input_name auto">Штраф</div>
+                    <input type="number" name="RAZ_NAK" id="RAZ_NAK" value="{{ $данные_ад.raz_nak }}"> руб.
+
+                </label>
+                <label for="AREST">
+                    <div class="input_name auto">Арест(сут) / обязательные работы(час.)</div>
+                    <input  type="number" name="AREST" id="AREST" value="{{ $данные_ад.arest }}">
+
+                </label>
+                </fieldset>
+            </fieldset>
+        </fieldset>
+        <label for="FABULA">
+            <div class="input_name auto">Фабула правонарушения</div>
+            <textarea name="FABULA" id="FABULA" cols="30" rows="10">{{ $данные_ад.fabula }}</textarea>
+        </label>
+
+        <input type="text" class="inviz" readonly name="USER" id="USER" placeholder="" value="{{.client.Login}}">
+        <input type="text" class="inviz" readonly name="OSP" id="OSP" placeholder="" value="{{.client.OspCode}}">
+
+     <button class="io" type="button" disabled>Изменение в разработке</button>
+    </form>
+
+    </div>
+
+{{end}}

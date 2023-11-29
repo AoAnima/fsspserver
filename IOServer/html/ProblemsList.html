@@ -1,0 +1,23 @@
+{{define "ProblemsList"}}
+
+  {{range $ном, $решение := .data.список}}
+    {{range $ном_проблемы, $проблема := $решение.problem}}
+      <div class="problem_description">
+        {{if $решение.html_подсказки}}
+          <button type="button" class="noradius full-width" onclick="WS.ОткрытьЗакрыть('tips_{{$решение.action_id}}')">{{$проблема}}</button>
+        {{else}}
+          <button type="button" class="noradius full-width" onclick="WS.ОтправитьСообщениеИО('исправить проблему', {'action_id':{{$решение.action_id}} }, true)">{{$проблема}}</button>
+        {{end}}
+
+      </div>
+    {{end}}
+        {{if $решение.html_подсказки}}
+            <div class="hidden modal" id="tips_{{$решение.action_id}}">
+                <div class="modal_header">
+                    <button type="button" class="close" onclick="WS.ОткрытьЗакрыть('tips_{{$решение.action_id}}')"></button>
+                </div>
+                {{render $решение.html_подсказки $решение}}
+            </div>
+        {{end}}
+    {{end}}
+{{end}}

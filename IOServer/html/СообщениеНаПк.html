@@ -1,0 +1,16 @@
+{{define "СообщениеНаПк"}}
+    <div class="" id="send_message_wrapper">
+
+        <form action="отправить сообщение на пк" onsubmit="WS.SendForm(event, false, false, false)">
+        <fieldset>
+            <label for="">
+                <div class="input_name"></div>
+                <input type="text" name="" id="" placeholder="ip адрес">
+            </label>
+            <textarea name="текст_сообщения"></textarea>
+        </fieldset>
+         <button class="io" type="submit">Сохранить</button>
+        </form>
+
+    </div>
+{{end}}

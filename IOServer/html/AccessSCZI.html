@@ -1,0 +1,293 @@
+{{define "AccessSCZI"}}
+
+<div id="access_sczi">
+
+    <div class="note">
+
+{{/*        <div class="modal_header">*/}}
+{{/*            <button class="close"></button>*/}}
+{{/*            <button class="open">?</button>*/}}
+{{/*        </div>*/}}
+{{/*        <div class="note_content">*/}}
+{{/*      Если период блокировки пользователя больше 45 дней, то предположительно на декрете и заблокирован*/}}
+{{/*         <p>*/}}
+{{/*          Если период блокировки меньше или равен 45 дней, то считаем что в отпуске, и заблокирован*/}}
+{{/*        </p>*/}}
+{{/*        <p>*/}}
+{{/*            Если В LDAP стоит дата увольнения то заблокирован и уволен соответсвенно*/}}
+{{/*        </p>*/}}
+{{/*        <p>*/}}
+{{/*            Если в LDAP стоит отметка что заблокирован или нет Пароля то соответственно заблокирован.*/}}
+{{/*        </p>*/}}
+{{/*        <p>*/}}
+{{/*            Можно сортировать по возрастанию и убывнию кликая на соответсвующие кнопки. Сортировки по нескольким столбцам сумируются. Чтобы отменить сортирвку по столбцу нужно зажать ALT и кликнуть на активную кнопку сортировки.*/}}
+{{/*        </p>*/}}
+{{/*        </div>*/}}
+    </div>
+
+    <div class="">
+        <button сlass="ws_btn" type="button" onclick="WS.ОтправитьСообщениеИО('обновить пользователей скзи', null, true)">Обновить учётки</button>
+        <form class="form_order" id="form_order" action="сортировать таблицу" onsubmit="WS.ОтправитьФорму(event)">
+            <input type="text" class="inviz" name="table" value="skzi.sczi" readonly>
+        </form>
+        <form id="UploadFile" action="загрузить документ в журнал допуска скзи" onsubmit="WS.ЗагрузитьФайл(event)">
+            <input type="text" class="inviz" name="filePath" value="uploads/documents/sczi/" readonly>
+        </form>
+    </div>
+
+    <table class="io_table" id="AccessSCZI">
+        <thead>
+        <tr>
+            <th id="fio">
+                <div class="flex-row nowrap">
+                <form class="table_search" action="найти сотрудника по фио" onsubmit="WS.ОтправитьФорму(event)">
+                    <input type="text" value="" name="fio" placeholder="ФИО">
+                </form>
+                {{template "ФормаСортировкиТаблиц" "fio"}}
+                </div>
+            </th>
+            <th id="login">
+                <div class="flex-row nowrap">
+                <form class="table_search" action="найти сотрудника по логину" onsubmit="WS.ОтправитьФорму(event)">
+                    <input type="text" value="" name="login" placeholder="Логин">
+                </form>
+                {{template "ФормаСортировкиТаблиц" "login"}}
+                </div>
+            </th>
+            <th class="osp" id="osp"  >
+                <div class="flex-row nowrap">
+{{/*                    <form class="table_search" action="показать сотрудников из осп" onsubmit="WS.ОтправитьФорму(event)">*/}}
+                        <select form="form_order" autocomplete="off" name="where.osp" id="osp" data-where="osp" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))">
+                        <option selected disabled>ОСП</option>
+                        {{range $i, $osp := .OspList}}
+                            <option value="{{$osp.OspCode}}"> {{$osp.OspName}}</option>
+                        {{end}}
+                        </select>
+{{/*                    </form>*/}}
+                    {{template "ФормаСортировкиТаблиц" "osp"}}
+                </div>
+            </th>
+            <th id="post">
+                <div class="flex-row nowrap">
+{{/*                    <form class="table_search" action="показать сотрудников с должностью" onsubmit="WS.ОтправитьФорму(event)">*/}}
+                        <select form="form_order" autocomplete="off" name="where.post" id="post" data-where="post" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))">
+                            <option selected disabled>Должность</option>
+                            {{range $i, $должность := .data.должности}}
+                                <option value="{{$должность.post}}"> {{$должность.post}}</option>
+                            {{end}}
+                        </select>
+{{/*                    </form>*/}}
+                    {{template "ФормаСортировкиТаблиц" "post"}}
+                </div>
+            </th>
+            <th id="test_doc">
+                <div class="flex-row nowrap">
+                    <label class="btn_upload" for="upload_sczi_test">
+                        <input type="file" id="upload_sczi_test" name="test_doc" form="UploadFile"  autocomplete="off" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))">
+                    </label>
+                Прошёл тест
+                {{template "ФормаСортировкиТаблиц" "test_doc"}}
+                </div>
+            </th>
+            <th id="key_doc">
+                <div class="flex-row nowrap">
+                    <label class="btn_upload" for="upload_key_doc">
+                    <input type="file"  id="upload_key_doc" name="key_doc" form="UploadFile"  autocomplete="off" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))">
+                    </label>
+                Допущен к СКЗИ
+                    {{template "ФормаСортировкиТаблиц" "key_doc"}}
+                </div>
+            </th>
+            <th id="uzp_doc">
+                <div class="flex-row nowrap">
+                    <label class="btn_upload" for="upload_uzp_doc">
+                    <input type="file" id="upload_uzp_doc" name="uzp_doc" form="UploadFile"  autocomplete="off"  onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))">
+                    </label>
+                УЗП
+                {{template "ФормаСортировкиТаблиц" "uzp_doc"}}
+                </div>
+            </th>
+            <th id="prikaz_207">
+                <div class="flex-row nowrap">
+                    <label class="btn_upload" for="upload_prikaz_207">
+                        <input type="file" name="prikaz_207" form="UploadFile" id="upload_prikaz_207"  autocomplete="off" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))">
+                    </label>
+                    Приказ 207
+                    {{template "ФормаСортировкиТаблиц" "prikaz_207"}}
+                </div>
+            </th>
+            <th id="prikaz_106">
+                <div class="flex-row nowrap">
+                    <label class="btn_upload" for="upload_prikaz_207">
+                        <input type="file" name="prikaz_106" form="UploadFile" id="upload_prikaz_106"  autocomplete="off" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))">
+                    </label>
+                    Приказ 106
+                    {{template "ФормаСортировкиТаблиц" "prikaz_106"}}
+                </div>
+            </th>
+            <th id="metod_doc">
+                <div class="flex-row nowrap">
+                    <label class="btn_upload" for="upload_metod_doc">
+                    <input type="file" id="upload_metod_doc" name="metod_doc" form="UploadFile"  autocomplete="off"  onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))">
+                    </label>
+                Метод. рек.
+                {{template "ФормаСортировкиТаблиц" "metod_doc"}}
+                </div>
+            </th>
+            <th id="prikaz_377">
+                <div class="flex-row nowrap">
+                    <label class="btn_upload" for="upload_prikaz_377">
+                        <input type="file" name="prikaz_377" form="UploadFile" id="upload_prikaz_377"  autocomplete="off" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))">
+                    </label>
+                    Приказ 377
+                    {{template "ФормаСортировкиТаблиц" "prikaz_377"}}
+                </div>
+            </th>
+            <th id="prikaz_382">
+                <div class="flex-row nowrap">
+                    <label class="btn_upload" for="upload_prikaz_382">
+                    <input type="file" name="prikaz_382" form="UploadFile" id="upload_prikaz_382"  autocomplete="off" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))">
+                    </label>
+                    Приказ 382
+                {{template "ФормаСортировкиТаблиц" "prikaz_382"}}
+                </div>
+            </th>
+            <th id="prikaz_63">
+                <div class="flex-row nowrap">
+                    <label class="btn_upload" for="upload_prikaz_63">
+                    <input type="file" name="prikaz_63" form="UploadFile" id="upload_prikaz_63"  autocomplete="off" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))">
+                    </label>
+                    Приказ 63
+                {{template "ФормаСортировкиТаблиц" "prikaz_63"}}
+                </div>
+            </th>
+            <th id="prikaz_152">
+                <div class="flex-row nowrap">
+                    <label class="btn_upload" for="upload_prikaz_152">
+                    <input type="file" name="prikaz_152" form="UploadFile" id="upload_prikaz_152"  autocomplete="off"  onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))">
+                    </label>
+                    Приказ 152 ФЗ
+                {{template "ФормаСортировкиТаблиц" "prikaz_152"}}
+                </div>
+            </th>
+            <th id="prikaz_157">
+                <div class="flex-row nowrap">
+                    <label class="btn_upload" for="upload_prikaz_157">
+                    <input type="file" name="prikaz_157" form="UploadFile" id="upload_prikaz_157"  autocomplete="off"  onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))">
+                    </label>
+                    Приказ 152 ФАПСИ
+                {{template "ФормаСортировкиТаблиц" "prikaz_157"}}
+                </div>
+            </th>
+
+            <th id="prikaz_351">
+                <div class="flex-row nowrap">
+                    <label class="btn_upload" for="upload_prikaz_351">
+                    <input type="file" name="prikaz_351" form="UploadFile" id="upload_prikaz_351"  autocomplete="off" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))">
+                    </label>
+                    Приказ 351
+                {{template "ФормаСортировкиТаблиц" "prikaz_351"}}
+                </div>
+            </th>
+            <th id="prikaz_672">
+                <div class="flex-row nowrap">
+                    <label class="btn_upload" for="upload_prikaz_672">
+                    <input type="file" id="upload_prikaz_672" name="prikaz_672" form="UploadFile"  autocomplete="off"  onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))">
+                    </label>
+                    Приказ 672
+                {{template "ФормаСортировкиТаблиц" "prikaz_672"}}
+                </div>
+            </th>
+            <th id="prikaz_450">
+                <div class="flex-row nowrap">
+                    <label class="btn_upload" for="upload_prikaz_450">
+                    <input type="file" name="prikaz_450" form="UploadFile" id="upload_prikaz_450"  autocomplete="off" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))">
+                    </label>
+                    Приказ 450
+                {{template "ФормаСортировкиТаблиц" "prikaz_450"}}
+                </div>
+            </th>
+            <th id="prikaz_484">
+                <div class="flex-row nowrap">
+                    <label class="btn_upload" for="upload_prikaz_484">
+                    <input type="file" name="prikaz_484" form="UploadFile" id="upload_prikaz_484"  autocomplete="off" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))">
+                    </label>
+                    Приказ 484
+                {{template "ФормаСортировкиТаблиц" "prikaz_484"}}
+                </div>
+            </th>
+            <th id="prikaz_338">
+                <div class="flex-row nowrap">
+                    <label class="btn_upload" for="upload_prikaz_338">
+                    <input type="file" name="prikaz_338" form="UploadFile" id="upload_prikaz_338"  autocomplete="off" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))">
+                    </label>
+                    Приказ 338
+                {{template "ФормаСортировкиТаблиц" "prikaz_338"}}
+                </div>
+            </th>
+            <th id="block">
+                <div class="flex-row nowrap">
+                    Заблокирован
+                {{template "ФормаСортировкиТаблиц" "blocked"}}
+                </div>
+            </th>
+            <th id="hospital">
+                <div class="flex-row nowrap">
+                    Больничный
+                {{template "ФормаСортировкиТаблиц" "hospital"}}
+                </div>
+            </th>
+            <th id="decret">
+                <div class="flex-row nowrap">
+                    Декрет
+                {{template "ФормаСортировкиТаблиц" "decret"}}
+                </div>
+            </th>
+            <th id="otpusk">
+                <div class="flex-row nowrap">
+                    Отпуск
+                {{template "ФормаСортировкиТаблиц" "otpusk"}}
+                </div>
+            </th>
+            <th>
+                Период Блокировки/Дата обновления
+            </th>
+            <th id="prikaz_354">
+                <div class="flex-row nowrap">
+                    <label class="btn_upload" for="upload_prikaz_354">
+                        <input type="file" id="upload_prikaz_354" name="prikaz_354" form="UploadFile"  autocomplete="off"  onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))">
+                    </label>
+                    Приказ 354
+                    {{template "ФормаСортировкиТаблиц" "prikaz_354"}}
+                </div>
+            </th>
+        </tr>
+        </thead>
+        <tfoot class="pager">
+        <tr >
+            <td>
+
+            </td>
+            <td colspan="17">
+                <div class="flex-row nowrap">
+                    <label for="pager">
+                        <div class="input_name">Страница</div>
+                    <select form="form_order"  name="offset" id="pager" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))">
+                        {{$ВсегоСтр := (index .data.количество_страниц 0).всего}}
+                    {{ range $i, $Стр := Последовательность $ВсегоСтр}}
+                        <option value="{{$i}}">{{$Стр}}</option>
+                    {{ end }}
+                    </select>
+                    </label>
+                </div>
+
+            </td>
+        </tr>
+        </tfoot>
+        <tbody>
+        {{template "AccessSCZIRows" .}}
+        </tbody>
+    </table>
+</div>
+
+{{end}}

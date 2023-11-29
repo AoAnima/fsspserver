@@ -1,0 +1,9 @@
+{{define "СписокТаблиц"}}
+    {{range $т := .data.список_таблиц}}
+
+        <div class="button_wrapper flex-row nowrap" id="btn_table_{{$т.ид}}">
+            <button  class="tag_link"  onclick="WS.ОтправитьСообщениеИО('открыть стат. таблицу', {'ид':'{{$т.ид}}'})">{{$т.имя_таблицы}}</button>
+            <button class="minus" onclick="if(confirm('Удалить таблицу?')){WS.ОтправитьСообщениеИО('удалить стат. таблицу', {'ид_таблицы':'{{$т.ид}}'} )}">-</button>
+        </div>
+    {{end}}
+{{end}}

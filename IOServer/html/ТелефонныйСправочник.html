@@ -1,0 +1,31 @@
+{{define "ТелефонныйСправочник"}}
+<div id="contacts">
+
+{{$ОСП:=""}}
+{{$Таблицы:=""}}
+
+    {{range $i, $справочник :=  (index .data.контакты "26000").МассивСтрок}}
+{{/*        {{$ОСП = $справочник.STRUCTURE_DEPT_NAME }}*/}}
+        {{$данные := $справочник.LIST }}
+
+        {{$ОСП = Строка $ОСП  "<button type=\"button\" onclick=\"Tabs.ShowTab('contacts_tabs', 'osp_idx_" (ЧислоВСтроку $i) ")\">" $справочник.STRUCTURE_DEPT_NAME "</button>" }}
+
+
+        {{template "ТелефоныОтдела" $данные}}
+
+
+    {{end}}
+
+
+    <div id="crypto_pro_list" class="tabs_wrapper">
+        <div id="osp_list" class="tabs_switcher">
+                   {{СтрокуВHTML $ОСП nil}}
+        </div>
+        <div class="iotable tabs_container"  id="contacts_tabs">
+
+        </div>
+
+    </div>
+</div>
+
+{{end}}

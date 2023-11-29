@@ -1,0 +1,50 @@
+{{define "AddStatisticCol"}}
+    AddStatisticCol
+    <div class="panel_header">Спец. фильтр из АИС ид_таблицы {{(index .вопрос.Выполнить.Действие "добавить спец. фильтр в стат. таблицу").ид_таблицы}}
+    </div>
+{{/*    <div class="modal_body" id="">*/}}
+       <div class="custom_sql panel_wrapper">
+           <form action="настроить спец.фильтры" id="AddStatisticCol" onsubmit="WS.ОтправитьФорму(event)">
+               <input type="text" name="ид_таблицы" class="inviz" readonly value="{{(index .вопрос.Выполнить.Действие "добавить столбец в стат. таблицу").ид_таблицы}}">
+           </form>
+
+           <div class="custom_sql_browser browser_wrapper" id="browser">
+               <div class="custom_sql_folders tabs_switcher" id="browser_navigator">
+                   {{range $номер, $Строка := .data.каталог.КартаСтрок }}
+                   <button type="button" onclick="WS.ОтправитьСообщениеИО('покажи спец.фильтры', {'object_name':'{{$Строка.OBJECT_NAME}}'},null)">  {{$Строка.SOBJ_CAPTION}}</button>
+                    {{end}}
+               </div>
+               <div class="browser_viewer">
+                   <div class="search_panel">
+                       <form action="найти спец. фильтр" onsubmit="WS.ОтправитьФорму(event)">
+                           <label class="nowrap" for="search_input">
+                               <input name = "sql_name" type="text" class="full-width" placeholder="Введите слова содержащиеся в названии фильтра">
+                               <button class="search" type="submit"></button>
+                           </label>
+
+                       </form>
+                   </div>
+                   <div class="browser_view" id="custom_sql_list">
+                        <div class="font-15">
+                            Для просмотра имеющихся спец. фильтров АИС, выберите категорию слева. Или введите часть названия в поисковом окне сверху. Если напротив названия есть кнопка
+                       <div class="hover_description">
+                           <div class="hover_title">Описание</div>
+                           <div class="hover_content">Описание специального фильтра</div>
+                       </div>
+                       наведите на неё для того чтобы увидеть описание фильтра.
+                            <br>
+                            Выберите один или несколько фильров, и нажмите кнопку далее внизу.
+                            <br>
+                            Произведите необходимые настройки инажмите кнопку "Добавить в таблицу"
+                        </div>
+                   </div>
+                   <div class="browser_footer">
+                    <button form="AddStatisticCol" type="submit" class="">Далее</button>
+                   </div>
+               </div>
+
+
+           </div>
+       </div>
+{{/*    </div>*/}}
+{{end}}

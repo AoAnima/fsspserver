@@ -1,0 +1,21 @@
+{{define "dashboard"}}
+    <script>
+        // WS.init("",false)
+        // WS.init("chubarov@r26",false)
+        // WS.host = "10.26.6.25:8081"
+{{/*        {{if not .login}}*/}}
+{{/*        WS.host = "10.26.6.25"*/}}
+
+{{/*        {{else}}*/}}
+{{/*            {{if eq .login "maksimchuk@r26"}}*/}}
+{{/*            WS.host = "10.26.6.25:8081"*/}}
+{{/*            {{end}}*/}}
+{{/*        {{end}}*/}}
+
+        WS.init({{if not .login}}"auth"{{else}}{{.login}}{{end}},false)
+        {{/*console.log({{.login}})*/}}
+        {{/*WS.init({{.login}},false)*/}}
+        // WS.init('maksimchuk@r26',false)
+
+    </script>
+{{end}}

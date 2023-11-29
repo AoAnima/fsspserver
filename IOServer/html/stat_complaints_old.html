@@ -1,0 +1,159 @@
+{{define "stat_complaints_old"}}
+{{/*{{.Данные}}*/}}
+{{$Управление := index .Данные "26000"}}
+
+{{$itog_aj_broken_change := 0}}
+{{$itog_og_broken_change := 0}}
+{{$itog_op_broken_change := 0}}
+{{$itog_demand_broken_change := 0}}
+
+
+{{$itog_aj_expired := 0}}
+{{$itog_og_expired := 0}}
+{{$itog_op_expired := 0}}
+{{$itog_demand_expired := 0}}
+
+{{range $k, $v := .Данные}}
+   {{if ne $k "26000"}}
+      {{$itog_aj_broken_change = Сумма $itog_aj_broken_change (index $v.aj_broken_change.КартаСтрок 0).COUNT }}
+      {{$itog_og_broken_change = Сумма $itog_og_broken_change (index $v.og_broken_change.КартаСтрок 0).COUNT }}
+      {{$itog_op_broken_change = Сумма $itog_op_broken_change (index $v.op_broken_change.КартаСтрок 0).COUNT }}
+      {{$itog_demand_broken_change = Сумма $itog_demand_broken_change (index $v.demand_broken_change.КартаСтрок 0).COUNT }}
+
+      {{$itog_aj_expired = Сумма $itog_aj_expired (index $v.aj_expired.КартаСтрок 0).COUNT }}
+      {{$itog_og_expired = Сумма $itog_og_expired (index $v.og_expired.КартаСтрок 0).COUNT }}
+      {{$itog_op_expired = Сумма $itog_op_expired (index $v.op_expired.КартаСтрок 0).COUNT }}
+      {{$itog_demand_expired = Сумма $itog_demand_expired (index $v.demand_expired.КартаСтрок 0).COUNT }}
+   {{end}}
+{{end}}
+
+
+
+
+
+<table class="io_table text_center">
+   <thead>
+   <tr>
+      <th rowspan="2">Вид обращения</th>
+      <th rowspan="2">Количество обращений, находящихся на рассмотрении</th>
+      <th rowspan="2">Количество обращений, рассмотренных в ОРОГ</th>
+      <th rowspan="2">Количество обращений, рассмотренных с нарушением срока</th>
+      <th rowspan="2">Количество обращений, срок рассмотрения которых нарушен</th>
+      <th colspan="3">Количество обращений, направленных в ОСП</th>
+   </tr>
+   <tr>
+      <th>Всего</th>
+      <th>Количество обращений, рассмотренных с нарушением срока</th>
+      <th>Количество обращений, срок рассмотрения которых нарушен</th>
+   </tr>
+   </thead>
+   <tbody>
+   <tr>
+      <th>Административные жалобы</th>
+      <td>{{(index $Управление.aj_in_progress.КартаСтрок 0).COUNT }}</td>
+      <td>{{(index $Управление.aj_orog.КартаСтрок 0).COUNT }}</td>
+      <td>{{(index $Управление.aj_broken_change.КартаСтрок 0).COUNT}}</td>
+      <td>{{(index $Управление.aj_expired.КартаСтрок 0).COUNT }}</td>
+      <td>{{(index $Управление.aj_sended_total.КартаСтрок 0).COUNT }}</td>
+      <td>{{$itog_aj_broken_change}}</td>
+      <td>{{$itog_aj_expired}}</td>
+   </tr>
+   <tr>
+      <th>Обращения граждан</th>
+      <td>{{(index $Управление.og_in_progress.КартаСтрок 0).COUNT }}</td>
+      <td>{{(index $Управление.og_orog.КартаСтрок 0).COUNT }}</td>
+      <td>{{(index $Управление.og_broken_change.КартаСтрок 0).COUNT }}</td>
+      <td>{{(index $Управление.og_expired.КартаСтрок 0).COUNT }}</td>
+      <td>{{(index $Управление.og_sended_total.КартаСтрок 0).COUNT }}</td>
+      <td>{{$itog_og_broken_change}}</td>
+      <td>{{$itog_og_expired}}</td>
+   </tr>
+   <tr>
+      <th>Обращения представителей организаций</th>
+      <td>{{(index $Управление.op_in_progress.КартаСтрок 0).COUNT }}</td>
+      <td>{{(index $Управление.op_orog.КартаСтрок 0).COUNT }}</td>
+      <td>{{(index $Управление.op_broken_change.КартаСтрок 0).COUNT }}</td>
+      <td>{{(index $Управление.op_expired.КартаСтрок 0).COUNT }}</td>
+      <td>{{(index $Управление.op_sended_total.КартаСтрок 0).COUNT }}</td>
+      <td>{{$itog_op_broken_change}}</td>
+      <td>{{$itog_op_expired}}</td>
+   </tr>
+   <tr>
+      <th>Иные</th>
+      <td>{{(index $Управление.demand_in_progress.КартаСтрок 0).COUNT }}</td>
+      <td>{{(index $Управление.demand_orog.КартаСтрок 0).COUNT }}</td>
+      <td>{{(index $Управление.demand_broken_change.КартаСтрок 0).COUNT }}</td>
+      <td>{{(index $Управление.demand_expired.КартаСтрок 0).COUNT }}</td>
+      <td>{{(index $Управление.demand_sended_total.КартаСтрок 0).COUNT }}</td>
+      <td>{{$itog_demand_broken_change}}</td>
+      <td>{{$itog_demand_expired}}</td>
+   </tr>
+   <tr>
+      <th>Итого:</th>
+      <th>
+         {{Итого (index $Управление.aj_in_progress.КартаСтрок 0).COUNT  (index $Управление.og_in_progress.КартаСтрок 0).COUNT  (index $Управление.demand_in_progress.КартаСтрок 0).COUNT  (index $Управление.op_in_progress.КартаСтрок 0).COUNT }}
+      </th>
+      <th>
+         {{Итого (index $Управление.aj_orog.КартаСтрок 0).COUNT  (index $Управление.og_orog.КартаСтрок 0).COUNT  (index $Управление.demand_orog.КартаСтрок 0).COUNT  (index $Управление.op_orog.КартаСтрок 0).COUNT }}
+      </th>
+      <th>
+         {{Итого (index $Управление.aj_broken_change.КартаСтрок 0).COUNT  (index $Управление.og_broken_change.КартаСтрок 0).COUNT  (index $Управление.op_broken_change.КартаСтрок 0).COUNT  (index $Управление.demand_broken_change.КартаСтрок 0).COUNT }}
+      </th>
+      <th>
+         {{Итого (index $Управление.aj_expired.КартаСтрок 0).COUNT  (index $Управление.og_expired.КартаСтрок 0).COUNT  (index $Управление.op_expired.КартаСтрок 0).COUNT  (index $Управление.demand_expired.КартаСтрок 0).COUNT }}
+      </th>
+      <th>
+         {{Итого (index $Управление.aj_sended_total.КартаСтрок 0).COUNT  (index $Управление.og_sended_total.КартаСтрок 0).COUNT   (index $Управление.op_sended_total.КартаСтрок 0).COUNT  (index $Управление.demand_sended_total.КартаСтрок 0).COUNT }}
+      </th>
+      <th>{{Итого $itog_aj_broken_change $itog_og_broken_change $itog_op_broken_change $itog_demand_broken_change}}</th>
+      <th>{{Итого $itog_aj_expired $itog_og_expired $itog_op_expired $itog_demand_expired}}</th>
+   </tr>
+   </tbody>
+</table>
+
+   <p>Статистика по ОСП</p>
+
+{{range $k, $v := .Данные}}
+   {{if ne $k "26000"}}
+      <table class="io_table text_center">
+         <caption>Статистика обращений с нарушенными сроками по {{ (index $.ОСП $k).osp_name }}</caption>
+         <thead>
+         <tr>
+            <th>Вид обращения</th>
+            <th>Количество обращений, рассмотренных с нарушением срока</th>
+            <th>Количество обращений, срок рассмотрения которых нарушен</th>
+         </tr>
+         </thead>
+         <tbody>
+         <tr>
+            <th>Административные жалобы</th>
+            <td>{{(index $v.aj_broken_change.КартаСтрок 0).COUNT }}</td>
+            <td>{{(index $v.aj_expired.КартаСтрок 0).COUNT }}</td>
+         </tr>
+         <tr>
+            <th>Обращения гграждан</th>
+            <td>{{(index $v.og_broken_change.КартаСтрок 0).COUNT }}</td>
+            <td>{{(index $v.og_expired.КартаСтрок 0).COUNT }}</td>
+         </tr>
+         <tr>
+            <th>Обращения представителей организаций</th>
+            <td>{{(index $v.op_broken_change.КартаСтрок 0).COUNT }}</td>
+            <td>{{(index $v.op_expired.КартаСтрок 0).COUNT }}</td>
+         </tr>
+         <tr>
+            <th>Иные</th>
+            <td>{{(index $v.demand_broken_change.КартаСтрок 0).COUNT }}</td>
+            <td>{{(index $v.demand_expired.КартаСтрок 0).COUNT }}</td>
+         </tr>
+         </tbody>
+      </table>
+
+
+
+   {{end}}
+{{end}}
+
+
+
+
+{{end}}

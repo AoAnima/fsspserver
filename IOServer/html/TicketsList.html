@@ -1,0 +1,24 @@
+{{define "TicketsList"}}
+    <div id="tickets_list">
+    {{range $i, $ticket := .}}
+        <div class="ticket" id="ticket_wrapper_{{$ticket.ticket_id}}">
+            <div class="ticket_problem">
+                №: {{$ticket.ticket_id}} от {{$ticket.date_create}} {{$ticket.status}}.
+                <div class="ticket_login">
+                    Пользователь: {{$ticket.login}}
+                </div>
+                <div class="ticket_login">
+                    IP: {{$ticket.ip}}
+                </div>
+            </div>
+            <div class="ticket_problem">
+               Проблема: {{$ticket.problem}}
+            </div>
+            <div class="ticket_actions">
+                <button onclick="WS.SendFastMessageIO('Взять заявку в работу', 'ticket_id={{$ticket.ticket_id}}')">Взять в работу</button>
+                <button onclick="WS.SendFastMessageIO('Закрыть заявку', 'ticket_id={{$ticket.ticket_id}}')">Закрыть заявку</button>
+            </div>
+        </div>
+    {{end}}
+    </div>
+{{end}}

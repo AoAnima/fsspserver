@@ -1,0 +1,41 @@
+{{define "КонструкторСтатТаблиц"}}
+
+    <div class="stat_constructor" id="stat_constructor">
+         <form class="io_form" action="сохранить новую стат. таблицу" id="new_data-table" onsubmit="WS.ОтправитьФорму(event)">
+            <label for="table_name">
+                <div class="input_name">Введите название новой таблицы данных:</div>
+                <input required type="text" name="имя_таблицы" value="" placeholder="Название таблицы данных" id="table_name">
+            </label>
+             <table class="io_table" id="new_stat_table">
+                 <thead>
+                 <tr id="fields_list">
+                    <th>ОСП</th>
+                 </tr>
+                 </thead>
+                 <tbody>
+                 <tr id="fields_data">
+                    <td>
+                        Список ОСП
+                    </td>
+                 </tr>
+                 </tbody>
+             </table>
+             <button type="submit">Сохранить</button>
+             <button formaction="тест скрипта" type="submit">Тест</button>
+        </form>
+        <div>
+            <div id="master_wrapper" class="custom_sql_wrapper">
+{{/*                {{template "ФормаНовогоСкрипта" .}}*/}}
+                {{template "MasterSettingCustomSQLs" .}}
+            </div>
+{{/*            {{if eq .client.OspCode 26911 }}*/}}
+{{/*                <button type="submit" formaction="добавить столбец в стат. таблицу">*/}}
+{{/*                    Другой SQL запрос*/}}
+{{/*                </button>*/}}
+
+{{/*            {{end}}*/}}
+        </div>
+    </div>
+
+
+{{end}}

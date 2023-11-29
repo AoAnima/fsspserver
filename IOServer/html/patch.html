@@ -1,0 +1,10 @@
+{{define "patch"}}
+
+<div id="patch">
+    <form action="загрузить патч"  onsubmit="WS.SendFile(event, false,false)">
+        <input type="file" multiple name="files" id = "filesInput"  onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))">
+    </form>
+    <div id="output"></div>
+</div>
+    
+{{end}}

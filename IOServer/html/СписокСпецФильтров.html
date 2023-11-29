@@ -1,0 +1,5 @@
+{{define "СписокСпецФильтров"}}
+                            {{range $n, $строка := (index .data.каталог (ЧислоВСтроку 26000)).МассивСтрок}}
+                                <button type="button" onclick="Tabs.ShowTab('custom_sql_list', 'sql_list_{{$строка.OBJECT_NAME}}')">{{$строка.SOBJ_CAPTION}}</button>
+                            {{end}}
+{{end}}

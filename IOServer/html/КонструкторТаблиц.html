@@ -1,0 +1,25 @@
+{{define "КонструкторТаблиц"}}
+    <div class="stat_fssp" id="table_wrapper">
+        <div class="panel_content_wrapper">
+            <div class="left_panel">
+
+                <article id="articles" class="articles_wrapper">
+                    <div class="data_list_wrapper" id="data_list">
+                        <div id="search_panel" class="search_panel">
+                            <form action="создать таблицу отчета" onsubmit="WS.ОтправитьФорму(event)">
+                                <button class="new_kb_article" type="submit">Cоздать новую таблицу</button>
+                            </form>
+
+                        </div>
+                        <div class="tags_list" id="tags_list_wrapper">
+                           {{ template "СписокТаблиц" .}}
+                        </div>
+                    </div>
+                    <div class="article_list" id="article_content">
+
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+{{end}}

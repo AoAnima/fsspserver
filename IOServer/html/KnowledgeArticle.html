@@ -1,0 +1,56 @@
+{{define "KnowledgeArticle"}}
+
+    <div class="knowledge_article  {{if .data.статья}}full{{end}}" id="{{if .data.статья}}full_{{end}}article_{{.data.ид_статьи}}">
+        <div class="article_wrapper" {{if not .data.статья}}onclick="WS.ОтправитьСообщениеИО('показать статью',{'ид_статьи':{{.data.ид_статьи}}} )" {{end}}>
+            <div class="article_caption">
+                {{if .data.название}}
+                     {{СтрокуВHTML .data.название .}}
+                {{end}}
+                {{if .data.статья}}
+                    <button type="button" class="close" onclick="Закрыть('full_article_{{.data.ид_статьи}}')"></button>
+                {{end}}
+            </div>
+            {{if .data.текст}}
+            <div class="article_text" id="article_text_{{.data.ид_статьи}}">
+                {{СтрокуВHTML .data.текст .}}...
+            </div>
+             {{end}}
+
+            {{if .data.статья}}
+
+            <div class="article_content" id="article_content_{{.data.ид_статьи}}">
+                    {{СтрокуВHTML .data.статья nil}}
+            </div>
+            {{end}}
+        </div>
+        <div class="footer">
+            {{with .data.метки}}
+                <div class="tag_list">
+                    {{range $n, $метка := .}}
+                        <button class="hashtag" type="button" onclick="WS.ОтправитьСообщениеИО('найти все статьи с метками', {'метки':[{{$метка}}]})">{{$метка}}</button>
+                    {{end}}
+                </div>
+            {{end}}
+            <div class="article_metadata">
+                <div class="article_create">
+                    <span>({{.data.ид_статьи}})</span>
+                    <span>({{.data.автор}})</span>
+                    <span>({{.data.дата_создания}})</span>
+                     {{if .data.ранг}}
+                    <span>релевантонсть ответа: {{.data.ранг}} </span>
+                    {{end}}
+                </div>
+{{.client.Login}}
+                {{if eq .client.Login .data.автор}}
+                <div class="article_action">
+
+                 <button class="btn_icon edit"
+                         onclick="WS.ОтправитьСообщениеИО('редактировать статью',{'ид_статьи':{{.data.ид_статьи}}} )"></button>
+                 <button class="btn_icon trash"
+                         onclick="WS.ОтправитьСообщениеИО('удалить статью',{'ид_статьи':{{.data.ид_статьи}}} )"></button>
+                </div>
+                {{end}}
+            </div>
+        </div>
+    </div>
+{{end}}

@@ -1,0 +1,68 @@
+{{define "UploadJournalSCZI"}}
+    {{$лист := .}}
+<div class="btn_wrapper"  id="file_{{$лист.ид_листа}}" >
+    {{if not $лист.контроль}}
+
+        <button id="file_{{$лист.ид_листа}}"
+                class="btn_preview file pending"
+                onclick="ПросмотрФайла('{{$лист.ид_листа}}','/{{$лист.путь}}/{{$лист.папка}}/{{$лист.файл}}', this)">
+            <img class="icon" src="/static/images/pending.svg" title="Ожидает проверки">
+            <div class="file_status">Ожидает проверки</div>
+
+        </button>
+        <div class="file_action">
+            <form action="удалить лист журнала скзи" onsubmit="WS.ОтправитьФорму(event)">
+                <input type="text" class="inviz" name="ид_листа" value="{{$лист.ид_листа}}" readonly>
+                <input type="text" class="inviz" name="форма" value="{{$лист.форма}}" readonly>
+                <button type="submit" class="transparent">
+                    <div class="input_name">
+                        <img class="icon" src="/static/images/close_red.svg" alt="">
+                    </div>
+                </button>
+            </form>
+        </div>
+
+    {{else}}
+        {{if eq $лист.контроль "верно"}}
+            <button id="file_{{$лист.ид_листа}}"
+                    class="btn_preview file success"
+                    onclick="ПросмотрФайла('{{$лист.ид_листа}}', '/{{$лист.путь}}/{{$лист.папка}}/{{$лист.файл}}',this)">
+                <img class="icon" src="/static/images/succes.svg" title="Проверка пройдена">
+                <div class="file_status">Проверка пройдена</div>
+            </button>
+
+
+        {{else if eq $лист.контроль  "исправить"}}
+
+            <button id="file_{{$лист.ид_листа}}"
+                    class="btn_preview file broken"
+                    onclick="ПросмотрФайла('{{$лист.ид_листа}}','/{{$лист.путь}}/{{$лист.папка}}/{{$лист.файл}}',this)">
+                <img class="icon" src="/static/images/broken.svg" title="Необходима корректировка">
+
+                {{if $лист.комментарий}}
+                    <div class="file_status">
+                        {{$лист.комментарий}}
+                    </div>
+                {{else}}
+                    <div class="file_status">
+                        Необходима корректировка
+                    </div>
+                {{end}}
+            </button>
+            <div class="file_action">
+                <form action="удалить лист журнала скзи" onsubmit="WS.ОтправитьФорму(event)">
+                    <input type="text" class="inviz" name="ид_листа" value="{{$лист.ид_листа}}" readonly>
+                    <input type="text" class="inviz" name="форма" value="{{$лист.форма}}" readonly>
+                    <button type="submit" class="transparent">
+                        <div class="input_name">
+                            <img class="icon" src="/static/images/close_red.svg" alt="">
+                        </div>
+                    </button>
+                </form>
+            </div>
+
+
+        {{end}}
+    {{end}}
+</div>
+{{end}}

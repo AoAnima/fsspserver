@@ -1,0 +1,49 @@
+{{define "ДанныеОСП"}}
+
+    <div id="osp">
+
+
+  <table class="io_table">
+        <thead>
+        <tr>
+            <td>Руководитель отделения</td>
+            <td>Должность </td>
+            <td>ФИО</td>
+            <td>код должности</td>
+            <td>код замещаемой должности</td>
+            <td> должность</td>
+            <td>змещаемая должность</td>
+            <td>Полное название </td>
+            <td>Адрес </td>
+            <td>телефон </td>
+            <td>факс </td>
+            <td>email  </td>
+
+        </tr>
+        </thead>
+        <tbody>
+        {{range $ospcode, $строки := .data.осп}}
+             {{range $n, $строка := $строки.МассивСтрок}}
+                 <tr>
+
+                     <td>{{ $строка.DIV_HEAD_NAME}}</td>
+                     <td>{{ $строка.DIV_HEAD_POST_NAME}}</td>
+                     <td>{{ $строка.SUSER_FIO}}</td>
+                     <td>{{ $строка.SPI_POST_ID}}</td>
+                     <td>{{ $строка.STUFF_POST_ID}}</td>
+                     <td>{{ $строка.SPI_POST_NAME}}</td>
+                     <td>{{ $строка.STAFF_NAME}}</td>
+                     <td>{{ $строка.SPI_DEPARTMENT_CAPTION}}</td>
+
+                     <td>{{ $строка.DIV_ADR}}</td>
+                     <td>{{ $строка.DIV_TEL}}</td>
+                     <td>{{ $строка.DIV_FAX}}</td>
+                     <td>{{ $строка.DIV_EMAIL}}</td>
+                 </tr>
+             {{end}}
+        {{end}}
+
+        </tbody>
+    </table>
+    </div>
+{{end}}

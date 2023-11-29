@@ -1,0 +1,19 @@
+{{define "CustomSQLsList"}}
+    CustomSQLsList
+    <div class="sql_list" id="">
+    {{range $n, $Строка := .data.спец_фильтры.КартаСтрок}}
+        <label class="left" for="custom_sql_is_{{$Строка.ID}}">
+            <input type="checkbox" id="custom_sql_is_{{$Строка.ID}}" value="{{$Строка.ID}}"  name="custom_sql[]" form="AddStatisticCol" >
+            <div class="input_name">
+                {{$Строка.SQL_FILTER_NAME}}
+            </div>
+            {{if $Строка.SQL_FILTER_DESCRIPTION}}
+            <div class="hover_description">
+                <div class="hover_title">Описание</div>
+                <div class="hover_content">{{$Строка.SQL_FILTER_DESCRIPTION}}</div>
+            </div>
+                {{end}}
+        </label>
+    {{end}}
+    </div>
+{{end}}

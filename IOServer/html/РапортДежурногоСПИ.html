@@ -1,0 +1,1214 @@
+{{define "РапортДежурногоСПИ"}}
+
+{{if or (eq .client.OspCode 26905) (eq .client.OspCode 26911) (eq .client.OspCode 26918) }}
+
+    {{template "СводнаяПоДежурнымСпи" .}}
+
+{{else}}
+{{/*    (eq .client.OspCode 26911)*/}}
+
+
+    {{$рапорт := (index .data.рапорт 0).данные_по_осп }}
+    {{$свод := (index .data.рапорт 0).свод }}
+
+    <div id="part_1" class="flex-col flex_justify-center flex_align-center">
+        <h2 class="flex-col flex_justify-center flex_align-center">
+            РАПОРТ о результатах дежурства
+            {{$OspCode := .client.OspCode}}
+            <div class="input_name">{{(index .OspList (ЧислоВСтроку $OspCode)).OspName}} </div>
+        </h2>
+
+        <form name="part_1" style="max-width: 800px" class="col" action="сохранить раздел 1 орог" onsubmit="WS.SendForm(event, false, false, false)">
+
+            <table class="io_table left" style="text-align: left">
+                <caption>
+                    <h3>РАЗДЕЛ I
+                    <p>«Информация о личном приеме дежурными СПИ»</p>
+                    </h3>
+                    <div class="note">
+                        Дату необходимо вводить в формате даты а не набора цифр! Например: 01.12.2021 - верно. 01122021 - НЕ верно
+                    </div>
+                    <div class="flex-row flex_justify-center">За период</div>
+                    <label class="flex-row center">
+                        <div class="input_name">с </div>
+                        <input required onchange=" Array.from(document.getElementsByName('период_с')).map((ПолеДата)=>ПолеДата.value=this.value);console.log(this.value)" type="date" name="период_с"  placeholder=""  value="">
+                        <div class="input_name">по </div>
+                        <input required onchange="Array.from(document.getElementsByName('период_по')).map((ПолеДата)=>ПолеДата.value=this.value);console.log(this.value)" type="date" name="период_по" placeholder=""  value="">
+                    </label>
+                </caption>
+                <thead>
+                    <tr>
+                        <th colspan="3">
+                            Результаты дежурства
+                        </th>
+                        <th>
+                            кол-во/сумма
+                        </th>
+                        <th>
+                           Итого за месяц
+                        </th>
+                          {{range $период, $данные := $рапорт.раздел_1}}
+                                <th>
+                                    {{$период}}
+                                </th>
+                          {{end}}
+
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="3">Количество дежурных СПИ, осуществляющих прием</td>
+                    <td><label for="pt_1_inpt_1">
+                        <input  type="number" name="кол_дежурных_спи" id="pt_1_inpt_1" placeholder=""  value="0">
+                    </label></td>
+                    <td> {{$свод.раздел_1.кол_дежурных_спи}}  </td>
+                    {{range $период, $данные := $рапорт.раздел_1}}
+                        <td>
+                            {{$данные.кол_дежурных_спи}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <th rowspan="4">
+                        Количество посетителей, обратившихся на прием
+                    </th>
+                    <td colspan="2">Всего</td>
+                    <td>
+                        <label for="pt_1_inpt_2">
+                        <input readonly disabled type="number" name="itogo_part_1" id="pt_1_inpt_2" placeholder=""  value="0">
+                        </label>
+                    </td>
+                    <td> {{$свод.раздел_1.всего}}    </td>
+                    {{range $период, $данные := $рапорт.раздел_1}}
+                        <td>
+                            {{$данные.всего}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <th rowspan="3">Из них</th>
+                    <td>
+                        Должник
+                    </td>
+                    <td>
+                        <label for="pt_1_inpt_3">
+
+                            <input type="number" name="должник" id="pt_1_inpt_3" placeholder=""  value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_1.должник}}    </td>
+                    {{range $период, $данные := $рапорт.раздел_1}}
+                        <td>
+                            {{$данные.должник}}
+                        </td>
+                    {{end}}
+
+                </tr>
+                <tr>
+                    <td>
+                        Взыскатель
+                    </td>
+                    <td>
+                        <label for="pt_1_inpt_4">
+
+                            <input type="number" name="взыскатель" id="pt_1_inpt_4" placeholder=""  value="0">
+                        </label>
+                    </td>
+                    <td>  {{$свод.раздел_1.взыскатель}}   </td>
+                    {{range $период, $данные := $рапорт.раздел_1}}
+                        <td>
+                            {{$данные.взыскатель}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td>
+                        Иные лица
+                    </td>
+                    <td>
+                        <label for="pt_1_inpt_5">
+
+                            <input type="number" name="иные_лица" id="pt_1_inpt_5" placeholder=""  value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_1.иные_лица}} </td>
+                    {{range $период, $данные := $рапорт.раздел_1}}
+                        <td>
+                            {{$данные.иные_лица}}
+                        </td>
+                    {{end}}
+                </tr>
+
+                <tr>
+                    <th rowspan="6">
+                        Причина явки
+                    </th>
+                    <td colspan="2">
+                        Применение мер классического исполнения
+                    </td>
+                    <td>
+                        <label for="pt_1_inpt_6">
+                            <input type="number" name="меры_класич_исполнения" id="pt_1_inpt_6" placeholder=""  value="0">
+                        </label>
+                    </td>
+                    <td>  {{$свод.раздел_1.меры_класич_исполнения}}  </td>
+                    {{range $период, $данные := $рапорт.раздел_1}}
+                        <td>
+                            {{$данные.меры_класич_исполнения}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Применение мер электронного исполнения
+                    </td>
+                    <td>
+                        <label for="pt_1_inpt_7">
+                            <input type="number" name="меры_электронного_исполнения" id="pt_1_inpt_7" placeholder=""  value="0">
+                        </label>
+                    </td>
+                    <td> {{$свод.раздел_1.меры_электронного_исполнения}}  </td>
+                    {{range $период, $данные := $рапорт.раздел_1}}
+                        <td>
+                            {{$данные.меры_электронного_исполнения}}
+                        </td>
+                    {{end}}
+                </tr>
+                   <tr>
+                       <td colspan="2">
+                           Получено уведомление (Почта, БДИП, СМС)
+                       </td>
+                       <td>
+                           <label for="pt_1_inpt_8">
+                               <input type="number" name="уведомление" id="pt_1_inpt_8" placeholder=""  value="0">
+                           </label>
+                       </td>
+                       <td>   {{$свод.раздел_1.уведомление}} </td>
+                       {{range $период, $данные := $рапорт.раздел_1}}
+                           <td>
+                               {{$данные.уведомление}}
+                           </td>
+                       {{end}}
+                   </tr>
+                  <tr>
+                      <td colspan="2">
+                          Получение дополнительной информации по ИП
+                      </td>
+                      <td>
+                          <label for="pt_1_inpt_9">
+                              <input type="number" name="доп_инфо_по_ип" id="pt_1_inpt_9" placeholder=""  value="0">
+                          </label>
+                      </td>
+                      <td>  {{$свод.раздел_1.доп_инфо_по_ип}}  </td>
+                      {{range $период, $данные := $рапорт.раздел_1}}
+                          <td>
+                              {{$данные.доп_инфо_по_ип}}
+                          </td>
+                      {{end}}
+                  </tr>
+                   <tr>
+                       <td colspan="2">
+                           Получение справочной информации
+                       </td>
+                       <td>
+                           <label for="pt_1_inpt_10">
+                               <input type="number" name="справочно" id="pt_1_inpt_10" placeholder=""  value="0">
+                           </label>
+                       </td>
+                       <td>  {{$свод.раздел_1.справочно}}  </td>
+                       {{range $период, $данные := $рапорт.раздел_1}}
+                           <td>
+                               {{$данные.справочно}}
+                           </td>
+                       {{end}}
+                   </tr>
+                <tr>
+                    <td colspan="2">
+                        Иные причины
+                    </td>
+                    <td>
+                        <label for="pt_1_inpt_11">
+                            <input type="number" name="иные" id="pt_1_inpt_11" placeholder=""  value="0">
+                        </label>
+                    </td>
+                    <td>  {{$свод.раздел_1.иные}}  </td>
+                    {{range $период, $данные := $рапорт.раздел_1}}
+                        <td>
+                            {{$данные.иные}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <th rowspan="9">
+                        Результаты приема
+                    </th>
+
+                    <td colspan="2">
+                        Оплачено/представлено квитанций на сумму (тысяч рублей)
+                    </td>
+                    <td>
+                        <label for="pt_1_inpt_12">
+                            <input type="number" name="квитанций_на_смму" id="pt_1_inpt_12" placeholder=""  value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_1.квитанций_на_смму}} </td>
+                    {{range $период, $данные := $рапорт.раздел_1}}
+                        <td>
+                            {{$данные.квитанций_на_смму}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Подлежит окончанию/окончено, кол-во ИП
+                    </td>
+                    <td>
+                        <label for="pt_1_inpt_13">
+                            <input type="number" name="кол_ип" id="pt_1_inpt_13" placeholder=""  value="0">
+                        </label>
+                    </td>
+                    <td> {{$свод.раздел_1.кол_ип}}  </td>
+                    {{range $период, $данные := $рапорт.раздел_1}}
+                        <td>
+                            {{$данные.кол_ип}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Запись на прием к должностному лицу
+                    </td>
+                    <td>
+                        <label for="pt_1_inpt_14">
+                            <input type="number" name="запись_к_должностному" id="pt_1_inpt_14" placeholder=""  value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_1.запись_к_должностному}}   </td>
+                    {{range $период, $данные := $рапорт.раздел_1}}
+                        <td>
+                            {{$данные.запись_к_должностному}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Принято: Ходатайств, АЖ, Обращений
+                    </td>
+                    <td>
+                        <label for="pt_1_inpt_15">
+                            <input type="number" name="принято_обращений" id="pt_1_inpt_15" placeholder=""  value="0">
+                        </label>
+                    </td>
+                    <td>    {{$свод.раздел_1.принято_обращений}}  </td>
+                    {{range $период, $данные := $рапорт.раздел_1}}
+                        <td>
+                            {{$данные.принято_обращений}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Взыскателем представлена новая информация о должнике и его имуществе
+                    </td>
+                    <td>
+                        <label for="pt_1_inpt_16">
+                            <input type="number" name="новая_информация" id="pt_1_inpt_16" placeholder=""  value="0">
+                        </label>
+                    </td>
+                    <td> {{$свод.раздел_1.новая_информация}}  </td>
+                    {{range $период, $данные := $рапорт.раздел_1}}
+                        <td>
+                            {{$данные.новая_информация}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+
+                    <td colspan="2">
+                        Представлена информация по ИП, кол-во заявителей
+                    </td>
+                    <td>
+                        <label for="pt_1_inpt_17">
+                            <input type="number" name="представлена_инф_ип_кол_заявителе" id="pt_1_inpt_17" placeholder=""  value="0">
+                        </label>
+                    </td>
+                    <td>  {{$свод.раздел_1.представлена_инф_ип_кол_заявителе}} </td>
+                    {{range $период, $данные := $рапорт.раздел_1}}
+                        <td>
+                            {{$данные.представлена_инф_ип_кол_заявителе}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Представлена справочная информация, консультации, кол-во заявителей
+                    </td>
+                    <td>
+                        <label for="pt_1_inpt_18">
+                            <input type="number" name="консультация_кол_заявителей" id="pt_1_inpt_18" placeholder=""  value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_1.консультация_кол_заявителей}} </td>
+                    {{range $период, $данные := $рапорт.раздел_1}}
+                        <td>
+                            {{$данные.консультация_кол_заявителей}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+
+                    <td colspan="2">
+                        Вручены справки о неполучении алиментов, об отсутствии исполнительных производств и т. д.,  кол-во заявителей
+                    </td>
+                    <td>
+                        <label for="pt_1_inpt_19">
+                            <input type="number" name="вручено_справок" id="pt_1_inpt_19" placeholder=""  value="0">
+                        </label>
+                    </td>
+                    <td>  {{$свод.раздел_1.вручено_справок}}  </td>
+                    {{range $период, $данные := $рапорт.раздел_1}}
+                        <td>
+                            {{$данные.вручено_справок}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+
+                    <td colspan="2">
+                        Вручены копии процессуальных документов, в том числе посетителям, явившимся в дополнительно назначенное время, кол-во заявителей
+                    </td>
+                    <td>
+                        <label for="pt_1_inpt_20">
+                            <input type="number" name="врученый_копии_проц_док" id="pt_1_inpt_20" placeholder=""  value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_1.врученый_копии_проц_док}} </td>
+                    {{range $период, $данные := $рапорт.раздел_1}}
+                        <td>
+                            {{$данные.врученый_копии_проц_док}}
+                        </td>
+                    {{end}}
+                </tr>
+
+
+                <tr>
+                    <th rowspan="6">
+                        Принятые меры к должникам в ходе приема СПИ
+                    </th>
+                    <td colspan="2">
+                        У должника отобрано объяснение
+                    </td>
+                    <td>
+                        <label for="pt_1_inpt_21">
+                            <input type="number" name="отобрано_объяснение" id="pt_1_inpt_21" placeholder=""  value="0">
+                        </label>
+                    </td>
+                    <td>  {{$свод.раздел_1.отобрано_объяснение}}  </td>
+                    {{range $период, $данные := $рапорт.раздел_1}}
+                        <td>
+                            {{$данные.отобрано_объяснение}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Наложен арест на имущество
+                    </td>
+                    <td>
+                        <label for="pt_1_inpt_22">
+                            <input type="number" name="арест_на_имущество" id="pt_1_inpt_22" placeholder=""  value="0">
+                        </label>
+                    </td>
+                    <td>  {{$свод.раздел_1.арест_на_имущество}} </td>
+                    {{range $период, $данные := $рапорт.раздел_1}}
+                        <td>
+                            {{$данные.арест_на_имущество}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Составлен протокол
+                    </td>
+                    <td>
+                        <label for="pt_1_inpt_23">
+                            <input type="number" name="составлен_протокол" id="pt_1_inpt_23" placeholder=""  value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_1.составлен_протокол}} </td>
+                    {{range $период, $данные := $рапорт.раздел_1}}
+                        <td>
+                            {{$данные.составлен_протокол}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Ограничено право выезда
+                    </td>
+                    <td>
+                        <label for="pt_1_inpt_24">
+                            <input type="number" name="ограничено_право_выезда" id="pt_1_inpt_24" placeholder=""  value="0">
+                        </label>
+                    </td>
+                    <td>  {{$свод.раздел_1.ограничено_право_выезда}} </td>
+                    {{range $период, $данные := $рапорт.раздел_1}}
+                        <td>
+                            {{$данные.ограничено_право_выезда}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Ограничено спец.право
+                    </td>
+                    <td>
+                        <label for="pt_1_inpt_25">
+                            <input type="number" name="ограничено_спец_право" id="pt_1_inpt_25" placeholder=""  value="0">
+                        </label>
+                    </td>
+                    <td> {{$свод.раздел_1.ограничено_спец_право}}  </td>
+                    {{range $период, $данные := $рапорт.раздел_1}}
+                        <td>
+                            {{$данные.ограничено_спец_право}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Вручено требование
+                    </td>
+                    <td>
+                        <label for="pt_1_inpt_26">
+                            <input type="number" name="вручено_требование" id="pt_1_inpt_26" placeholder=""  value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_1.вручено_требование}} </td>
+                    {{range $период, $данные := $рапорт.раздел_1}}
+                        <td>
+                            {{$данные.вручено_требование}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <th>Заполнил:</th>
+                    <td colspan="2">
+                        <label  >
+                            <div class="input_name"> <strong>{{.client.SecondName}} {{.client.Givenname}} {{.client.Initials}} </strong> {{.client.Login}} </div>
+                            <input type="text" class="inviz" readonly name="заполнил" placeholder=""  value="{{.client.Login}}">
+                            <input type="text" class="inviz" readonly name="осп" placeholder=""  value="{{.client.OspCode}}">
+
+                        </label>
+                    </td>
+                    <td>
+                        <button class="io" type="submit">Сохранить</button>
+                    </td>
+
+                </tr>
+
+                </tbody>
+
+            </table>
+
+
+        </form>
+
+        <form name="part_2" style="max-width: 800px" class="col" action="сохранить раздел 2 орог" onsubmit="WS.SendForm(event, false, false, false)">
+
+            <table class="io_table left" style="text-align: left">
+                <caption>
+                    <h3>РАЗДЕЛ II
+                        <p>«Информация о внесении сведений в АИС ФССП России» </p>
+                    </h3>
+                    <div class="">
+                        <div class="flex-row flex_justify-center ">За период</div>
+                        <label   class="flex-row flex_justify-center">
+                            <div class="input_name">с </div>
+                            <input required onchange="" type="date" name="период_с" placeholder=""  value="{{СегодняДата}}">
+                            <div class="input_name">по </div>
+                            <input required onchange="" type="date" name="период_по" placeholder=""  value="{{СегодняДата}}">
+                        </label>
+                    </div>
+                </caption>
+                <thead>
+                <tr>
+                    <th>
+
+                    </th>
+                    <th>
+                        Всего
+                    </th>
+                    <th>
+                        Внесено в АИС
+                    </th>
+                    <th>
+                        Необходимо внести в АИС
+                    </th>
+                    <th>
+                        Примечание
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Вручено постановлений о возбуждении ИП должникам</th>
+                        <td>
+                            <label for="pt_2_inpt_1">
+                                <input type="number" readonly disabled name="" id="pt_2_inpt_1" placeholder="" value="0">
+                            </label>
+                        </td>
+                        <td>
+                            <label for="pt_2_inpt_2">
+                                <input type="number" name="возбуждение_ип_внесено" id="pt_2_inpt_2" placeholder="" value="0">
+                            </label>
+                        </td>
+                        <td>
+                            <label for="pt_2_inpt_3">
+                                <input type="number" name="возбуждение_ип_необходимо_внести" id="pt_2_inpt_3" placeholder="" value="0">
+                            </label>
+                        </td>
+                        <td>
+
+                            <label for="pt_2_inpt_4">
+                                <input type="text" name="возбуждение_ип_примечание" id="pt_2_inpt_4" placeholder="" value="0">
+                            </label>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <th>Информация о месте работы должника</th>
+                        <td>
+                            <label for="pt_2_inpt_5">
+                                <input type="number" readonly disabled name="" id="pt_2_inpt_5" placeholder="" value="0">
+                            </label>
+                        </td>
+                        <td>
+                            <label for="pt_2_inpt_6">
+                                <input type="number"   name="место_работы_должника_внесено" id="pt_2_inpt_6" placeholder="" value="0">
+                            </label>
+                        </td>
+                        <td>
+                            <label for="pt_2_inpt_7">
+                                <input type="number"   name="место_работы_необходимо_внести" id="pt_2_inpt_7" placeholder="" value="0">
+                            </label>
+                        </td>
+                        <td>
+                            <label for="pt_2_inpt_8">
+                                <input type="text"   name="место_работы_должника_примечание" id="pt_2_inpt_8" placeholder="" value="0">
+                            </label>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <th>Телефон должника</th>
+                        <td>
+                            <label for="pt_2_inpt_9">
+                                <input type="number" readonly disabled name="" id="pt_2_inpt_9" placeholder="" value="0">
+                            </label>
+                        </td>
+                        <td>
+                            <label for="pt_2_inpt_10">
+                                <input type="number"   name="телефон_должника_внесено" id="pt_2_inpt_10" placeholder="" value="0">
+                            </label>
+                        </td>
+                        <td>
+                            <label for="pt_2_inpt_11">
+                                <input type="number"   name="телефон_необходимо_внести" id="pt_2_inpt_11" placeholder="" value="0">
+                            </label>
+                        </td>
+                        <td>
+                            <label for="pt_2_inpt_12">
+                                <input type="text"   name="телефон_должника_примечание" id="pt_2_inpt_12" placeholder="" value="0">
+                            </label>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <th>Иной адрес должника</th>
+                        <td>
+                            <label for="pt_2_inpt_13">
+                                <input type="number" readonly disabled name="" id="pt_2_inpt_13" placeholder="" value="0">
+                            </label>
+                        </td>
+                        <td>
+                            <label for="pt_2_inpt_14">
+                                <input type="number"   name="иной_адрес_должника_внесено" id="pt_2_inpt_14" placeholder="" value="0">
+                            </label>
+                        </td>
+                        <td>
+                            <label for="pt_2_inpt_15">
+                                <input type="number"   name="иной_адрес_должника_невнесено" id="pt_2_inpt_15" placeholder="" value="0">
+                            </label>
+                        </td>
+                        <td>
+                            <label for="pt_2_inpt_16">
+                                <input type="text"   name="иной_адрес_должника_примечание" id="pt_2_inpt_16" placeholder="" value="0">
+                            </label>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <th>Карточек личного приема всех посетителей (должников, взыскателей, иных лиц) дежурными СПИ</th>
+                        <td>
+                            <label for="pt_2_inpt_17">
+                                <input type="number" readonly disabled name="" id="pt_2_inpt_17" placeholder="" value="0">
+                            </label>
+                        </td>
+                        <td>
+                            <label for="pt_2_inpt_18">
+                                <input type="number"   name="карточек_дежурным_внесено" id="pt_2_inpt_18" placeholder="" value="0">
+                            </label>
+                        </td>
+                        <td>
+                            <label for="pt_2_inpt_19">
+                                <input type="number"   name="карточек_дежурным_невнесено" id="pt_2_inpt_19" placeholder="" value="0">
+                            </label>
+                        </td>
+                        <td>
+                            <label for="pt_2_inpt_20">
+                                <input type="text"   name="карточек_дежурным_примечание" id="pt_2_inpt_20" placeholder="" value="0">
+                            </label>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <th>Карточек личного приема всех посетителей (должников, взыскателей, иных лиц) СПИ, осуществляющими прием в приемные часы</th>
+                        <td>
+                            <label for="pt_2_inpt_21">
+                                <input type="number" readonly disabled name="" id="pt_2_inpt_21" placeholder="" value="0">
+                            </label>
+                        </td>
+                        <td>
+                            <label for="pt_2_inpt_22">
+                                <input type="number"   name="карточек_приемные_внесено" id="pt_2_inpt_22" placeholder="" value="0">
+                            </label>
+                        </td>
+                        <td>
+                            <label for="pt_2_inpt_23">
+                                <input type="number"   name="карточек_приемные_невнесено" id="pt_2_inpt_23" placeholder="" value="0">
+                            </label>
+                        </td>
+                        <td>
+                            <label for="pt_2_inpt_24">
+                                <input type="text"   name="карточек_приемные_примечание" id="pt_2_inpt_24" placeholder="" value="0">
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Заполнил:</th>
+                        <td colspan="3">
+                            <label >
+                                <div class="input_name"> <strong>{{.client.SecondName}} {{.client.Givenname}} {{.client.Initials}} </strong> {{.client.Login}} </div>
+                                <input type="text" class="inviz" readonly name="заполнил" placeholder=""   value="{{.client.Login}}">
+                                <input type="text" class="inviz" readonly name="осп" placeholder=""  value="{{.client.OspCode}}">
+
+                            </label>
+                        </td>
+                        <td>
+                            <button class="io" type="submit">Сохранить</button>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </form>
+
+
+        <form name="part_3" style="max-width: 800px" class="col" action="сохранить раздел 3 орог" onsubmit="WS.SendForm(event, false, false, false)">
+
+            <table class="io_table left" style="text-align: left">
+                <caption>
+                    <h3>РАЗДЕЛ III
+                        <p>«Информация об обращениях, поступивших дежурным СПИ,
+                            посредством телефонной связи»
+                        </p>
+                    </h3>
+                    <div class="">
+                        <div class="flex-row flex_justify-center ">За период</div>
+                        <label  class="flex-row flex_justify-center">
+                            <div class="input_name">с </div>
+                            <input required onchange="" type="date" name="период_с" placeholder=""  value="{{СегодняДата}}">
+                            <div class="input_name">по </div>
+                            <input required onchange="" type="date" name="период_по" placeholder=""  value="{{СегодняДата}}">
+                        </label>
+                    </div>
+                </caption>
+                <thead>
+                <tr>
+                    <th colspan="3">
+                        Результаты дежурства
+                    </th>
+                    <th>
+                        Количество заявителей
+                    </th>
+                    {{range $период, $данные := $рапорт.раздел_1}}
+                        <th>
+                            {{$период}}
+                        </th>
+                    {{end}}
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr>
+                    <td colspan="3">
+                        Количество дежурных СПИ, принимающих звонки в отчетный период
+                    </td>
+                    <td>
+                        <label for="pt_3_inpt_1">
+                            <input type="number" name="кол_дежурных" id="pt_3_inpt_1" placeholder="" value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_3.кол_дежурных}} </td>
+                    {{range $период, $данные := $рапорт.раздел_3}}
+                        <td>
+                            {{$данные.кол_дежурных}}
+                        </td>
+                    {{end}}
+
+                </tr>
+                <tr>
+                    <th rowspan="4">
+                        Количество заявителей, обратившихся по телефону
+                    </th>
+                    <td colspan="2">Всего</td>
+                    <td>
+                        <label for="pt_3_inpt_2">
+                            <input  type="number" name="всего" id="pt_3_inpt_2" placeholder="" value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_3.всего}} </td>
+                    {{range $период, $данные := $рапорт.раздел_3}}
+                        <td>
+                            {{$данные.всего}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <th rowspan="3">Из них</th>
+                    <td>Должник</td>
+                   <td>
+                       <label for="pt_3_inpt_3">
+                           <input type="number" name="должник_по_тел" id="pt_3_inpt_3" placeholder="" value="0">
+                       </label>
+                   </td>
+                    <td>   {{$свод.раздел_3.должник_по_тел}} </td>
+                    {{range $период, $данные := $рапорт.раздел_3}}
+                        <td>
+                            {{$данные.всего}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td>Взыскатель</td>
+                  <td>
+                      <label for="pt_3_inpt_4">
+                          <input type="number" name="взыскатель_по_тел" id="pt_3_inpt_4" placeholder="" value="0">
+                      </label>
+                  </td>
+                    <td>   {{$свод.раздел_3.взыскатель_по_тел}} </td>
+                    {{range $период, $данные := $рапорт.раздел_3}}
+                        <td>
+                            {{$данные.всего}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td>Иные лица</td>
+                    <td>
+                        <label for="pt_3_inpt_5">
+                            <input type="number" name="иные_по_тел" id="pt_3_inpt_5" placeholder="" value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_3.иные_по_тел}} </td>
+                    {{range $период, $данные := $рапорт.раздел_3}}
+                        <td>
+                            {{$данные.всего}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                   <th rowspan="7">
+                       Причина звонка
+                   </th>
+                    <td colspan="2">
+                        По вопросам взыскания с лица, ошибочно идентифицированном в качестве должника (двойник)
+                    </td>
+                    <td>
+                        <label for="pt_3_inpt_6">
+                            <input type="number" name="причина_двойник" id="pt_3_inpt_6" placeholder="" value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_3.причина_двойник}} </td>
+                    {{range $период, $данные := $рапорт.раздел_3}}
+                        <td>
+                            {{$данные.причина_двойник}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        По вопросам снятия ареста с банковского счета должника, запрета на рег.действия в отношении имущества, ограничения выезда за пределы РФ
+                    </td>
+                    <td>
+                        <label for="pt_3_inpt_7">
+                            <input type="number" name="причина_снятие_ограничений" id="pt_3_inpt_7" placeholder="" value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_3.причина_снятие_ограничений}} </td>
+                    {{range $период, $данные := $рапорт.раздел_3}}
+                        <td>
+                            {{$данные.причина_снятие_ограничений}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        По вопросам  получения процессуальных документов, документов о неполучении алиментов, отсутствия ИП и т. д.
+                    </td>
+                    <td>
+                        <label for="pt_3_inpt_8">
+                            <input type="number" name="причина_получение_документов" id="pt_3_inpt_8" placeholder="" value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_3.причина_получение_документов}} </td>
+                    {{range $период, $данные := $рапорт.раздел_3}}
+                        <td>
+                            {{$данные.причина_получение_документов}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Получение общедоступной информации по ИП
+                    </td>
+                    <td>
+                        <label for="pt_3_inpt_9">
+                            <input type="number" name="причина_получение_инфо_по_ип" id="pt_3_inpt_9" placeholder="" value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_3.причина_получение_инфо_по_ип}} </td>
+                    {{range $период, $данные := $рапорт.раздел_3}}
+                        <td>
+                            {{$данные.причина_получение_инфо_по_ип}}
+                        </td>
+                    {{end}}
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        Получение справочной информации
+                    </td>
+                    <td>
+                        <label for="pt_3_inpt_10">
+                            <input type="number" name="причина_спровочно" id="pt_3_inpt_10" placeholder="" value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_3.причина_спровочно}} </td>
+                    {{range $период, $данные := $рапорт.раздел_3}}
+                        <td>
+                            {{$данные.причина_спровочно}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Запись на прием к должностным лицам
+                    </td>
+                    <td>
+                        <label for="pt_3_inpt_11">
+                            <input type="number" name="причина_запись" id="pt_3_inpt_11" placeholder="" value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_3.причина_запись}} </td>
+                    {{range $период, $данные := $рапорт.раздел_3}}
+                        <td>
+                            {{$данные.причина_запись}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Иные причины
+                    </td>
+                    <td>
+                        <label for="pt_3_inpt_12">
+                            <input type="number" name="иные_причины" id="pt_3_inpt_12" placeholder="" value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_3.иные_причины}} </td>
+                    {{range $период, $данные := $рапорт.раздел_3}}
+                        <td>
+                            {{$данные.иные_причины}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <th rowspan="5">
+                        Результаты звонка
+                    </th>
+                    <td colspan="2">
+                        Представлена общедоступная информация по ИП
+                    </td>
+                    <td>
+                        <label for="pt_3_inpt_13">
+                            <input type="number" name="рез_инфо_предоставлена" id="pt_3_inpt_13" placeholder="" value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_3.рез_инфо_предоставлена}} </td>
+                    {{range $период, $данные := $рапорт.раздел_3}}
+                        <td>
+                            {{$данные.рез_инфо_предоставлена}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Представлена справочная информация, консультации
+                    </td>
+                    <td>
+                        <label for="pt_3_inpt_14">
+                            <input type="number" name="рез_справка" id="pt_3_inpt_14" placeholder="" value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_3.рез_справка}} </td>
+                    {{range $период, $данные := $рапорт.раздел_3}}
+                        <td>
+                            {{$данные.рез_справка}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Вопрос разрешен в полном объеме в ходе разговора по иным основаниям
+                    </td>
+                    <td>
+                        <label for="pt_3_inpt_15">
+                            <input type="number" name="рез_вопрос_решен" id="pt_3_inpt_15" placeholder="" value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_3.рез_вопрос_решен}} </td>
+                    {{range $период, $данные := $рапорт.раздел_3}}
+                        <td>
+                            {{$данные.рез_вопрос_решен}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Всего записано на прием к должностному лицу в часы приема
+                    </td>
+                    <td>
+                        <label for="pt_3_inpt_16">
+                            <input type="number" name="рез_записано_на_прием" id="pt_3_inpt_16" placeholder="" value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_3.рез_записано_на_прием}} </td>
+                    {{range $период, $данные := $рапорт.раздел_3}}
+                        <td>
+                            {{$данные.рез_записано_на_прием}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Количество заявителей, обратившихся в телефонном режиме, которым назначено время для получения документов у дежурного СПИ
+                    </td>
+                    <td>
+                        <label for="pt_3_inpt_17">
+                            <input type="number" name="рез_назначено_время_дежурному" id="pt_3_inpt_17" placeholder="" value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_3.рез_назначено_время_дежурному}} </td>
+                    {{range $период, $данные := $рапорт.раздел_3}}
+                        <td>
+                            {{$данные.рез_назначено_время_дежурному}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <th>Заполнил:</th>
+                    <td colspan="2">
+                        <label  >
+                            <div class="input_name"> <strong>{{.client.SecondName}} {{.client.Givenname}} {{.client.Initials}} </strong> {{.client.Login}} </div>
+                            <input type="text" class="inviz" readonly name="заполнил" placeholder=""  value="{{.client.Login}}">
+                            <input type="text" class="inviz" readonly name="осп" placeholder=""  value="{{.client.OspCode}}">
+
+                        </label>
+                    </td>
+
+                    <td>
+                        <button class="io" type="submit">Сохранить</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+
+
+
+        <form name="part_3" style="max-width: 800px" class="col" action="сохранить раздел 4 орог" onsubmit="WS.SendForm(event, false, false, false)">
+
+            <table class="io_table left" style="text-align: left">
+                <caption>
+                    <h3>РАЗДЕЛ IV
+                        <p>«Информация о заявителях, записавшихся на прием к судебному приставу- исполнителю в приемные дни посредством сайта ФССП России, с которыми проведена предварительная работа в телефонном режиме дежурными СПИ»
+                        </p>
+                    </h3>
+                    <div class="">
+                        <div class="flex-row flex_justify-center ">За период</div>
+                        <label  class="flex-row flex_justify-center">
+                            <div class="input_name">с </div>
+                            <input required onchange="" type="date" name="период_с" placeholder=""  value="{{СегодняДата}}">
+                            <div class="input_name">по </div>
+                            <input required onchange="" type="date" name="период_по" placeholder=""  value="{{СегодняДата}}">
+                        </label>
+                    </div>
+                </caption>
+                <thead>
+                <tr>
+                    <th colspan="2">
+                        Наименование показателя
+                    </th>
+                    <th>
+                        Количество
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="2">
+                        Всего записалось заявителей через сайт ФССП России на прием в отчетном периоде к должностным лицам ПСП
+                    </td>
+                    <td>
+                        <label for="pt_4_inpt_1">
+                            <input type="number" name="записно_через_сайт" id="pt_4_inpt_1" placeholder="" value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_4.записно_через_сайт}} </td>
+                    {{range $период, $данные := $рапорт.раздел_4}}
+                        <td>
+                            {{$данные.записно_через_сайт}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <th>из них</th>
+                    <td>имеется информация о контактном номере телефона заявителей из числа записавшихся,  в том числе в исполнительном производстве</td>
+                    <td>
+                        <label for="pt_4_inpt_2">
+                            <input type="number" name="имеется_контактный_тел" id="pt_4_inpt_2" placeholder="" value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_4.имеется_контактный_тел}} </td>
+                    {{range $период, $данные := $рапорт.раздел_4}}
+                        <td>
+                            {{$данные.имеется_контактный_тел}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Всего осуществлено звонков записавшимся  заявителям дежурными СПИ для выяснения сути обращения
+                    </td>
+                    <td>
+                        <label for="pt_4_inpt_3">
+                            <input type="number" name="дежурный_звонил_заявителю" id="pt_4_inpt_3" placeholder="" value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_4.дежурный_звонил_заявителю}} </td>
+                    {{range $период, $данные := $рапорт.раздел_4}}
+                        <td>
+                            {{$данные.дежурный_звонил_заявителю}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <th rowspan="4">
+                        Результаты обзвона
+                    </th>
+                    <td>
+                        Вопрос разрешен в телефонном режиме, дано разъяснение
+                    </td>
+                    <td>
+                        <label for="pt_4_inpt_4">
+                            <input type="number" name="рез_вопрос_решён" id="pt_4_inpt_4" placeholder="" value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_4.рез_вопрос_решён}} </td>
+                    {{range $период, $данные := $рапорт.раздел_4}}
+                        <td>
+                            {{$данные.рез_вопрос_решён}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td>
+                        Назначено время для приема дежурным СПИ
+                    </td>
+                   <td>
+                       <label for="pt_4_inpt_5">
+                           <input type="number" name="рез_назначено_время" id="pt_4_inpt_5" placeholder="" value="0">
+                       </label>
+                   </td>
+                    <td>   {{$свод.раздел_4.рез_назначено_время}} </td>
+                    {{range $период, $данные := $рапорт.раздел_4}}
+                        <td>
+                            {{$данные.рез_назначено_время}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td>
+                        Отказ от приема по иным причинам
+                    </td>
+                    <td>
+                        <label for="pt_4_inpt_6">
+                            <input type="number" name="рез_отказ_приёма" id="pt_4_inpt_6" placeholder="" value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_4.рез_отказ_приёма}} </td>
+                    {{range $период, $данные := $рапорт.раздел_4}}
+                        <td>
+                            {{$данные.рез_отказ_приёма}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <td>
+                        Прибудет на прием к должностному лицу ПСП, несмотря на предварительный звонок
+                    </td>
+                    <td>
+                        <label for="pt_4_inpt_7">
+                            <input type="number" name="рез_прибудет_на_приём" id="pt_4_inpt_7" placeholder="" value="0">
+                        </label>
+                    </td>
+                    <td>   {{$свод.раздел_4.рез_прибудет_на_приём}} </td>
+                    {{range $период, $данные := $рапорт.раздел_4}}
+                        <td>
+                            {{$данные.рез_прибудет_на_приём}}
+                        </td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <th>Заполнил:</th>
+                    <td>
+                        <label  >
+                            <div class="input_name"> <strong>{{.client.SecondName}} {{.client.Givenname}} {{.client.Initials}} </strong> {{.client.Login}} </div>
+                            <input type="text" class="inviz" readonly name="заполнил" placeholder=""  value="{{.client.Login}}">
+                            <input type="text" class="inviz" readonly name="осп" placeholder=""  value="{{.client.OspCode}}">
+
+                        </label>
+                    </td>
+                    <td>
+                        <button class="io" type="submit">Сохранить</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    {{end}}
+{{end}}

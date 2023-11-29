@@ -1,0 +1,10 @@
+{{define "KnowledgeCategories"}}
+    {{if .data.содержание}}
+        {{$Меню := СоздатьДеревоКаталогов .data.содержание "TreeItem"}}
+            {{if $Меню}}
+                {{range $d, $v := $Меню}}
+                    {{$v}}
+                {{end}}
+            {{end}}
+    {{end}}
+{{end}}

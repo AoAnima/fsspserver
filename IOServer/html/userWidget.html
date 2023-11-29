@@ -1,0 +1,27 @@
+{{define "userWindget"}}
+{{$User := .}}
+{{$initials := CreatInitails $User.Givenname $User.Initials}}
+<div onclick="WS.ShowChatLog(this, '{{$User.Login}}')" data-ip="{{$User.Ip}}" id="{{$User.Login}}" data-initials="{{$initials}}" data-fullname="{{$User.Givenname}} {{$User.Initials}}" class="ws_contact {{if gt $User.CuratorOrder 0}} curator_{{$User.CuratorOrder}}{{end}} online" title="{{$User.Ip}}">
+    <div class="avatar">
+        {{$initials}}
+    </div>
+    <div class="user_info">
+        <div class="name">
+            {{$User.SecondName}} {{$User.Givenname}} {{$User.Initials}}
+        </div>
+
+        {{with $User.CuratorPost}}
+
+            <div class="curator_post">
+                {{.}}
+            </div>
+        {{end}}
+        <div class="div_name">
+            {{$User.OspName}}
+        </div>
+        <div class="post">
+            {{$User.PostName}}
+        </div>
+    </div>
+</div>
+{{end}}

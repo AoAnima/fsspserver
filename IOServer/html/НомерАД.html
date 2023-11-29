@@ -1,0 +1,159 @@
+{{define "НомерАД"}}
+
+<div class="block_wrapper">
+
+<div class="left_wrapper flex-col" id  = "ad_list">
+
+{{/*    {{range $osp, $данныеОсп := $.Osp}}*/}}
+{{/*        {{$osp}}*/}}
+{{/*        {{$данные}}*/}}
+{{/*    */}}
+{{/*{{if and (ne $osp 25) (ne $osp 26000)}}*/}}
+
+{{/*        <div id="osp_{{$osp}}" class="flex-row">*/}}
+{{/*            <button class="noradius bordered flex-full_auto" type="button" onclick="WS.ОткрытьЗакрыть('osp_{{$osp}}_container')">*/}}
+{{/*                {{$данныеОсп.OspName }}*/}}
+{{/*                {{$osp}}*/}}
+{{/*                <div class="arrow"></div>*/}}
+{{/*            </button>*/}}
+{{/*{{(index $.data.карточки 0).массив}}*/}}
+{{/*            {{range $osp, $данные := (index .data.карточки 0).массив}}*/}}
+
+{{/*                <div id="osp_{{$osp}}_container" class="accordeon hidden">*/}}
+{{/*                    {{range $ДатаВремя, $Номер := $карточки}}*/}}
+{{/*                        <div class="flex-row nowrap" id="card_{{$Номер}}">*/}}
+{{/*                            <button class="noradius bordered red " type="button" onclick="if(confirm('Удалить карточку?')){WS.ОтправитьСообщениеИО('удалить карточку ап', {n_prot:{{$Номер}} })}">*/}}
+{{/*                                Удалить*/}}
+{{/*                            </button>*/}}
+{{/*                            <button class="noradius bordered" type="button" onclick="WS.ОтправитьСообщениеИО('открыть карточку ап', {n_prot:{{$Номер}} })">*/}}
+{{/*                                Открыть карточку: {{$Номер}}; от: {{$ДатаВремя}}*/}}
+{{/*                            </button>*/}}
+{{/*                            <button class="noradius bordered green" type="button" onclick="WS.ОтправитьСообщениеИО('скачать карточку ап',  {n_prot:{{$Номер}}})">*/}}
+{{/*                                Скачать архив*/}}
+{{/*                            </button>*/}}
+{{/*                        </div>*/}}
+
+{{/*                    {{end}}*/}}
+{{/*                </div>*/}}
+{{/*            {{end}}*/}}
+{{/*        </div>*/}}
+{{/*{{end}}*/}}
+
+{{/*{{end}}*/}}
+
+    {{range $ВсеКарточки := .data.карточки}}
+
+    {{range $osp, $данные := $ВсеКарточки.карточки}}
+
+        <div id="osp_{{$osp}}" class="flex-row">
+
+                <button class="noradius bordered flex-full_auto" type="button" onclick="WS.ОткрытьЗакрыть('osp_{{$osp}}_container')">
+                    {{(index $.OspList $osp).OspName }}
+                    {{$osp}}
+                    <div class="arrow"></div>
+                </button>
+
+
+{{/*                {{range $n, $карточки := $данные}}*/}}
+
+
+                    <div id="osp_{{$osp}}_container" class="accordeon hidden flex-row">
+                        <button class="noradius bordered green flex-full" type="button" onclick="WS.ОтправитьСообщениеИО('скачать все карточки ап',  {osp:{{$osp}}})">
+                            Скачать все карточки
+                        </button>
+                        {{range $n, $карточки := $данные}}
+                        {{range $ДатаВремя, $Номер := $карточки}}
+
+                            <div class="flex-row nowrap" id="card_{{$Номер}}">
+                                <div class="flex-col">
+                                <button class="noradius bordered red " type="button" onclick="if(confirm('Удалить карточку?')){WS.ОтправитьСообщениеИО('удалить карточку ап', {n_prot:{{$Номер}} })}">
+                                    Удалить
+                                </button>
+                                <button class="noradius bordered red " type="button" onclick="WS.ОтправитьСообщениеИО('скрыть карточку ап', {n_prot:{{$Номер}} })">
+                                    Скрыть
+                                </button>
+                                </div>
+                                <button class="noradius bordered" type="button" onclick="WS.ОтправитьСообщениеИО('открыть карточку ап', {n_prot:{{$Номер}} })">
+                                    Открыть карточку: {{$Номер}}; от: {{$ДатаВремя}}
+                                </button>
+                                <button class="noradius bordered green" type="button" onclick="WS.ОтправитьСообщениеИО('скачать карточку ап',  {n_prot:{{$Номер}}})">
+                                    Скачать архив
+                                </button>
+                            </div>
+
+                        {{end}}
+                        {{end}}
+                    </div>
+{{/*                {{end}}*/}}
+
+
+        </div>
+    {{end}}
+    {{end}}
+
+
+
+
+
+{{/*  {{range $n,$карточка := .data.карточки}}*/}}
+{{/*      <div class="flex-row nowrap">*/}}
+{{/*          <button class="noradius bordered red " type="button" onclick="if(confirm('Удалить карточку?')){WS.ОтправитьСообщениеИО('удалить карточку ап', {n_prot:{{$карточка.n_prot}} })}">*/}}
+{{/*              Удалить*/}}
+{{/*          </button>*/}}
+{{/*      <button class="noradius bordered" type="button" onclick="WS.ОтправитьСообщениеИО('открыть карточку ап', {n_prot:{{$карточка.n_prot}} })">*/}}
+{{/*          Открыть карточку: {{$карточка.n_prot}}; от: {{$карточка.date}}*/}}
+{{/*      </button>*/}}
+{{/*       <button class="noradius bordered green" type="button" onclick="WS.ОтправитьСообщениеИО('скачать карточку ап',  {n_prot:{{$карточка.n_prot}}})">*/}}
+{{/*              Скачать архив*/}}
+{{/*        </button>*/}}
+{{/*      </div>*/}}
+
+{{/* {{end}}*/}}
+</div>
+    <div class="preview">
+
+    <div id="num_ad_cards">
+        <div class="note red">
+            <p>Инструкция:</p>
+            <p>
+                Карточки возможно заполнять двумя способами:
+                <ul>
+                <li>Автоматически</li>
+                <li>Вручную ( в доработке )</li>
+                </ul>
+            </p>
+
+            <p>
+                Для автоматического заполенния данных из АИС, необходимо В Поле "N документа" ввести номер Административного дела полностью как в АИС(например 196/21/26045-АП), затем нажать кнопку заполнить.
+                <br>
+                Начнётся поиск данных, и откроется предзаполненная карточка АП. Вам необходимо просмотреть её, и дозаполнить обязательные поля выделенные жирным цветом.
+                <br>
+                В Красных блоках выводятся подсказки из карточки в АИС, для заполнения соответсвующих полей.
+                <br>
+                После заоплнения всех обязательных полей нажмите сохранить. Если Форма не исчезла, то проверяйте все ли обязательные поля заполненны. Если Карточка с таким номером уже была ранее заполненна, то повторно она не сохранится.
+            </p>
+            <p>
+
+                После заоплнения всех обязательных полей нажмите сохранить. Если Форма не исчезла, то проверяйте все ли обязательные поля заполненны. Если Карточка с таким номером уже была ранее заполненна, то повторно она не сохранится.
+            </p>
+            <p>Предложения по доработке, вопросы по работе, по тел 1613, или на почту maksimchuk@r26.fssp.gov.ru</p>
+        </div>
+        <div class="note ">
+            Введите номер АД из АИС для заполнения карточки (196/21/26045-АП)
+        </div>
+        <form action="найти ад" class="io_form flex-row" onsubmit="WS.SendForm(event, false, false, false)">
+            <label for="N_PROT">
+                <div class="input_name auto">N документа</div>
+                <input required type="text" name="N_PROT" id="N_PROT" value="">
+            </label>
+<div class="flex_row">
+             <button class="io" type="submit">Заполнить</button>
+             <button type="button" onclick="WS.ОтправитьСообщениеИО('открыть пустую карточку ап', null)">Заполнить карточку в ручную</button>
+</div>
+        </form>
+    </div>
+    <div id="card_wrapper"></div>
+    </div>
+</div>
+
+{{end}}

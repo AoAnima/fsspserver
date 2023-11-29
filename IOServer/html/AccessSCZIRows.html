@@ -1,0 +1,307 @@
+{{define "AccessSCZIRows"}}
+    {{range $i, $Сотрудник := .data.список_пользователей}}
+        <tr id="uin_{{$Сотрудник.uid_number}}" class="{{if eq $Сотрудник.blocked "t"}}blocked{{else}}unblocked{{end}}">
+            <th>
+                <label class="user_fio" for="user_{{$Сотрудник.uid_number}}">
+                    <input form="UploadFile" id="user_{{$Сотрудник.uid_number}}" name="uid_number[]" type="checkbox" value="{{$Сотрудник.uid_number}}" autocomplete="off" >
+                    <div class="input_name">
+                        {{$Сотрудник.fio}}
+                    </div>
+                </label>
+            </th>
+            <td>
+                {{$Сотрудник.login}}
+            </td>
+
+            <td>
+                {{if $Сотрудник.osp}}
+                    {{$OSP := (index $.OspList $Сотрудник.osp) }}
+                    {{if not $OSP}}
+                        not $OSP {{$Сотрудник.osp}}
+                    {{else}}
+                        {{$OSP.OspName}}
+                    {{end}}
+                {{end}}
+            </td>
+            <td>
+                {{$Сотрудник.post}}
+            </td>
+            <td class="width_edit-panel">
+
+                {{if $Сотрудник.test_doc}}
+
+                    <a target="_blank"  class="file_download" href="{{$Сотрудник.path}}test_doc/{{$Сотрудник.test_doc}}">
+                        <img src="/static/images/test_doc.svg" alt="">
+                    </a>
+                    <div class="edit_panel">
+                        <div class="actions">
+                            <button onclick="WS.ОтправитьСообщениеИО('удалить документ из журанал допуска скзи', {'uid_number':'{{$Сотрудник.uid_number}}', 'документ':'test_doc'}, true)" class="btn_icon trash"></button>
+                        </div>
+                    </div>
+
+                {{end}}
+            </td>
+            <td class="width_edit-panel">
+                {{if $Сотрудник.key_doc}}
+
+                    <a target="_blank"  class="file_download" href="{{$Сотрудник.path}}key_doc/{{$Сотрудник.key_doc}}">
+
+                        <img src="/static/images/key_doc.svg" alt="">
+                    </a>
+                    <div class="edit_panel">
+                        <div class="actions">
+                            <button onclick="WS.ОтправитьСообщениеИО('удалить документ из журанал допуска скзи', {'uid_number':'{{$Сотрудник.uid_number}}', 'документ':'key_doc'}, true)" class="btn_icon trash"></button>
+                        </div>
+                    </div>
+
+                {{end}}
+
+            </td>
+            <td class="width_edit-panel">
+                {{if $Сотрудник.uzp_doc}}
+
+                    <a target="_blank"  class="file_download" href="{{$Сотрудник.path}}uzp_doc/{{$Сотрудник.uzp_doc}}">
+                        <img src="/static/images/uzp_doc.svg" alt="">
+                    </a>
+                    <div class="edit_panel">
+                        <div class="actions">
+                            <button onclick="WS.ОтправитьСообщениеИО('удалить документ из журанал допуска скзи', {'uid_number':'{{$Сотрудник.uid_number}}', 'документ':'uzp_doc'}, true)" class="btn_icon trash"></button>
+                        </div>
+                    </div>
+
+                {{end}}
+            </td>
+            <td class="width_edit-panel">
+                {{if $Сотрудник.prikaz_207}}
+
+                <a target="_blank"  class="file_download" href="{{$Сотрудник.path}}metod_doc/{{$Сотрудник.prikaz_207}}">
+                        <img src="/static/images/contract(1).svg" alt="">
+                    </a>
+                <div class="edit_panel">
+                    <div class="actions">
+                        <button onclick="WS.ОтправитьСообщениеИО('удалить документ из журанал допуска скзи', {'uid_number':'{{$Сотрудник.uid_number}}', 'документ':'prikaz_207'}, true)" class="btn_icon trash"></button>
+                    </div>
+                </div>
+
+                {{end}}
+            </td>
+            <td class="width_edit-panel">
+                {{if $Сотрудник.prikaz_106}}
+
+                <a target="_blank"  class="file_download" href="{{$Сотрудник.path}}metod_doc/{{$Сотрудник.prikaz_106}}">
+                        <img src="/static/images/contract(1).svg" alt="">
+                    </a>
+                <div class="edit_panel">
+                    <div class="actions">
+                        <button onclick="WS.ОтправитьСообщениеИО('удалить документ из журанал допуска скзи', {'uid_number':'{{$Сотрудник.uid_number}}', 'документ':'prikaz_106'}, true)" class="btn_icon trash"></button>
+                    </div>
+                </div>
+
+                {{end}}
+            </td>
+            <td class="width_edit-panel">
+                {{if $Сотрудник.metod_doc}}
+
+                <a target="_blank"  class="file_download" href="{{$Сотрудник.path}}metod_doc/{{$Сотрудник.metod_doc}}">
+                        <img src="/static/images/metod_doc.svg" alt="">
+                    </a>
+                <div class="edit_panel">
+                    <div class="actions">
+                        <button onclick="WS.ОтправитьСообщениеИО('удалить документ из журанал допуска скзи', {'uid_number':'{{$Сотрудник.uid_number}}', 'документ':'metod_doc'}, true)" class="btn_icon trash"></button>
+                    </div>
+                </div>
+
+                {{end}}
+            </td>
+            <td class="width_edit-panel">
+                {{if $Сотрудник.prikaz_377}}
+                    <a target="_blank"  class="file_download" href="{{$Сотрудник.path}}prikaz_377/{{$Сотрудник.prikaz_377}}">
+                        <img src="/static/images/contract(1).svg" alt="">
+                    </a>
+                    <div class="edit_panel">
+                        <div class="actions">
+                            <button onclick="WS.ОтправитьСообщениеИО('удалить документ из журанал допуска скзи', {'uid_number':'{{$Сотрудник.uid_number}}', 'документ':'prikaz_377'}, true)" class="btn_icon trash"></button>
+                        </div>
+                    </div>
+                {{end}}
+            </td>
+            <td class="width_edit-panel">
+                {{if $Сотрудник.prikaz_382}}
+                    <a target="_blank"  class="file_download" href="{{$Сотрудник.path}}prikaz_382/{{$Сотрудник.prikaz_377}}">
+
+                        <img src="/static/images/contract(1).svg" alt="">
+                    </a>
+                    <div class="edit_panel">
+                        <div class="actions">
+                            <button onclick="WS.ОтправитьСообщениеИО('удалить документ из журанал допуска скзи', {'uid_number':'{{$Сотрудник.uid_number}}', 'документ':'prikaz_382'}, true)" class="btn_icon trash"></button>
+                        </div>
+                    </div>
+                {{end}}
+            </td>
+            <td class="width_edit-panel">
+                {{if $Сотрудник.prikaz_63}}
+                    <a target="_blank"  class="file_download" href="{{$Сотрудник.path}}prikaz_63/{{$Сотрудник.prikaz_63}}">
+{{/*                    <a target="_blank"  class="file_download" href="/uploads/documents/sczi/prikaz_63/{{$Сотрудник.prikaz_63}}">*/}}
+                         <img src="/static/images/contract(1).svg" alt="">
+                    </a>
+                    <div class="edit_panel">
+                        <div class="actions">
+                            <button onclick="WS.ОтправитьСообщениеИО('удалить документ из журанал допуска скзи', {'uid_number':'{{$Сотрудник.uid_number}}', 'документ':'prikaz_63'}, true)" class="btn_icon trash"></button>
+                        </div>
+                    </div>
+                {{end}}
+            </td>
+            <td class="width_edit-panel">
+
+                {{if $Сотрудник.prikaz_152}}
+                    <a target="_blank"  class="file_download" href="{{$Сотрудник.path}}prikaz_152/{{$Сотрудник.prikaz_152}}">
+{{/*                    <a target="_blank"  class="file_download" href="/uploads/documents/sczi/prikaz_152/{{$Сотрудник.prikaz_152}}">*/}}
+                        <img src="/static/images/contract(1).svg" alt="">
+                    </a>
+                    <div class="edit_panel">
+                        <div class="actions">
+                            <button onclick="WS.ОтправитьСообщениеИО('удалить документ из журанал допуска скзи', {'uid_number':'{{$Сотрудник.uid_number}}', 'документ':'prikaz_152'}, true)" class="btn_icon trash"></button>
+                        </div>
+                    </div>
+                {{end}}
+            </td>
+            <td class="width_edit-panel">
+
+                {{if $Сотрудник.prikaz_157}}
+                    <a target="_blank"  class="file_download" href="{{$Сотрудник.path}}prikaz_157/{{$Сотрудник.prikaz_157}}">
+{{/*                    <a target="_blank"  class="file_download" href="/uploads/documents/sczi/prikaz_157/{{$Сотрудник.prikaz_157}}">*/}}
+                        <img src="/static/images/contract(1).svg" alt="">
+                    </a>
+                    <div class="edit_panel">
+                        <div class="actions">
+                            <button onclick="WS.ОтправитьСообщениеИО('удалить документ из журанал допуска скзи', {'uid_number':'{{$Сотрудник.uid_number}}', 'документ':'prikaz_157'}, true)" class="btn_icon trash"></button>
+                        </div>
+                    </div>
+
+                {{end}}
+            </td>
+            <td class="width_edit-panel">
+                {{if $Сотрудник.prikaz_351}}
+
+                    <a target="_blank"  class="file_download" href="{{$Сотрудник.path}}prikaz_351/{{$Сотрудник.prikaz_351}}">
+{{/*                    <a target="_blank"  class="file_download" href="/uploads/documents/sczi/prikaz_351/{{$Сотрудник.prikaz_351}}">*/}}
+                        <img src="/static/images/contract(1).svg" alt="">
+                    </a>
+                    <div class="edit_panel">
+                        <div class="actions">
+                            <button onclick="WS.ОтправитьСообщениеИО('удалить документ из журанал допуска скзи', {'uid_number':'{{$Сотрудник.uid_number}}', 'документ':'prikaz_351'}, true)" class="btn_icon trash"></button>
+                        </div>
+                    </div>
+
+                {{end}}
+            </td>
+            <td class="width_edit-panel">
+                {{if $Сотрудник.prikaz_672}}
+                    <a target="_blank"  class="file_download" href="{{$Сотрудник.path}}prikaz_672/{{$Сотрудник.prikaz_672}}">
+{{/*                    <a target="_blank"  class="file_download" href="/uploads/documents/sczi/prikaz_672/{{$Сотрудник.prikaz_672}}">*/}}
+                        <img src="/static/images/contract(1).svg" alt="">
+                    </a>
+                    <div class="edit_panel">
+                        <div class="actions">
+                            <button onclick="WS.ОтправитьСообщениеИО('удалить документ из журанал допуска скзи', {'uid_number':'{{$Сотрудник.uid_number}}', 'документ':'prikaz_672'}, true)" class="btn_icon trash"></button>
+                        </div>
+                    </div>
+                {{end}}
+            </td>
+            <td class="width_edit-panel">
+                {{if $Сотрудник.prikaz_450}}
+
+                <a target="_blank"  class="file_download" href="{{$Сотрудник.path}}prikaz_450/{{$Сотрудник.prikaz_450}}">
+{{/*                    <a target="_blank"  class="file_download" href="/uploads/documents/sczi/prikaz_450/{{$Сотрудник.prikaz_450}}">*/}}
+                        <img src="/static/images/contract(1).svg" alt="">
+                    </a>
+                <div class="edit_panel">
+                    <div class="actions">
+                        <button onclick="WS.ОтправитьСообщениеИО('удалить документ из журанал допуска скзи', {'uid_number':'{{$Сотрудник.uid_number}}', 'документ':'prikaz_450'}, true)" class="btn_icon trash"></button>
+                    </div>
+                </div>
+
+                {{end}}
+            </td>
+            <td class="width_edit-panel">
+                {{if $Сотрудник.prikaz_484}}
+
+                <a target="_blank"  class="file_download" href="{{$Сотрудник.path}}prikaz_484/{{$Сотрудник.prikaz_484}}">
+{{/*                    <a target="_blank"  class="file_download" href="/uploads/documents/sczi/prikaz_450/{{$Сотрудник.prikaz_450}}">*/}}
+                        <img src="/static/images/contract(1).svg" alt="">
+                    </a>
+                <div class="edit_panel">
+                    <div class="actions">
+                        <button onclick="WS.ОтправитьСообщениеИО('удалить документ из журанал допуска скзи', {'uid_number':'{{$Сотрудник.uid_number}}', 'документ':'prikaz_484'}, true)" class="btn_icon trash"></button>
+                    </div>
+                </div>
+
+                {{end}}
+            </td>
+
+            <td class="width_edit-panel">
+                {{if $Сотрудник.prikaz_338}}
+
+                <a target="_blank"  class="file_download" href="{{$Сотрудник.path}}prikaz_338/{{$Сотрудник.prikaz_338}}">
+                        <img src="/static/images/contract(1).svg" alt="">
+                    </a>
+                <div class="edit_panel">
+                    <div class="actions">
+                        <button onclick="WS.ОтправитьСообщениеИО('удалить документ из журанал допуска скзи', {'uid_number':'{{$Сотрудник.uid_number}}', 'документ':'prikaz_338'}, true)" class="btn_icon trash"></button>
+                    </div>
+                </div>
+
+                {{end}}
+            </td>
+            <td>
+
+                {{if eq $Сотрудник.blocked "t"}}
+                    <div> <img class="icon" src="/static/images/padlock.svg" alt=""></div>
+                    {{else}}
+                    <div> <img class="icon" src="/static/images/unlock.svg" alt=""></div>
+                {{end}}
+            </td>
+            <td>
+                {{if $Сотрудник.hospital}}
+                <div> <img class="icon" src="/static/images/medical-report.svg" alt=""></div>
+                {{end}}
+            </td>
+            <td>
+
+                {{if eq $Сотрудник.decret "t"}}
+                    <div><img class="icon" src="/static/images/baby.svg" alt=""></div>
+                {{end}}
+            </td>
+            <td>
+
+                {{if eq $Сотрудник.otpusk "t"}}
+                    <div><img class="icon" src="/static/images/summer.svg" alt=""></div>
+                {{end}}
+
+            </td>
+            <td>
+                {{if $Сотрудник.delay}}
+                    {{if $Сотрудник.delay.С}}
+                        С {{$Сотрудник.delay.С}}; По {{$Сотрудник.delay.По}};
+                    {{end}}
+                {{end}}
+                Обновлено: {{$Сотрудник.sync}}
+            </td>
+<td class="width_edit-panel">
+    {{if $Сотрудник.prikaz_354}}
+
+    <a target="_blank"  class="file_download" href="{{$Сотрудник.path}}prikaz_354/{{$Сотрудник.prikaz_354}}">
+        {{/*                    <a target="_blank"  class="file_download" href="/uploads/documents/sczi/prikaz_354/{{$Сотрудник.prikaz_354}}">*/}}
+        <img src="/static/images/contract(1).svg" alt="">
+    </a>
+        <div class="edit_panel">
+            <div class="actions">
+                <button onclick="WS.ОтправитьСообщениеИО('удалить документ из журанал допуска скзи', {'uid_number':'{{$Сотрудник.uid_number}}', 'документ':'prikaz_354'}, true)" class="btn_icon trash"></button>
+            </div>
+        </div>
+
+        {{end}}
+</td>
+        </tr>
+        {{end}}
+{{end}}

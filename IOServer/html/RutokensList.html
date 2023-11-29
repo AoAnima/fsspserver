@@ -1,0 +1,94 @@
+{{define "RutokensList"}}
+
+
+    <h1>
+        Будьте внимательны при заполнении! Данные невозможно изменить!
+    </h1>
+    {{$OSPData := index .OspList (ЧислоВСтроку .client.OspCode)}}
+
+   <table id="rutokens" class="io_table text_center" >
+       <caption>Список RuTokens {{$OSPData.OspName}};
+           <div data-observ="console.log(document.getElementById('rutokens_full_count').innerText); if (document.getElementById('rutokens_full_count').innerText===document.getElementById('rutokens_total_count').innerText){;document.getElementById('rutokens_counts').classList.remove('red');document.getElementById('rutokens_counts').classList.add('green');}" id="rutokens_counts" class="{{if not .data.rutokens_list}}red{{else}}{{if eq (len .data.rutokens_list) (index .data.total 0).количество}}green{{else}}red{{end}}{{end}}">
+               Заполненно
+               <span id="rutokens_full_count">
+                   {{if not .data.rutokens_list}}0{{else}}{{len .data.rutokens_list}}{{end}}
+               </span>
+               из
+               <span id="rutokens_total_count">
+{{/*                   {{.data.total}}*/}}
+{{/*                   {{(index .data.total 0).количество}}*/}}
+               </span>
+           </div>
+       </caption>
+       <thead>
+        <tr>
+            <th>№</th>
+            <th>Серийный номер</th>
+            <th>Цвет</th>
+            <th>Дата записи</th>
+            <th>Кто вносил</th>
+            <th>Целостность</th>
+            <th>Сервер</th>
+        </tr>
+       </thead>
+       <tfoot>
+                <tr>
+                    <td></td>
+                    <td>
+                        <form id="NewRutoken" name="NewRutoken" method="post" onsubmit="WS.SendForm(event, false);this.reset()" action="Сохранить рутокен">
+                            <input size="10" class="masked" name="серийный_номер" form="NewRutoken" autocomplete="off" required type="tel" value="" maxlength="10" pattern="[0-9]{10}" data-placeholder="XXXXXXXXXX" title="10 цифр">
+                        </form>
+                    </td>
+                    <td>
+                        <label for="red" class="red">
+                            <div  class="input_name">Красный</div>
+                            <input  autocomplete="off" required form="NewRutoken" type="radio" name="цвет" value="Красный" id="red" placeholder="">
+                        </label>
+                        <label for="green" class="green">
+                            <div class="input_name">Зелёный</div>
+                            <input autocomplete="off" required form="NewRutoken" type="radio" name="цвет" value="Зелёный" id="green" placeholder="">
+                        </label>
+                    </td>
+                    <td>
+                      {{CurrentTime}}
+                    </td>
+                    <td>
+                        <input form="NewRutoken" name="кто_вносил"  type="text" value="{{.client.Login}} {{.client.SecondName}} {{.client.Givenname}} {{.client.Initials}}" readonly>
+                    </td>
+                    <td>
+                        <label for="broken">
+                            <div class="input_name">Повреждён</div>
+                            <input autocomplete="off" required form="NewRutoken" type="radio" value="Повреждён" name="целостность" id="broken">
+                        </label>
+                        <label for="unbroken">
+                            <div class="input_name">Целый</div>
+                            <input autocomplete="off" required form="NewRutoken" type="radio" value="Целый" name="целостность" id="unbroken">
+                        </label>
+                        <label for="notwork">
+                            <div class="input_name">НЕ работает</div>
+                            <input autocomplete="off" required form="NewRutoken" type="radio" value="НЕ работает" name="целостность" id="notwork">
+                        </label>
+
+                    </td>
+                    <td>
+                        <label for="server">
+                            <div class="input_name">Да</div>
+                            <input type="radio" name="сервер" form="NewRutoken" id="server_yes" autocomplete="off" placeholder="" value="true">
+                        </label>
+                        <label for="server">
+                            <div class="input_name">Нет</div>
+                            <input type="radio" name="сервер" form="NewRutoken" id="server_no" checked  placeholder="" value="false">
+                        </label>
+                        <button autocomplete="off" form="NewRutoken" class="new_rutoken_btn" type="submit">+</button>
+                    </td>
+                </tr>
+
+       </tfoot>
+       <tbody>
+
+      {{template "RutokenRow" .}}
+       </tbody>
+   </table>
+
+        {{.data}}
+{{end}}

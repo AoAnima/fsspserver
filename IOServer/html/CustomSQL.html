@@ -1,0 +1,67 @@
+{{define "CustomSQL"}}
+<div id="sql_query" class="flex-col">
+
+{{/*    <button type="button" onclick="WS.ОтправитьСообщениеИО('ДобавитьСпецФильтр', null, true)">ДобавитьСпецФильтр</button>*/}}
+{{/*    <button type="button" onclick="WS.ОтправитьСообщениеИО('ИзменитьСпецФильтр', null, true)">ИзменитьСпецФильтр </button>*/}}
+{{/*    <button type="button" onclick="WS.ОтправитьСообщениеИО('УдалитьСпецФильтр', null, true)">УдалитьСпецФильтр </button>*/}}
+
+<div>
+    <form action="УдалитьСпецФильтр" class="flex-col" onsubmit="WS.ОтправитьФорму(event)" >
+        <label for="osp">
+            <div class="input_name">ОСП</div>
+            <input type="checkbox" checked class="" name="аис[]" id="osp" value="осп">
+        </label>
+        <label for="osp">
+            <div class="input_name">Название удаляемого фильтра</div>
+            <input required type="text" class="" name="имя_спецфильтра[]" id="sql_name" value="">
+        </label>
+        <button type="submit">Выполнить</button>
+
+    </form>
+</div>
+
+    <form action="ДобавитьСпецФильтр" class="flex-col" onsubmit="WS.ОтправитьФорму(event)" >
+
+
+      <div class="fieldset">
+          <div class="input_name">
+              В какую БД Добавить
+          </div>
+          <label for="osp">
+              <div class="input_name">ОСП</div>
+              <input type="checkbox" class="" name="аис[]" id="osp" value="осп">
+          </label>
+          <label for="rbd">
+              <div class="input_name">Управление</div>
+              <input type="checkbox" class="" name="аис[]" id="rbd" value="фссп">
+          </label>
+      </div>
+        <label for="parent_id">
+            <div class="input_name">ID Родительской папки (Оставить пустым чтобы добавить в корень)</div>
+            <input id="parent_id" type="text" name = 'parent_id'>
+        </label>
+        <label for="object_name">
+            <div class="input_name">Название объекта (object_name, DOC_IP_DOC, DOC_IP...)</div>
+            <input id="object_name" type="text" name = 'object_name'>
+        </label>
+        <label for="sql_filter_name">
+            <div class="input_name">Название Фильтра</div>
+            <input id="sql_filter_name" type="text" name = 'sql_filter_name'>
+        </label>
+        <label for="sql_join_part">
+            <div class="input_name">JOIN часть</div>
+            <textarea name="sql_join_part" cols="100" rows="10" id="sql_join_part"></textarea>
+        </label>
+         <label for="sql_where_part">
+            <div class="input_name">WHERE часть</div>
+            <textarea name="sql_where_part" cols="100" rows="10" id="sql_where_part"></textarea>
+        </label>
+
+
+        <button type="submit">Выполнить</button>
+    </form>
+    <div id="table_wraper" class="">
+
+    </div>
+</div>
+{{end}}

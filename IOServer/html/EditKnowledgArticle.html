@@ -1,0 +1,116 @@
+{{define "EditKnowledgArticle"}}
+    <div id="edit_knowledg_aticle">
+        {{$статья := index .data.статьи 0}}
+        <form id="new_article" method="post" class="col nowrap" action="изменить статью в базе знаний" onsubmit="WS.SaveArticle(event)">
+{{/*           <button type="submit">сохранить</button>*/}}
+{{/*            <div class="">*/}}
+            <label for="название">
+                <input readonly type="number" class="article-id" required name="ид_статьи" id="article_id" value="{{$статья.ид_статьи}}" title="Номер статьи">
+                <input class="flex-full_auto article-name" required type="text"
+                       name="название"
+                       id="название"
+                       value="{{$статья.название}}"
+                       placeholder="Введите название статьи/заметки, или вопрос на который будет ответ в заметке">
+                <input readonly  class="article-autosave" type="text" name="время_изменения" id="time_change" value="" placeholder="Автосохранение" title="Время автоматического сохранения статьи">
+            </label>
+            <div style="height: 100%;">
+                <textarea class="new_article suneditor" id="article" name="статья">{{$статья.статья}}</textarea>
+            </div>
+                <div class="article_access">
+
+                    <div class="flex-row">
+
+                        <label for="access_user">
+                            <input checked class="inviz" type="radio" name="доступ" value="user" id="access_user">
+                            <div title="Кому доступна статья" class="input_name">Доступна Всем</div>
+                        </label>
+                        <label for="access_dep">
+                            <input class="inviz" type="radio" name="доступ" value="{{.client.OspCode}}" id="access_dep">
+                            <div title="Кому доступна статья" class="input_name">Доступна Только - {{(index .OspList (ЧислоВСтроку .client.OspCode)).OspName}}</div>
+
+                        </label>
+                    </div>
+                </div>
+                <label for="tags_input">
+
+                    <div id="tags">
+                        <div id="tags_wrapper">
+                           {{if $статья.метки}}
+                               {{$статья.метки}}
+                            {{range $номерМетки, $метка := $статья.метки}}
+{{/*                            <div class="hashtag">{{$метка}}</div>*/}}
+                            <label id="tag_{{$статья.ид_статьи}}_{{$номерМетки}}" class="hashtag"><input readonly type="text" name="метки" value="{{$метка}}"><button class="remove_tag" onclick="Закрыть('tag_{{$статья.ид_статьи}}_{{$номерМетки}}')">x</button></label>
+                            {{end}}
+                           {{else}}
+                               <div class="tags_placeholder hashtag">
+                                   Введите ключевые слова/словосочетания - МЕТКИ, и нажмите ENTER или точку с запятой ; после каждой метки
+                               </div>
+                           {{end}}
+                        </div>
+                        <input  onkeypress="ПарсингМеток(event, 'tags_wrapper', 'tags_input')">
+                    </div>
+{{/*                    <input class="inviz" type="text" name="метки" id="tags_input" placeholder="Ключевые слова/словосочетания через точку с запятой" class="flex-full" >*/}}
+                </label>
+{{/*            </div>*/}}
+
+{{/*            <div class="fieldset ">*/}}
+
+{{/*            <div class="fieldset bordered">*/}}
+{{/*                <div class="">Ограничение доступа к статье</div>*/}}
+{{/*                <label for="access">*/}}
+{{/*                    <div class="input_name">Кому доступна</div>*/}}
+{{/*                    <select name="доступ" id="access">*/}}
+{{/*                        <option selected value="Всем">Всем</option>*/}}
+{{/*                        <option value="Моему отделу">Моему отделу</option>*/}}
+{{/*                        <option value="Моему управлению">Моему управлению</option>*/}}
+{{/*                        <option value="Только мне">Только мне</option>*/}}
+{{/*                    </select>*/}}
+{{/*                </label>*/}}
+{{/*                <div>А также:</div>*/}}
+{{/*                <div class="posts_list">*/}}
+{{/*                    <button>Только выбранным должностям</button>*/}}
+
+{{/*                    {{range $i, $должность := .data.должности}}*/}}
+{{/*                        <label for="post_{{$должность.id}}">*/}}
+{{/*                            <div class="input_name">{{$должность.название}}</div>*/}}
+{{/*                            <input type="checkbox" value="{{$должность.id}}" id="post_{{$должность.id}}" name="должность">*/}}
+{{/*                        </label>*/}}
+{{/*                    {{end}}*/}}
+{{/*                </div>*/}}
+{{/*                <label for="post">*/}}
+{{/*                         <div class="input_name">Должность</div>*/}}
+
+
+{{/*                    <select multiple name="должность" id="post">*/}}
+{{/*                        <option value="0">Любая</option>*/}}
+{{/*                        {{range $i, $должность := .data.должности}}*/}}
+{{/*                         <option value="{{$должность.id}}">{{$должность.название}}</option>*/}}
+{{/*                        {{end}}*/}}
+{{/*                    </select>*/}}
+{{/*                </label>*/}}
+{{/*                <label for="dep">*/}}
+{{/*                    <div class="input_name">Отделам</div>*/}}
+{{/*                    <select name="отдел" id="dep">*/}}
+{{/*                        <option multiple value="auto">Определять автоматически</option>*/}}
+{{/*                        {{range $ОспКод, $ДанныеОсп := .OspList}}*/}}
+{{/*                            <option value="{{$ОспКод}}" > {{$ДанныеОсп.OspName}}</option>*/}}
+{{/*                        {{end}}*/}}
+{{/*                    </select>*/}}
+{{/*                </label>*/}}
+{{/*            </div>*/}}
+
+{{/*            <div class="fieldset bordered">*/}}
+
+{{/*                <label for="placement">*/}}
+{{/*                    <div class="input_name">Размещение</div>*/}}
+{{/*                    <select name="размещение" id="placement">*/}}
+{{/*                        <option value="0">Корень</option>*/}}
+{{/*                        <option value="id каталога">id каталога</option>*/}}
+{{/*                    </select>*/}}
+{{/*                </label>*/}}
+{{/*            </div>*/}}
+
+{{/*            </div>*/}}
+        </form>
+    </div>
+{{end}}

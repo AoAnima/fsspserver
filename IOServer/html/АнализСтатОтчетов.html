@@ -1,0 +1,19 @@
+{{define "АнализСтатОтчетов"}}
+    <div id="analiz_stat_report">
+        <form class="io_form" action="получить отчеты за период" onsubmit="WS.ОтправитьФорму(event)">
+            <label for="sprd_value_id">
+                <div class="input_name">Период</div>
+                {{$периоды := index .data.периоды "26000"}}
+                <select name="sprd_value_id" id="sprd_value_id">
+                   {{range $период := $периоды.МассивСтрок}}
+                       <option value="{{$период.SPRD_VALUE_ID}}">{{$период.SPRD_CAPTION}}</option>
+                    {{end}}
+                </select>
+            </label>
+         <button class="io" type="submit">Собрать данные</button>
+        </form>
+    </div>
+        <div id="stat_table" class="block">
+        {{ template "СтатОтчеты" .}}
+        </div>
+{{end}}

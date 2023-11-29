@@ -1,0 +1,44 @@
+{{define "ЛицензииКриптопро"}}
+<div id="cryptopro_list">
+
+    <button type="button" class="flex-row noradius full-width" onclick="WS.ОтправитьСообщениеИО('получить лицензии криптопро из тма', null, true )">
+        получить лицензии криптопро из тма
+    </button>
+
+      <table class="io_table">
+            <thead>
+                <tr>
+                    <th>USER_FIO</th>
+                    <th>USER_NAME</th>
+                    <th>SETUP_DATE</th>
+                    <th>MAIN_MAC</th>
+                    <th>VKSP_CODE</th>
+                    <th>MAIN_IP</th>
+                    <th>CPKEY</th>
+                    <th>ID</th>
+                    <th>INVENTORY_NUM</th>
+                    <th>COL</th>
+                </tr>
+            </thead>
+            <tbody>
+            {{ range $n , $m :=  (index .data.лицензии_из_тма "26000").МассивСтрок   }}
+               <tr>
+                   <td>{{$m.USER_FIO}}</td>
+                   <td>{{$m.USER_NAME}}</td>
+                   <td>{{$m.SETUP_DATE}}</td>
+                   <td>{{$m.MAIN_MAC}}</td>
+                   <td>{{$m.VKSP_CODE}}</td>
+                   <td>{{$m.MAIN_IP}}</td>
+                   <td>{{$m.CPKEY}}</td>
+                   <td>{{$m.ID}}</td>
+                   <td>{{$m.INVENTORY_NUM}}</td>
+                   <td>{{$m.COL}}</td>
+               </tr>
+
+                {{end}}
+            </tbody>
+        </table>
+
+
+</div>
+{{end}}

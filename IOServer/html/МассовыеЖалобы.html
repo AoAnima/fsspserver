@@ -1,0 +1,147 @@
+{{define "МассовыеЖалобы"}}
+    <div id="treath" class="flex_align-center flex-col">
+<div class="flex-row">
+        <form action="найти массовые жалобы" style="max-width: 800px" class="col io_form" onsubmit="WS.SendForm(event, false, false, false)">
+            <div>
+                <h3>
+                    Найти Жалобы поступившие от одного заявителя в большом количестве
+                </h3>
+            </div>
+            <div class="flex_align-center flex-row">Период поступления жалоб</div>
+            <div class="flex-row">
+
+            <label for="period_start "  class="center">
+                <div class="input_name">С </div>
+                <input required onchange=" Array.from(document.getElementsByName('период_с')).map((ПолеДата)=>ПолеДата.value=this.value); " type="date" name="период_с" id="period_start" placeholder="" value="">
+            </label>
+            <label for="period_stop" class="center">
+                <div class="input_name">по </div>
+                <input required onchange=" Array.from(document.getElementsByName('период_по')).map((ПолеДата)=>ПолеДата.value=this.value);" type="date" name="период_по" id="period_stop" placeholder="" value="">
+            </label>
+            </div>
+            <label for="count"  class="center">
+                <div class="input_name">Количество жалоб более:  </div>
+                <input required type="number" name="количество" id="count" placeholder="" value="10">
+            </label>
+            <button class="io" type="submit">Обновить данные из АИС</button>
+
+        </form>
+
+        <form style="max-width: 800px" class="col io_form" action="показать отработанные жалобы" onsubmit="WS.SendForm(event, false, false, false)">
+            <div>
+                <h3>
+                   Показать отработанные жалобы
+                </h3>
+            </div>
+            <div class="flex_align-center flex-row">Период поступления жалоб</div>
+            <div class="flex-row">
+
+            <label for="period_start "  class="center">
+                <div class="input_name">С </div>
+                <input required onchange="Array.from(document.getElementsByName('период_с')).map((ПолеДата)=>ПолеДата.value=this.value);" type="date" name="период_с" id="period_start" placeholder="" value="">
+            </label>
+            <label for="period_stop" class="center">
+                <div class="input_name">по </div>
+                <input required onchange=" Array.from(document.getElementsByName('период_по')).map((ПолеДата)=>ПолеДата.value=this.value); " type="date" name="период_по" id="period_stop" placeholder="" value="">
+            </label>
+              </div>
+            <button class="io" type="submit">Показать отработанные жалобы</button>
+        </form>
+
+    <form style="max-width: 800px" class="col io_form" action="показать найденные жалобы за период" onsubmit="WS.SendForm(event, false, false, false)">
+        <div >
+            <h3>
+                Показать найденные жалобы за период
+            </h3>
+        </div>
+        <div class="flex_align-center flex-row">Период поступления жалоб</div>
+        <div class="flex-row">
+            <label for="period_start "  class="center">
+                <div class="input_name">С </div>
+                <input required onchange="Array.from(document.getElementsByName('период_с')).map((ПолеДата)=>ПолеДата.value=this.value);" type="date" name="период_с" id="period_start" placeholder="" value="">
+            </label>
+            <label for="period_stop" class="center">
+                <div class="input_name">по </div>
+                <input required onchange=" Array.from(document.getElementsByName('период_по')).map((ПолеДата)=>ПолеДата.value=this.value); " type="date" name="период_по" id="period_stop" placeholder="" value="">
+            </label>
+        </div>
+        <button class="io" type="submit">Показать найденные жалобы</button>
+    </form>
+</div>
+
+        <form class="col io_form form_order flex-row" name="form_order" id="form_order" action="сортировать таблицу жалоб" onsubmit="WS.ОтправитьФорму(event)">
+            <input required type="date" name="период_с" id="period_start" placeholder="" value="">
+            <input required type="date" name="период_по" id="period_stop" placeholder="" value="">
+            <input type="text" class="inviz" name="table" value="orog.жалобы" readonly>
+        </form>
+
+        <div id="treath_table">
+
+            {{template "ТаблицаМассовыеЖалобы" .}}
+
+{{/*            <table class="io_table">*/}}
+{{/*                <thead>*/}}
+{{/*                <tr>*/}}
+{{/*                    <th>*/}}
+{{/*                        ОСП*/}}
+{{/*                    </th>*/}}
+{{/*                    <th>*/}}
+{{/*                        Номер обращения*/}}
+{{/*                    </th>*/}}
+{{/*                    <th>*/}}
+{{/*                        Заявитель*/}}
+{{/*                    </th>*/}}
+{{/*                    <th>*/}}
+{{/*                        Дата поступления*/}}
+{{/*                    </th>*/}}
+{{/*                    <th>*/}}
+{{/*                        Обращения касающиеся*/}}
+{{/*                    </th>*/}}
+{{/*                    <th>*/}}
+{{/*                        Тип обращения/Литер*/}}
+{{/*                    </th>*/}}
+{{/*                    <th>*/}}
+{{/*                        Содержание*/}}
+{{/*                    </th>*/}}
+{{/*                    <th>*/}}
+{{/*                        Примечание*/}}
+{{/*                    </th>*/}}
+{{/*                </tr>*/}}
+{{/*                </thead>*/}}
+{{/*                <tbody>*/}}
+
+{{/*                <tr>*/}}
+{{/*                   <td>*/}}
+
+{{/*                   </td>*/}}
+{{/*                    <td>*/}}
+
+{{/*                   </td>*/}}
+{{/*                    <td>*/}}
+
+{{/*                   </td>*/}}
+{{/*                    <td>*/}}
+
+{{/*                   </td>*/}}
+{{/*                    <td>*/}}
+
+{{/*                   </td>*/}}
+{{/*                    <td>*/}}
+
+{{/*                   </td>*/}}
+{{/*                    <td>*/}}
+
+{{/*                   </td>*/}}
+{{/*                    <td>*/}}
+{{/*                        <textarea name="" id="" cols="2" rows="2"></textarea>*/}}
+{{/*                        <button>Сохранить</button>*/}}
+
+{{/*                   </td>*/}}
+{{/*                </tr>*/}}
+{{/*                </tbody>*/}}
+{{/*            </table>*/}}
+        </div>
+
+
+    </div>
+{{end}}

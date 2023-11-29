@@ -1,0 +1,9 @@
+{{define "ОпцияSQLКатегории"}}
+{{/*    <option value="{{( index .data.опция_sql 0).ид_папки}}">{{( index .data.опция_sql 0).имя_папки}}</option>*/}}
+    <select required name="папка">
+        <option selected disabled value="">Выбрать</option>
+        {{range $n, $строка :=  .data.каталог_sql_запросов }}
+            <option value="{{$строка.ид_папки}}">{{$строка.имя_папки}}</option>
+        {{end}}
+    </select>
+{{end}}

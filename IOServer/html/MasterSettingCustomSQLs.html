@@ -1,0 +1,60 @@
+{{define "MasterSettingCustomSQLs"}}
+
+    <div id="left_wrapper">
+{{/*    <div class="">*/}}
+
+{{/*        Выберите спец. фильтры с помощью которых необходимо собрать данные.*/}}
+{{/*        Мастер настроекСпец. фильтр из АИС ид_таблицы {{(index .вопрос.Выполнить.Действие "добавить спец. фильтр в стат. таблицу").ид_таблицы}}*/}}
+{{/*    </div>*/}}
+{{/*    <div class="modal_body" id="">*/}}
+        <div class="master_setting panel_wrapper" id="MatserSettingSqls">
+            <div class="custom_sql  master_step active" id="step_1" data-master_step="1" >
+                <div class="custom_sql_browser browser_wrapper" id="browser">
+                    <div class="custom_sql_folders tabs_switcher" id="browser_navigator">
+
+                        <button type="button" onclick="Tabs.ShowTab('custom_sql_list', 'new_sql_script')">Добавить SQL Запрос</button>
+
+                        <button type="button" data-button_name=" - Скрыть список Запросов" onclick="СвернутьПанель('catalog_sql_list_wrapper', event)" > + Открыть список Запросов</button>
+
+                        <div id="catalog_sql_list_wrapper" class="tabs_switcher mini">
+                            {{template "СписокSqlЗапросов" .}}
+                        </div>
+
+                        <button class="noradius bordered" type="button" data-button_name=" - Скрыть список спец. фильтров" onclick="if(custom_sql_list_wrapper.children.length > 0){СвернутьПанель('custom_sql_list_wrapper', event)} else {WS.ОтправитьСообщениеИО('показать спец. фильтры');СвернутьПанель('custom_sql_list_wrapper', event)}"> + Открыть список спец. фильтры</button>
+                        <div id="custom_sql_list_wrapper" class="tabs_switcher mini">
+
+                        </div>
+{{/*                        {{range $n, $строка := (index .data.каталог (ЧислоВСтроку 26000)).МассивСтрок}}*/}}
+{{/*                            <button type="button" onclick="Tabs.ShowTab('custom_sql_list', 'sql_list_{{$строка.OBJECT_NAME}}')">{{$строка.SOBJ_CAPTION}}</button>*/}}
+{{/*                        {{end}}*/}}
+                    </div>
+                    <div class="browser_viewer">
+{{/*                        <div class="search_panel">*/}}
+{{/*                            <form action="найти спец. фильтр" onsubmit="WS.ОтправитьФорму(event)">*/}}
+{{/*                                <label class="nowrap" for="search_input">*/}}
+{{/*                                    <input name = "sql_name" type="text" class="full-width" placeholder="Введите слова содержащиеся в названии фильтра">*/}}
+{{/*                                    <button class="search" type="submit"></button>*/}}
+{{/*                                </label>*/}}
+
+{{/*                            </form>*/}}
+{{/*                        </div>*/}}
+
+                        <div class="browser_view tabs_container" id="custom_sql_list">
+{{/*                                <div class="font-15 tab" id="">*/}}
+{{/*                                Для просмотра имеющихся спец. фильтров АИС, выберите категорию слева. Или введите часть названия в поисковом окне сверху.   Выберите один или несколько фильров, и нажмите кнопку далее внизу. Произведите необходимые настройки инажмите кнопку "Добавить в таблицу"*/}}
+{{/*                             </div>*/}}
+                           {{template "ТабыSqlЗапросов" .}}
+                           {{template "НовыйSqlЗапрос" .}}
+
+                            <div id="custom_sql_catalog_list" class="tabs_container"></div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+{{end}}

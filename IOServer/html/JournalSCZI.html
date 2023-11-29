@@ -1,0 +1,346 @@
+{{define "JournalSCZI"}}
+    <div id="journal_sczi">
+        <div class="left_wrapper">
+            <div class="journal_demo">
+
+                {{$Образцы :=  (index .data.образец 0).файлы}}
+
+                <div class="demo_1">
+                    <div class="">
+
+                                <button class="btn_preview file btn_upload-with_name" onclick="WS.ОткрытьЗакрыть('upload_vuc')">
+                                    <div class="input_name">
+                                        <img class="icon"
+                                             src="/static/images/upload(1).svg">
+                                    </div>
+                                    Загрузить данные из УЦ
+                                </button>
+                        <div class="btn_wrapper"  id="" >
+                            <button class="btn_preview file"
+                                    onclick="WS.ОтправитьСообщениеИО('показать форму 1 журанала скзи',{'осп':{{.client.OspCode}}}, true)">
+                                <img class="icon"
+                                     src="/static/images/metod_doc.svg">
+                                <div class="file_status">Просмтреть Форма 1 журнала СКЗИ</div>
+                            </button>
+                        </div>
+
+
+
+                            <div class="modal hidden" id="upload_vuc">
+                                <div class="modal_header">
+                                    <button onclick="WS.ОткрытьЗакрыть('upload_vuc')" class="close_white">
+
+                                    </button>
+                                </div>
+                                <div class="modal_body">
+                                    <div class="note">
+                                        Файл с данными из УЦ должен быть сохранён в формате csv с разделитем запятая, в кодировке utf-8, и содержать только столбцы в слудющем порядке:
+                                        <ol>
+                                            <li>Имя субъекта: Общее имя</li>
+                                            <li>Серийный номер</li>
+                                            <li>Имя субъекта: Код структурного подразделения ФССП России</li>
+                                            <li>Ключ действителен с</li>
+                                            <li>Дата отзыва</li>
+                                            <li>Имя субъекта: Подразделение</li>
+                                        </ol>
+                                        <p>
+                                            Для этого скопированные данные, вставляем в любой табличный редактор (Excel, Calc), удаляем лишний столбцы, оставив только 5 выше перечисленных.
+                                        </p>
+                                        <ul>
+                                            <li>
+                                                Нажимаем Файл->Сохранить как...
+                                            </li>
+                                            <li>Тип файлы выбираем CSV UTF-8
+                                                <ol>
+                                                    <li>(Если Excel то "CSV UTF-8(разделитель-запятая) (*.csv)"</li>
+                                                    <li>(Если Calc то "Текст CSV (.csv) (*.csv)" , ставим галочку имзенить настройки фильтра. В открывшемся окне вбыираем кодировку "Юникод UTF-8" , разделитель полей ставим ',' - запятая</li>
+                                                </ol>
+                                            </li>
+                                            <li>Нажимаем Сохранить</li>
+                                        </ul>
+                                        <p></p>
+                                    </div>
+
+                                    <form action="загрузить данные из уц" onsubmit="WS.ЗагрузитьФайлы(event)">
+                                        <input type="text" class="inviz" name="форма" value="вуц" readonly>
+                                        <label for="upload_form_1" class="file">
+                                            <div class="input_name">
+                                                <img class="icon"
+                                                     src="/static/images/upload(1).svg">
+                                            </div>
+                                            Загрузить данные ВУЦ
+                                            <input type="file" class="inviz" id="upload_form_1" name="vuc" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))" multiple>
+                                        </label>
+                                    </form>
+                                    <div id="wrapper_journal_form_1">
+                                        <table class="journal_form_1 io_table"  cellspacing="0" id="journal_form_1">
+                                            <thead>
+                                            <tr class="mvvtr" style="border: 0px;" >
+                                                <th colspan="17" style="text-align: left; border: 0px;">
+                                                    <h3>Журнал СКЗИ (форма 1)</h3>
+                                                    <p style="text-align: left; font-size:13px;">Журнал поэкземплярного учета СКЗИ</p>
+                                                </th>
+                                            <tr>
+
+                                            <tr style="text-align: center;">
+                                                <th rowspan=2>№<br>п/п</th>
+                                                <th rowspan=2 width=200px>ОСП</th>
+                                                <th rowspan=2 >Наименование СКЗИ, эксплуатационных, технических документов к ним, КД</th>
+                                                <th rowspan=2 >Серийный номер</th>
+                                                <th rowspan=2>№ экземпляра</th>
+
+                                                <th colspan=2>Отметка о получении</th>
+                                                <th colspan=3>Отметка о рассылке или передаче</th>
+                                                <th colspan=2>Отметка о возрате</th>
+                                                <th>Дата ввода в действие</th>
+                                                <th>Дата вывода из действия</th>
+
+                                                <th>Дата уничтожения</th>
+                                                <th>Номер акта или расписка об уничтожении</th>
+                                                <th>Примечание</th>
+                                            </tr>
+
+
+                                            <tr style="text-align: center;">
+                                                <th width=110px>От кого получены или Ф.И.О сотрудника отдела инфрорматизации</th>
+                                                <th>Дата изготовления КД и рассписска в изготовлении</th>
+                                                <th> Кому разосланы или переданы</th>
+                                                <th> Дата и номер сопроводительного письма</th>
+                                                <th> Дата и номер подтверждения или расписка о получении</th>
+                                                <th> Дата и номер сопроводительного письма</th>
+                                                <th> Дата и номер подтверждения</th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+
+                                            <tr style="text-align: center;">
+                                                <th>1</th>
+                                                <th width=200px></th>
+                                                <th>2</th>
+                                                <th>3</th>
+                                                <th >4</th>
+                                                <th >5</th>
+                                                <th width=110px>6</th>
+                                                <th>7</th>
+                                                <th>8</th>
+                                                <th>9</th>
+                                                <th>10</th>
+                                                <th>11</th>
+                                                <th>12</th>
+                                                <th>13</th>
+                                                <th>14</th>
+                                                <th>15</th>
+                                                <th>16</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr style="text-align: center;">
+                                                <td></td>
+                                                <td width=200px></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td ></td>
+                                                <td ></td>
+                                                <td width=110px></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                    </div>
+{{/*                    <div id="file_demo_1" class="files_list">*/}}
+{{/*                       {{if $Образцы}}*/}}
+{{/*                           {{if index $Образцы "1"}}*/}}
+{{/*                                    {{$Образцы_1 := index $Образцы "1"}}*/}}
+{{/*                                {{template "JournalSCZIDemoFileButton" index $Образец 0}}*/}}
+{{/*                                    {{range $i, $DemoFile := $Образцы_1}}*/}}
+{{/*                                        {{template "JournalSCZIDemoFileButton"  $DemoFile}}*/}}
+{{/*                                    {{end}}*/}}
+{{/*                            {{end}}*/}}
+{{/*                        {{end}}*/}}
+{{/*                    </div>*/}}
+
+                </div>
+
+                <div class="demo_2">
+                    <div class="btn_upload-with_name">
+
+                        <div class="upload_form">
+                            <form action="загрузить образец журнал скзи" onsubmit="WS.ЗагрузитьФайлы(event)">
+                                <input type="checkbox" class="inviz" name="не_менять_имя" checked value="true" readonly>
+                                <input type="text" class="inviz" name="filePath" value="uploads/documents/journal_sczi" readonly>
+                                <input type="text" class="inviz" name="образец" value="true" readonly>
+                                <input type="text" class="inviz" name="форма" value="2" readonly>
+                                <label for="upload_form_2" class="">
+                                    <div class="input_name">
+                                        <img class="icon"
+                                             src="/static/images/upload(1).svg">
+                                    </div>
+                                    Загрузить Образец "Журнала СКЗИ" форма №2
+                                    <input class="inviz"  type="file" name="demo" id="upload_form_2" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))" multiple>
+                                </label>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="file_demo_2" class="files_list">
+{{/*                        {{$Образец = (index (index (index .data.образец 0).файлы "2") 0)}}*/}}
+                        {{if $Образцы}} {{if index $Образцы "2"}}
+                            {{$Образцы_2 := index $Образцы "2"}}
+                                {{range $i, $DemoFile := $Образцы_2}}
+                            {{template "JournalSCZIDemoFileButton"  $DemoFile}}
+                                    {{end}}
+                        {{end}}
+                        {{end}}
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            <div class="journal_lists">
+
+                {{if .data.журналы}}
+
+                    {{range $i, $журнал := .data.журналы}}
+
+                        <div class="osp_filelist">
+                            <div class="panel_header osp_name">
+                                {{$журнал.osp_name}}
+                            </div>
+                            {{range $i, $формы := $журнал.файлы}}
+                               {{range $НомерФормы, $файлы :=  $формы}}
+
+                            <div class="sczi_forms" id="sczi_form_{{$НомерФормы}}">
+                                <div class="panel_header">
+                                    Форма журнала СКЗИ {{$НомерФормы}}
+                                </div>
+                                <div class="files_list" id="file_list_{{$журнал.осп}}_form_{{$НомерФормы}}">
+                                    {{range $n,$лист := $файлы}}
+                                       {{template "JournalSCZIFileButton" $лист}}
+                                    {{end}}
+                                </div>
+                            </div>
+                               {{end}}
+                            {{end}}
+                        </div>
+                    {{end}}
+                {{end}}
+            </div>
+        </div>
+        <div id="file_preview" class="preview">
+            <div class="instruction">
+
+                <div class="">
+                   Для корректного отображения файлов на витринах ОСП, имена файлов должны начинаться с КОРРЕКТНОГО названия структурного подразделения как в АИС (например Благодарненский). Если в названии будет ошибка например Буденовский Журнал СКЗИ.doc а не БудеННовский Журнал СКЗИ.doc то соответсвуюшее ОСП не увидит свой образец. Буква е и ё не имеют значения.
+                    <p>
+                        Если после загрузки образца рядом с названием файла появилась надпись ОСП: (номер соп)например  26911. То система смогла определить кому показывать образец, иначе ошибка в именовании файла.
+                    </p>
+                </div>
+
+               <p>
+                   Инструкция для ОСП
+               </p>
+                <div>
+                    Скачайте образец Журнала СКЗИ по ссылку слева:
+                    <div class="flex-row">
+                        <div class="btn_wrapper"  >
+                            <button class="btn_preview file">
+                                <img class="icon"
+                                     src="/static/images/metod_doc.svg">
+                                <div class="file_status">Название ОСП Журнал СКЗИ.dov</div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    1.Берем журнал СКЗИ
+                    <div><img style="width: 450px" src="/uploads/documents/journal_sczi/instruction/1.jpg" alt=""></div>
+                </div>
+                <div>
+                    2.Переворачиваем его
+                    <div><img style="width: 450px"  src="/uploads/documents/journal_sczi/instruction/2.jpg" alt="">
+                    </div>
+                </div>
+                <div>
+                    3.Необходимо отчитать 13 листов
+
+                    <div><img style="width: 450px"  src="/uploads/documents/journal_sczi/instruction/3.png" alt=""></div>
+                </div>
+                <div>
+                    4. Заполните свой журнал в соответсвии с образцов
+                </div>
+                <div>
+                    5. Сделайте фото или скан заполненного журнала.
+                </div>
+                <div>
+                    6. Загрузките сканы/фото нажав соответсвующую кнопку
+                    <div class=" flex-row">
+                        <div class="btn_wrapper"  >
+                            <label for="upload_form_2" class="btn_upload-with_name">
+                                <div class="input_name">
+                                    <img class="icon"
+                                         src="/static/images/upload(1).svg">
+                                </div>
+                                Загрузить сканы "Журнала СКЗИ" форма №1/2
+                                <input class="inviz"  type="file" name="form_2" id="upload_form_2">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    Дожидаетесь проверки правильности заполнения. Если Вы допустите ошибку то кнопка изменит вид на <div class=" flex-row">
+                        <div class="btn_wrapper"  >
+                            <button class="btn_preview file broken">
+                                <img class="icon" src="/static/images/broken.svg" title="Необходима корректировка">
+                                <div class="file_status">
+                                    Комментарий ошибки
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    Внесите необходимые корректировки и загрузите новый скан/фото. А Затем удалите ошибочный документ нажав красный крест <span class="input_name">
+                    <img class="icon" src="/static/images/close_red.svg" alt="">
+                </span> рядом с кнопкой
+                </div>
+                <div class="">
+                    Если всё заполненно верно, кнопка документа примет вид
+                    <div class=" flex-row">
+                        <div class="btn_wrapper"  >
+                            <div class="btn_wrapper"  >
+                                <button class="btn_preview file success">
+                                    <img class="icon" src="/static/images/success.svg" title="Необходима корректировка">
+                                    <div class="file_status">
+                                        Проерка пройдена
+                                    </div>
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{{end}}

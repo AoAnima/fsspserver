@@ -1,0 +1,6 @@
+{{define "СписокSqlЗапросов"}}
+                            {{range $n, $строка :=  .data.каталог_sql_запросов }}
+
+                                <button type="button" onclick="Tabs.ShowTab('custom_sql_list', 'sql_list_{{$строка.ид_папки}}')">{{$строка.имя_папки}}</button>
+                            {{end}}
+{{end}}

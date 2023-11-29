@@ -1,0 +1,59 @@
+{{define "Aliment"}}
+
+<div class="flex-col flex_justify-center flex_align-center">
+<h2>Анализ эффективности работы СПИ по алиментам</h2>
+  <form class="col" action="получить данные по работе спи" onsubmit="WS.SendForm(event, false, false, false)">
+  <div class="flex-row flex_justify-center">
+      <select name="osp" id="osp" class="" required>
+        <option>Выберите ОСП:</option>
+        <option value="all">Все ОСП</option>
+      </select>
+  </div>
+
+    <div class="flex-row flex_justify-center">За период</div>
+    <div class="flex-row flex_justify-center">
+      <label for="start">
+          <div class="input_name">с </div>
+        <input type="date" value="2021-01-01" name="start" id="start">
+      </label>
+      <label for="stop">
+          <div class="input_name">  по:  </div>
+        <input  type="date" class="" value="2021-12-13" name="stop" id="stop">
+      </label>
+    <button type="submit"> Выполнить </button>
+    </div>
+  </form>
+
+
+  <table cellpadding="2" cellspacing="0" id="datatable" class="io_table">
+    <thead>
+    <tr align="center" style="/*position: absolute; */ width: 100%;">
+      <th class="headerButton first" title="ОСП">ОСП</th>
+      <th class="headerButton" title="Коэф. эффективности работы">Коэф. эффективности работы</th>
+      <th class="headerButton" title="Возбуждено ИП + возобновлено ИП">Возбуждено ИП</th>
+      <th class="headerButton" title="Окончено ИП">Окончено ИП</th>
+      <th class="headerButton" title="Рапсределено ДС">Распределено ДС</th>
+      <th class="headerButton" title="Передано в архив">Передано в архив</th>
+      <th class="headerButton" title="Составелено АП (5.35.1)">Составлено АП (5.35.1)</th>
+      <th class="headerButton" title="Составелено АП (иные)">Составлено АП (иные)</th>
+      <th class="headerButton" title="Вынесено постановлений об обращении взыскания на ДС">Вынесено постановлений об обращении взыскания на ДС</th>
+      <th class="headerButton" title="Вынесено постановлений об обращении взыскания на доходы">Вынесено постановлений об обращении взыскания на доходы</th>
+      <th class="headerButton" title="Вынесено постановлений о запрете на ТС и недвижимое им-во">Вынесено постановлений о запрете на ТС и недвижимое им-во</th>
+      <th class="headerButton" title="Вынесено постановлений о временном граничении в парве выезда из РФ">Вынесено постановлений о временном ограничении в праве выезда из РФ</th>
+      <th class="headerButton" title="Вынесено постановлений об ограничении спец. прав">Вынесено постановлений об ограничении спец. прав</th>
+      <th class="headerButton" title="Составлено актов описи и ареста им-ва">Составлено актов описи и ареста им-ва</th>
+      <th class="headerButton" title="Составлено актов выхода на тер-ию">Составлено актов выхода на тер-ию</th>
+      <th class="headerButton" title="Объявлено в розыск">Объявлено в розыск</th>
+      <th class="headerButton" title="Вынесено постановлений о расчете задолженности">Вынесено постановлений о расчете задолженности</th>
+      <th class="headerButton" title="Рассмотрено обращений">Рассмотрено обращений</th>
+      <th class="headerButton" title="Принято граждан">Принято граждан</th>
+      <th class="headerButton" title="Внесено платежных документов">Внесено платежных документов</th>
+      <th class="headerButton" title="Обработано поступивших поручений СПИ">Обработано поступивших поручений СПИ</th>
+      <th class="headerButton" title="Проверка бухгалтерии">Проверка бухгалтерии</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+{{end}}

@@ -1,0 +1,322 @@
+{{define "Dialogs"}}
+{{with index .data.диалог 0}}
+{{/*        {{range $сообщение := .data.диалог}}*/}}
+{{/*{{$сообщение.описание_диалога}}*/}}
+{{/*{{$сообщение.номер_сообщения}}*/}}
+{{/*            {{range $номерДиалога, $сообщения := $сообщение}}*/}}
+{{/*                {{$номерДиалога}}*/}}
+{{/*                {{$сообщения.номер_сообщения}}*/}}
+{{/*                 {{range $номерСообщения, $сообщение := $сообщения}}*/}}
+
+<h3>Номер диалога/группы {{.data.номер_диалога}}
+    {{/*                            {{if $сообщение.описание_диалога}}*/}}
+    описание_диалога {{.описание_диалога}}
+    {{/*                            {{end}}*/}}
+</h3>
+                <div class="dialog" id="dialog_{{.номер_диалога}}">
+
+
+                     <div id="monaco_wrapper">
+
+                     </div>
+                     <div class="dialog_message" id="dialog_message_{{.номер_сообщения}}">
+                         <button class="panel_toggle"
+                                 onclick="СвернутьПанель('dialog_message_{{.номер_сообщения}}');
+                                          ПодогнатьРазмерMonaco('monaco_wrapper')">></button>
+                         <form action="" class="col">
+                         <div class="dialog_message_id">
+                             Номер сообщения: {{.номер_сообщения}} <div>#{{.ид}}</div></div>
+                     <div class="dialog_setting ">
+                         <div class="fieldset">
+                             <div class="fieldset_legend"> Активирующие сообщение
+                                 <i class="helper_icon">?
+                                     <div class="helper">Введите  слово, словосочетение, предложение которое будет активировать действие бота - Активация , и нажмите ENTER или точку с запятой ; после каждой Активации</div>
+                                 </i>
+                             </div>
+                             <label class="left">
+                                 <div id="activations_wrapper">
+                                     {{if .активирующее_сообщение}}
+                                         {{range $i, $сообщение := .активирующее_сообщение}}
+                                                 <input type="text" checked name="активирующее_сообщение" value="{{$сообщение}}">
+                                         {{end}}
+                                     {{else}}
+                                     {{end}}
+                                 </div>
+                                 <input onkeypress="ПарсингМеток(event, 'activations_wrapper','activation_messages')" placeholder="Введите сообщение">
+                             <input type="text"
+                                    class="inviz"
+                                    readonly
+                                    name="активирующее_сообщение"
+                                    placeholder="Введите сообщение"
+                                    id="activation_messages"
+                                    value="{{.активирующее_сообщение}}">
+                             </label>
+                            </div>
+                         <div class="fieldset"> <div class="fieldset_legend">Пункт меню</div>
+                             {{if .меню}}
+                             <label for="" class="left">
+                                 <div class="input_name">Иконка меню</div>
+                                 {{if .меню.иконка}}
+                                     <img src="{{.меню.иконка}}" alt="">
+                                 {{end}}
+                             </label>
+
+                             <label for=" " class="left">
+                                 <div class="input_name">Название пункта меню</div>
+                                 <input type="text"
+                                        name="меню.название"
+                                        id=""
+                                        placeholder="Название пункта меню"
+                                        value="{{.менюю.название}}">
+                             </label>
+                             <label for="" class="left">
+                                 <div class="input_name">показывать_в_меню: </div>
+                                 <input type="checkbox" value="{{.показывать_в_меню}}">
+                              </label>
+
+                             {{else}}
+                               <label for="">
+                                   <button class="btn">Добавить пункт меню</button>
+                               </label>
+                             {{end}}
+                         </div>
+
+                         {{/*Шаблон HTML и sql запрос */}}
+                         <div class="fieldset" id="html_templates">
+                             <div class="input_name">
+                                 Открыть редактор
+                                 <button type="button"
+                                         onclick="InitMonaco(['code_container'],'monaco_wrapper')">
+                                     Открыть редактор
+                                 </button>
+                             </div>
+                             <div class="fieldset_legend">HTML шаблон ответа</div>
+
+                            {{if .html_шаблон}}
+
+                                {{range $i, $шаблон :=  .html_шаблон}}
+                                    <label for="" class="space-between">
+                                        <div class="input_name">Основной HTML шаблон</div>
+                                        <input type="text"
+                                               name="шаблон.HTML"
+                                               id="HTML"
+                                               placeholder="Название шаблона"
+                                               value="{{$шаблон.HTML}}">
+                                    </label>
+                                    <label for="" class="space-between">
+                                        <div class="input_name">Родительский элемент для вставки/контейнер</div>
+                                        <input type="text"
+                                               name="шаблон.цель"
+                                               id="цель"
+                                               placeholder="Родительский элемент для вставки/контейнер"
+                                               value="{{$шаблон.цель}}">
+                                    </label>
+                                     {{with $шаблон.СпособВставки}}
+                                        <label for="" class="space-between">
+                                            <div class="input_name">Способ вставки</div>
+                                            <input type="text"
+                                                   name="шаблон.СпособВставки"
+                                                   id="цель"
+                                                   placeholder="Способ вставки"
+                                                   value="{{$шаблон.СпособВставки}}">
+                                        </label>
+                                     {{end}}
+                                    <label for="update_html">
+                                        <div class="input_name">Заменить/Обновит родительский элемент</div>
+                                        <input {{if $шаблон.СпособВставки }}
+                                                    {{ if eq  $шаблон.СпособВставки "обновить"}}
+                                                        checked
+                                                    {{end}}
+                                                {{end}}
+                                                type="radio"
+                                                name="шаблон.СпособВставки"
+                                                id="update_html"
+                                                value="true">
+                                    </label>
+                                    <label for="preppend_html">
+                                        <div class="input_name">Добавить в начало родительского элемента</div>
+                                        <input {{if $шаблон.СпособВставки }}
+                                                    {{ if eq  $шаблон.СпособВставки "Добавить в начало"}}
+                                                        checked
+                                                    {{end}}
+                                                {{end}}
+                                                type="radio"
+                                                name="шаблон.СпособВставки"
+                                                id="preppend_html"
+                                                value="true">
+                                    </label>
+                                    <label for="append_html">
+                                        <div class="input_name">Добавить в конец родительского элемента (по умолчанию)</div>
+                                        <input
+                                                {{if not $шаблон.СпособВставки  }}
+                                                    checked
+                                                {{end}}
+                                                id="append_html"
+                                                type="radio"
+                                                name="шаблон.СпособВставки"
+                                                value="true">
+                                    </label>
+                                        {{$ВложенныеШаблоны := ПолучитьДанныеШаблона $шаблон.HTML}}
+                                        <div class="html_tabs">
+                                            <div class="inviz code_container"
+                                                 id="code_container"
+                                                 data-tabs_wrapper_id="html_templates"
+                                                 data-tabs_wrapper_name="HTML шаблоны">
+                                            {{range $имя , $html := $ВложенныеШаблоны.ВсеШаблоны}}
+                                                <textarea
+                                                        {{if eq $ВложенныеШаблоны.Основной $имя}}
+                                                            data-main_tpl="{{$имя}}_html"
+                                                        {{end}}
+                                                        class="inviz source_code"
+                                                        name="{{$имя}}"
+                                                        id="{{$имя}}"
+                                                        data-monaco_lang="html"
+                                                        cols="0" rows="0">{{$html}}</textarea>
+                                            {{end}}
+                                            </div>
+
+                                        </div>
+                                {{end}}
+                                {{else}}
+                             <label for="">
+                                <button>Создать HTML шаблон для сообщения</button>
+                             </label>
+                            {{end}}
+                         </div>
+{{/*  sql запросы */}}
+                         {{with .sql_запрос}}
+                             <div class=" fieldset" id="sqls_wraper">
+                                 <div class="fieldset_legend">Скрипты</div>
+                                 {{range $очерёдность, $запросы := .}}
+                                     <p>Очерёдность {{$очерёдность}}</p>
+                                     {{range $имя, $карта_запроса := $запросы}}
+                                         <p>Имя запроса/переменной {{$имя}}</p>
+                                         {{$ид_запроса:=$карта_запроса.ид_запроса}}
+                                         $ид_запроса: {{$ид_запроса}}
+                                         аргументы: {{$карта_запроса.аргументы}}
+                                         доступ: {{$карта_запроса.доступ}}
+                                         {{range $i, $уровень := $карта_запроса.доступ}}
+                                             <label for="" class="row">
+                                                 <div class="input_name">{{$уровень}}</div>
+                                                 <input type="checkbox" checked name="уровень_доступа" value="{{$уровень}}">
+                                             </label>
+                                         {{end}}
+                                         имя: {{$карта_запроса.имя}}
+                                         очерёдность: {{$карта_запроса.очерёдность}}
+                                         нет_доступа: {{$карта_запроса.нет_доступа}}
+                                         {{with $карта_запроса.скрипт}}
+                                             <textarea class="inviz source_code"
+                                                       name="sql_{{$ид_запроса}}"
+                                                       id="sql_{{$ид_запроса}}"
+                                                       data-monaco_lang="sql"
+                                                       cols="30" rows="10">{{.}}</textarea>
+                                         {{end}}
+                                     {{end}}
+
+                                 {{end}}
+                             </div>
+                         {{end}}
+{{/*  конец html и sql   */}}
+                         <div class="fieldset" id="json_handler">
+                             <div class="fieldset_legend">JSON данные</div>
+                             {{if .json_данные}}
+                                 {{range $i, $json:= .json_данные}}
+                                    <label for="" class="space-between">
+                                        <div class="input_name">Имя переменной/название sql запроса</div>
+                                        <input type="text" name="" id="" value="{{$json.DATA}}">
+                                    </label>
+                                    <label for="" class="space-between">
+                                        <div class="input_name">Цель для вставки/удаления/обновления на клиенте</div>
+                                        <input type="text" name="" id="" value="{{$json.цель}}">
+                                    </label>
+                                    {{if $json.обработчик}}
+                                        <label for="" class="left">
+                                            <div class="input_name">JS функция для обработки а клиенте</div>
+                                            <input type="text" name="" id="" placeholder="JS обработчик" value="{{$json.обработчик}}">
+                                        </label>
+                                    {{end}}
+                                    <label for="" class="left">
+                                        <div class="input_name">Получатель данных, можно отправлять любому пользователю онлайн</div>
+                                        <input type="text" name="" id="" placeholder="получатель данных" value="{{$json.получатель}}">
+                                    </label>
+                                 {{end}}
+                                 {{else}}
+                             <label for="">
+                                    <button>Добавить обработчик JOSN данных</button>
+                             </label>
+                            {{end}}
+                         </div>
+
+                         <div class="fieldset row">
+                         <div class=" ">
+                           <div class="fieldset_legend">Доступ к сообщению
+                               <i class="helper_icon">!
+                                   <div class="helper">Дописать sql для получения всех уровней доустпа</div>
+                               </i>
+                               <i class="helper_icon">?
+                                   <div class="helper">Кому ИО будет отвечать еси получит активационное сообщение</div>
+                               </i>
+                           </div>
+                             {{range $i, $уровень := .доступ}}
+                                 <label for="" class="left">
+                                     <div class="input_name">{{$уровень}}</div>
+                                     <input type="checkbox" checked name="уровень_доступа" value="{{$уровень}}">
+                                 </label>
+                             {{end}}
+                         </div>
+                         <div class=" ">
+                                 <div class="fieldset_legend">Запрет доступа
+                                     <i class="helper_icon">?
+                                         <div class="helper">Кому ИО не будет отвечать если получит акттивационное сообщение</div>
+                                     </i>
+                                 </div>
+                                <div class="">
+                                    {{.нет_доступа}}
+                                </div>
+                             </div>
+                         </div>
+
+                         {{with $ответы:= .ответ}}
+                             <div class="response fieldset">
+                                 <div class="fieldset_legend">Текстовые ответы ИО на входящее сообщение </div>
+                                 {{range $i, $ответ := $ответы}}
+                                 <div class="response fieldset">
+                                     <div class="fieldset_legend">Ответ на сообщение № {{$ответ.номер_сообщения}} диалога №{{$ответ.номер_диалога}} <div>#{{$ответ.ид_ответа}}</div></div>
+                                     <label for="" class="left">
+                                         <div class="input_name">Утверждение</div>
+                                         <textarea name="утверждение" id="">{{ $ответ.утверждение}}</textarea>
+                                     </label>
+                                     <label for="" class="left">
+                                         <div class="input_name">Вопрос</div>
+                                         <textarea name="вопрос" id="">{{ $ответ.вопрос}}</textarea>
+                                     </label>
+
+                                     <label for="" class="space-between">
+                                         <div class="input_name">Выполнить</div>
+                                         <input type="text" name="" id="" value="{{ $ответ.выполнить}}">
+                                     </label>
+                                     <label for="" class="left">
+                                         <div class="input_name">Доступ</div>
+                                         {{range $i, $уровень := $ответ.доступ}}
+                                             <label for="" class="row">
+                                                 <div class="input_name">{{$уровень}}</div>
+                                                 <input type="checkbox" checked name="уровень_доступа" value="{{$уровень}}">
+                                             </label>
+                                         {{end}}
+                                     </label>
+                                 </div>
+                                 {{else}}
+                                     <button>Добавить ответ</button>
+                                 {{end}}
+                             </div>
+                         {{end}}
+                     </div>
+                         </form>
+                     </div>
+{{/*                 {{end}}*/}}
+                </div>
+{{/*            {{end}}*/}}
+
+        {{end}}
+
+{{end}}

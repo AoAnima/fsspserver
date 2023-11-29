@@ -1,0 +1,257 @@
+{{define "RutokensAdminList"}}
+{{/*  В заисимости от того в каком виде вохрващаються данные из базы данных, при рендере в шаблон передаёться объект со всем массивом данных полученных из БД, сгрупированны по названиям запросов, соовтетсветнно нужно обращаться к data.название_запроса   */}}
+
+<div class="">
+
+
+
+
+    {{range $н, $ДанныеПоОсп := .data.rutokens_list}}
+
+         {{$osp := (index $.Osp $ДанныеПоОсп.осп)}}
+
+    <table id="table_rutokens_{{$ДанныеПоОсп.осп}}" class="io_table text_center">
+        <caption>Список RuTokens  {{with  $osp}}  {{.OspName}} {{end}};
+
+        </caption>
+        <thead>
+        <tr>
+            <th>№</th>
+            <th>Серийный номер</th>
+            <th>Цвет</th>
+            <th>Дата записи</th>
+            <th>Кто вносил</th>
+            <th>Целостность</th>
+            <th>Сервер</th>
+            <th>Удалить</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{range $index, $row := $ДанныеПоОсп.rutokens}}
+        <tr>
+            <td>{{Плюс $index 1}}</td>
+            <td>{{$row.серийный_номер}}</td>
+            <td>
+
+                <form action="Изменить цвет рутокена" id="editRuColor_{{$row.серийный_номер}}" name="editRuColor_{{$row.серийный_номер}}" method="post" onsubmit="WS.SendForm(event, false);">
+
+                    <input type="text" readonly class="inviz" name="серийный_номер" value="{{$row.серийный_номер}}">
+
+                    <select class="{{if eq $row.цвет `Зелёный`}}green{{else if eq $row.цвет `Красный`}}red{{end}}" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))" name="цвет" id="color_{{$row.серийный_номер}}">
+
+                        <option class="green" {{if eq $row.цвет `Красный`}}selected{{end}} value="Красный">Красный</option>
+                        <option {{if eq $row.цвет `Зелёный`}}selected{{end}} value="Зелёный">Зелёный</option>
+
+                    </select>
+
+                </form>
+
+
+            </td>
+            <td>{{ParseTime $row.дата_записи}}</td>
+            <td>{{$row.кто_вносил}}</td>
+            <td>
+                <form action="Изменить целостность рутокена" id="editRuIntegrity_{{$row.серийный_номер}}" name="editRuIntegrity_{{$row.серийный_номер}}" method="post" onsubmit="WS.SendForm(event, false);">
+
+                    <input type="text" readonly class="inviz" name="серийный_номер" value="{{$row.серийный_номер}}">
+
+                    <select class="" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))" name="целостность" id="integrity_{{$row.серийный_номер}}">
+
+                        <option class="green" {{if eq $row.целостность `Повреждён`}}selected{{end}} value="Повреждён">Повреждён</option>
+                        <option {{if eq $row.целостность `Целый`}}selected{{end}} value="Целый">Целый</option>
+                        <option {{if eq $row.целостность `НЕ работает`}}selected{{end}} value="НЕ работает">НЕ работает</option>
+
+                    </select>
+
+                </form>
+            </td>
+            <td>{{if eq $row.сервер true}}Да{{end}}</td>
+            <td>
+                <form action="удалить рутокен" name = "deleteRu_{{$row.серийный_номер}}" id="deleteRu_{{$row.серийный_номер}}">
+                    <input readonly class="inviz" name="серийный_номер" type="text" value="{{$row.серийный_номер}}">
+                    <button class="ws_btn" type="submit">X</button>
+                </form></td>
+        </tr>
+        {{end}}
+        </tbody>
+    </table>
+    {{end}}
+</div>
+
+
+<div class="tabs_wrapper">
+
+
+
+   <div class="rutokens_tables tabs_container" id="rutoken_tabs">
+
+       <table id = "rutokens_count" class="io_table text_center">
+
+           <caption>Количество Рутокенов <button type="button" onclick="Tabs.ShowTab('rutoken_tabs', 'all')">Открыть/Скрыть все таблицы</button></caption>
+           <thead>
+           <tr>
+               <th>ОСП</th>
+               <th>Количество по бухгалтерии</th>
+               <th>Заполненно</th>
+           </tr>
+           </thead>
+           <tbody>
+
+           {{range $index, $row := .data.total}}
+               {{$OSPData := index $.Osp $row.осп}}
+               <tr>
+                   <td>
+                       <button type="button" class="link" onclick="Tabs.ShowTab('rutoken_tabs', 'rutokens_{{$OSPData.OspCode}}')">{{$OSPData.OspName}}</button>
+                   </td>
+                   <td>
+                       <form action="Изменить количество рутокенов" name="RutokensCount_{{$row.осп}} " id="RutokensCount_{{$row.осп}}" onsubmit="WS.SendForm(event, false)">
+                           <label class="center" for="rutokens_count_{{$row.осп}}">
+
+                               <input  class="latent" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))" form="RutokensCount_{{$row.осп}}" type="number" value="{{if not $row.количество }}0{{else}}{{$row.количество}}{{end}}" name="количество" id="rutokens_count_{{$row.осп}}" placeholder="">
+                           </label>
+                           <input form="RutokensCount_{{$row.осп}}" type="text" name="осп" value="{{$row.осп}}" readonly class="inviz">
+
+                       </form>
+                   </td>
+                   <td>
+                       {{$FullCount := НайтиВ $.data.rutokens_full_count "осп" $row.осп}}
+                       {{if not $FullCount.количество}}
+                           0
+                       {{else}}
+                           {{$FullCount.количество}}
+                       {{end}}
+                   </td>
+               </tr>
+               <tr>
+                   {{$RutokensArray := НайтиВ $.data.rutokens_list "осп" $row.осп}}
+
+                   <td colspan="3"  style="padding:0">
+{{/*                           {{$CountTotal := НайтиВ $.data.total "осп" $row.осп}}*/}}
+                            {{if not $RutokensArray}}
+                                <div id="rutokens_{{$row.осп}}" class="tab hidden" style="padding:5px">
+                                    Нет данных
+                                </div>
+                            {{else}}
+                            <div id="rutokens_{{$row.осп}}" class="tab hidden" style="padding:5px">
+                               <table id="table_rutokens_{{$row.осп}}" class="io_table text_center">
+                                   <caption>Список RuTokens {{$OSPData.OspName}};
+                                       <div class="{{if eq (len $RutokensArray.rutokens) $row.количество}}green{{else}}red{{end}}">Заполненно <span id="rutokens_full_count_{{$row.осп}}">{{len $RutokensArray.rutokens}}</span> из <span id="rutokens_total_count_{{$row.осп}}">{{$row.количество}}</span>
+                                       </div>
+                                   </caption>
+                                   <thead>
+                                   <tr>
+                                       <th>№</th>
+                                       <th>Серийный номер</th>
+                                       <th>Цвет</th>
+                                       <th>Дата записи</th>
+                                       <th>Кто вносил</th>
+                                       <th>Целостность</th>
+                                       <th>Сервер</th>
+                                       <th>Удалить</th>
+                                   </tr>
+                                   </thead>
+                                   <tbody>
+                                   {{range $index, $row := $RutokensArray.rutokens}}
+                                       <tr>
+                                           <td>{{Плюс $index 1}}</td>
+                                           <td>{{$row.серийный_номер}}</td>
+                                           <td>
+
+                                               <form action="Изменить цвет рутокена" id="editRuColor_{{$row.серийный_номер}}" name="editRuColor_{{$row.серийный_номер}}" method="post" onsubmit="WS.SendForm(event, false);">
+
+                                                   <input type="text" readonly class="inviz" name="серийный_номер" value="{{$row.серийный_номер}}">
+
+                                                   <select class="{{if eq $row.цвет `Зелёный`}}green{{else if eq $row.цвет `Красный`}}red{{end}}" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))" name="цвет" id="color_{{$row.серийный_номер}}">
+
+                                                           <option class="green" {{if eq $row.цвет `Красный`}}selected{{end}} value="Красный">Красный</option>
+                                                           <option {{if eq $row.цвет `Зелёный`}}selected{{end}} value="Зелёный">Зелёный</option>
+
+                                                   </select>
+
+                                               </form>
+
+
+                                           </td>
+                                           <td>{{ParseTime $row.дата_записи}}</td>
+                                           <td>{{$row.кто_вносил}}</td>
+                                           <td>
+                                               <form action="Изменить целостность рутокена" id="editRuIntegrity_{{$row.серийный_номер}}" name="editRuIntegrity_{{$row.серийный_номер}}" method="post" onsubmit="WS.SendForm(event, false);">
+
+                                                   <input type="text" readonly class="inviz" name="серийный_номер" value="{{$row.серийный_номер}}">
+
+                                                   <select class="" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))" name="целостность" id="integrity_{{$row.серийный_номер}}">
+
+                                                       <option class="green" {{if eq $row.целостность `Повреждён`}}selected{{end}} value="Повреждён">Повреждён</option>
+                                                       <option {{if eq $row.целостность `Целый`}}selected{{end}} value="Целый">Целый</option>
+                                                       <option {{if eq $row.целостность `НЕ работает`}}selected{{end}} value="НЕ работает">НЕ работает</option>
+
+                                                   </select>
+
+                                               </form>
+                                           </td>
+                                           <td>{{if eq $row.сервер true}}Да{{end}}</td>
+                                           <td>
+                                               <form action="удалить рутокен" name = "deleteRu_{{$row.серийный_номер}}" id="deleteRu_{{$row.серийный_номер}}">
+                                                   <input readonly class="inviz" name="серийный_номер" type="text" value="{{$row.серийный_номер}}">
+                                                   <button class="ws_btn" type="submit">X</button>
+                                               </form></td>
+                                       </tr>
+                                   {{end}}
+                                   </tbody>
+                               </table>
+                           </div>
+                       {{end}}
+                   </td>
+               </tr>
+           {{end}}
+
+           </tbody>
+
+       </table>
+{{/*    */}}
+{{/*       {{if eq (len $RutokensArray.rutokens) $CountTotal.количество}}green{{else}}red{{end}}*/}}
+{{/*{{range $index, $RutokensArray := .data.rutokens_list}}*/}}
+
+{{/*        {{$CountTotal := НайтиВ $.data.total "осп" $RutokensArray.осп}}*/}}
+{{/*        {{$OSPData := index $.Osp $RutokensArray.осп}}*/}}
+
+{{/*        <table id="rutokens_{{$RutokensArray.осп}}" class="tab io_table text_center {{if eq $index 0}} hidden {{else}}hidden{{end}}">*/}}
+{{/*            <caption>Список RuTokens {{$OSPData.OspName}};*/}}
+{{/*               <div class="{{if eq (len $RutokensArray.rutokens) $CountTotal.количество}}green{{else}}red{{end}}">Заполненно <span id="rutokens_full_count_{{$RutokensArray.осп}}">{{len $RutokensArray.rutokens}}</span> из <span id="rutokens_total_count_{{$RutokensArray.осп}}">{{$CountTotal.количество}}</span>*/}}
+{{/*               </div>*/}}
+{{/*            </caption>*/}}
+{{/*            <thead>*/}}
+{{/*            <tr>*/}}
+{{/*                <th>№</th>*/}}
+{{/*                <th>Серийный номер</th>*/}}
+{{/*                <th>Цвет</th>*/}}
+{{/*                <th>Дата записи</th>*/}}
+{{/*                <th>Кто вносил</th>*/}}
+{{/*                <th>Целостность</th>*/}}
+{{/*                <th>Сервер</th>*/}}
+{{/*            </tr>*/}}
+{{/*            </thead>*/}}
+{{/*            <tbody>*/}}
+{{/*            {{range $index, $row := $RutokensArray.rutokens}}*/}}
+{{/*                <tr>*/}}
+{{/*                    <td>{{Плюс $index 1}}</td>*/}}
+{{/*                    <td>{{$row.серийный_номер}}</td>*/}}
+{{/*                    <td><label class="{{if eq $row.цвет `Зелёный`}}green{{else if eq $row.цвет `Красный`}}red{{end}}">{{$row.цвет}}</label></td>*/}}
+{{/*                    <td>{{ParseTime $row.дата_записи}}</td>*/}}
+{{/*                    <td>{{$row.кто_вносил}}</td>*/}}
+{{/*                    <td>{{$row.целостность}}</td>*/}}
+{{/*                    <td>{{if eq $row.сервер true}}Да{{end}}</td>*/}}
+{{/*                </tr>*/}}
+{{/*            {{end}}*/}}
+
+{{/*            </tbody>*/}}
+{{/*        </table>*/}}
+{{/*    {{end}}*/}}
+
+
+</div>
+</div>
+
+{{end}}
+
+

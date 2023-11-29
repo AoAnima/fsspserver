@@ -1,0 +1,10 @@
+[Unit]
+Description=IOServer
+
+[Service]
+Type=simple
+ExecStart=/home/io/IOServer/IOServer_linux
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

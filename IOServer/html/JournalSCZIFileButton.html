@@ -1,0 +1,59 @@
+{{define "JournalSCZIFileButton"}}
+    {{$лист := .}}
+    <div class="btn_wrapper"  id="file_{{$лист.ид_листа}}" >
+        <button
+                class="btn_preview file  {{if not $лист.контроль}}pending{{else}}{{if eq $лист.контроль "верно"}}success{{else if eq $лист.контроль  "исправить"}}broken{{end}}{{end}}"
+                onclick="ПросмотрФайла('{{$лист.ид_листа}}','/{{$лист.путь}}/{{$лист.папка}}/{{$лист.файл}}', this)">
+
+            <img class="icon"
+                 src="/static/images/{{if not $лист.контроль}}pending{{else}}{{if eq $лист.контроль "верно"}}success{{else if eq $лист.контроль  "исправить"}}broken{{end}}{{end}}.svg"
+                >
+
+            <div class="file_status">
+                {{if not $лист.контроль}}
+                    Ожидает Проверку
+                {{else}}
+                    {{if eq $лист.контроль "верно"}}
+                        Верно
+                    {{else if eq $лист.контроль  "исправить"}}
+                        Неверно: {{if $лист.комментарий}}{{$лист.комментарий}}{{end}}
+                    {{end}}
+                {{end}}
+            </div>
+
+        </button>
+        <div class="file_action">
+            <form action="контроль файла" onsubmit="WS.ОтправитьФорму(event)">
+                <input name="ид_листа" type="text" class="inviz" value="{{$лист.ид_листа}}">
+                <label for="control_success_{{$лист.ид_листа}}">
+                    <div class="input_name">
+                        <img class="icon" src="/static/images/check.svg" alt="">
+                    </div>
+                    <input class="inviz"
+                           id="control_success_{{$лист.ид_листа}}"
+                           type="radio"
+                           name="контроль"
+                           value="верно"
+                           onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))">
+                </label>
+                <label for="control_broken_{{$лист.ид_листа}}">
+                    <div class="input_name">
+                        <img class="icon" src="/static/images/close_red.svg" alt="">
+                    </div>
+                    <input class="inviz control"
+                           id="control_broken_{{$лист.ид_листа}}"
+                           type="radio"
+                           name="контроль"
+                           value="исправить">
+                    <div class="journal_comment">
+                        <textarea rows="5" cols="40" name ="комментарий"></textarea>
+                        <button type="submit">
+                            Сохранить
+                        </button>
+                    </div>
+                </label>
+
+            </form>
+        </div>
+    </div>
+{{end}}

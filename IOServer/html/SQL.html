@@ -1,0 +1,19 @@
+{{define "SQL"}}
+<div id="sql_query">
+    <form action="выполнить sql в аис" onsubmit="WS.SendForm(event, false,false)" >
+        <textarea name="sql" id="" cols="30" rows="10">SELECT FIRST 500 DOC_IP_DOC.*,  DOC_DEPOSIT.DOC_DEPOSIT_MEMO FROM DOC_IP_DOC
+ JOIN DOCUMENT on DOC_IP_DOC.ID=DOCUMENT.ID
+ JOIN DOCUMENT as ACTS ON DOCUMENT.ID = ACTS.PARENT_ID AND (ACTS.METAOBJECTNAME = 'O_IP_ACT_ZP' OR ACTS.METAOBJECTNAME = 'O_IP_ACT_PENS')
+  join DOC_DEPOSIT_IP ON DOC_IP_DOC.ID=DOC_DEPOSIT_IP.IP_ID
+  join O_IP_RM_PLPDBT ON DOC_DEPOSIT_IP.ID = O_IP_RM_PLPDBT.ID
+  JOIN DOC_DEPOSIT ON DOC_DEPOSIT.ID = DOC_DEPOSIT_IP.id
+  left JOIN DOCUMENT AS ACT_MONEY ON ACT_MONEY.PARENT_ID = DOCUMENT.ID AND  ACT_MONEY.METAOBJECTNAME = 'O_IP_ACT_MONEY'
+WHERE ACT_MONEY.ID IS NULL;</textarea>
+        <button type="submit">Выполнить</button>
+    </form>
+    <div id="table_wraper" class="">
+
+    </div>
+    <button onclick="WS.ОтправитьСообщениеИО('выгрузить реестр',null, true)">выгрузить реестр</button>
+</div>
+{{end}}

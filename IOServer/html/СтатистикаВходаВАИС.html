@@ -1,0 +1,68 @@
+{{define "СтатистикаВходаВАИС"}}
+
+    <form action="собрать данные входа начальников" class="io_form flex-col" id="state_enter" onsubmit="WS.ОтправитьФорму(event)">
+      <fieldset class="flex-col">
+          <label for="date_from">
+              <div class="input_name">Дата входа</div>
+              <input type="date" name="дата" id="date_from" placeholder="">
+          </label>
+          <button class="io" type="submit">Получить данные</button>
+      </fieldset>
+    </form>
+
+{{/*{{.data.данные_входа}}*/}}
+{{/*    {{range $осп, $данные := .data}}*/}}
+
+{{/*        {{$данные}} <br>*/}}
+{{/*        {{$данные}}*/}}
+{{/*    {{end}}*/}}
+        <table class="io_table">
+              <thead>
+              <tr>
+                  <th>ФИО</th>
+                  <th>Должность</th>
+                  <th>Замещение</th>
+                  <th>Время входа</th>
+                  <th>Время выхода</th>
+                  <th>Длительность сессии</th>
+              </tr>
+              </thead>
+              <tbody>
+              {{range $осп, $данные := .data.данные_входа}}
+                  {{ $строки := $данные.МассивСтрок}}
+
+                      <tr>
+                          <th colspan="6">
+                              {{ (index $.OspList $осп).OspName}}
+                          </th>
+                      </tr>
+                      {{ if gt (len $строки) 0}}
+                          {{range  $строка := $строки}}
+                              <tr id ="{{$осп}}">
+                                  <td >{{$строка.SUSER_FIO}}</td>
+                                  <td>
+                                        {{$строка.SPI_POST_NAME}}
+                                  </td>
+                                  <td>
+                                    {{if ne $строка.SPI_POST_NAME $строка.STAFF_NAME  }}
+                                      Замещение:  {{$строка.STAFF_NAME}} c {{$строка.CHANGE_DATE_FROM}} по {{$строка.CHANGE_DATE_TO}}
+                                    {{end}}
+                                  </td>
+                                  <td>{{ ParseTime $строка.SJ_START_DATE}}</td>
+                                  <td>{{ ParseTime $строка.SJ_FINISH_DATE}}</td>
+                                  <td>{{ $строка.SJ_ACTIVE_TIME}}</td>
+                              </tr>
+
+                        {{end}}
+                      {{else}}
+                          <td colspan="6">
+                              {{ if $данные.Ошибка }}
+                                  {{$данные.Ошибка }}
+                              {{end}}
+
+                          </td>
+                      {{end}}
+              {{end}}
+              </tbody>
+          </table>
+{{end}}

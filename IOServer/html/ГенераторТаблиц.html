@@ -1,0 +1,43 @@
+{{define "ГенераторТаблиц"}}
+    <div class="stat_table flex-full flex-col flex_align-center nowrap" id="stat_table_fssp">
+
+        {{$ИмяТаблицы := ""}}
+        {{$ИдТаблицы := ""}}
+        {{ $THead := "<tr>"}}
+        {{ $TBody := "<tr>"}}
+
+        {{ range $ИдТ, $Таблица := .data.стат_таблица }}
+            {{$ИдТаблицы = $Таблица.ид}}
+            {{range $ИмяТабл, $Столбцы := $Таблица.столбцы}}
+                {{$ИмяТаблицы =$ИмяТабл}}
+                {{$THead = Строка $THead "<th id='osp_code' > ОСП </th>"}}
+                {{$TBody = Строка $TBody "<td></td>"}}
+                {{ range $Столбец := $Столбцы}}
+                    {{range $Ид, $Имя := $Столбец}}
+                         {{$THead = Строка $THead "<th id='" $Ид "'>" $Имя "</th>"}}
+                    {{end}}
+                    {{$TBody = Строка $TBody "<td></td>"}}
+                {{end}}
+            {{end}}
+        {{end}}
+
+        {{ $THead = Строка $THead "</th>"}}
+        {{ $TBody = Строка $TBody "</tr>"}}
+{{/*        {{ template "МастерСбораДанных" . }}*/}}
+        <form action="обновить данные стат. таблицы" onsubmit="WS.ОтправитьФорму(event)">
+         <input readonly type="text" name="ид" value="{{$ИдТаблицы}}">
+         <button class="io" type="submit">Обновить данные</button>
+        </form>
+        <table class="io_table" id="stat_id_{{$ИдТаблицы}}">
+            <caption>
+                {{$ИмяТаблицы}}
+            </caption>
+            <thead>
+                {{СтрокуВHTML $THead .}}
+            </thead>
+            <tbody>
+                {{СтрокуВHTML $TBody nil}}
+            </tbody>
+        </table>
+    </div>
+{{end}}

@@ -1,0 +1,43 @@
+{{define "EditSkillForm"}}
+{{with index .Skill 0}}
+
+    <div class="skill_wrapper" >
+        <form class="io_form" action="СохранитьИзмененияНавыка" onsubmit="WS.SendForm(event, true);">
+            <label >
+                <div class="input_name">ИД Навыка</div>
+                <input type="text" required name="skill_id" readonly value="{{.action_id}}">
+            </label>
+            <label >
+                <div class="input_name">Название нового навыка</div>
+                <input type="text" required name="skill_name" placeholder="Переустановка СОС" value="{{.name}}">
+            </label>
+            <label>
+                <div class="input_name">Описание нового навыка</div>
+                <input type="text" name="skill_description"  placeholder="Что делает навык" value="{{.description}}">
+            </label>
+            <label>
+                <div class="input_name">Комманды которые будет выполнять бот</div>
+                <textarea required row="4" name="skill_action" >{{index .actions "cmd"}}</textarea>
+            </label>
+            <label>
+                <div class="input_name">Какие проблемы исправляет навык, через запятую</div>
+                <input type="text" name="skill_problems" placeholder="нет папки обмена, не запускается АИС" value="{{StringsJoin  .problem ", "}}">
+            </label>
+            <label >
+                <div class="input_name flex-full">Разрешить пользователям самостоятельно запускать навык?</div>
+               <input type="checkbox" name="skill_self_use" {{if eq .self_use "t"}}checked{{end}} data-skillfield="self_use" >
+            </label>
+            <label>
+                <div class="input_name">Ключевые слова/метки, через запятую</div>
+                <input type="text" name="skill_keywords" placeholder="папка обмена, АИС, принтер, IC5" value="{{StringsJoin  .keywords ", "}}">
+            </label>
+            <div class="ws_btn_wrapper">
+
+           <button type="reset" class="ws_btn">Отменить</button>
+           <button type="submit" class="ws_btn">Сохранить</button>
+            </div>
+
+        </form>
+    </div>
+{{end}}
+{{end}}

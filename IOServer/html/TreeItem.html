@@ -1,0 +1,19 @@
+{{define "TreeItem"}}
+<div class="tree category" id="cat_{{.ид_категории}}">
+    <div class="button_group">
+        {{if .Вложения}}
+            <button style="background-image: url('{{.иконка}}')" onclick="TreeMenu.Переключить('cat_{{.ид_категории}}')" title="Раскрыть категории"></button>
+        {{else}}
+            <button {{if not .иконка}}class="empty_directory" {{else}} style="background-image: url('{{.иконка}}')" {{end}} title="Нет вложенных категорий"></button>
+        {{end}}
+       <button class="cat_link"  onclick="WS.SendFastMessageIO('{{index .активирующее_сообщение 0}}', null)">{{.название}}</button>
+    </div>
+    {{with .Вложения}}
+        {{range $id, $Вложение := .}}
+            <div class="inner">
+                {{$Вложение}}
+            </div>
+        {{end}}
+    {{end}}
+</div>
+{{end}}

@@ -1,0 +1,19 @@
+{{define "ГенераторУин"}}
+
+    <div id="gen_uin">
+        <form action="создать уин" class="io_form" onsubmit="WS.SendForm(event, false, false, false)">
+            <label for="">
+                <div class="input_name">Введите номер документа (например: 33/21/26000-АП)</div>
+                <input type="text" name="doc_number" id="doc_number" placeholder="Номер документа">
+            </label>
+         <button class="io" type="submit">Создать УИН</button>
+        </form>
+        <h1>
+        <div id="new_uin" class="note info error">
+
+        </div>
+        </h1>
+    </div>
+
+
+{{end}}

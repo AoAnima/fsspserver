@@ -1,0 +1,5 @@
+{{define "variantsArray"}}
+    {{range $action := .ВариантыОжидаемыхОтветов}}
+        <button type="button" class="fast_answer" onclick="WS.SendFastMessageIO('{{$action}}')">{{$action}}</button>
+    {{end}}
+{{end}}

@@ -1,0 +1,103 @@
+{{define "ОтчётМинусовАдмДоходов"}}
+    <div id="otchet">
+<div class="note">
+
+
+
+</div>
+<form action="собрать отчёт минусов по адм доходам" class="io_form flex-col" id="state_enter" onsubmit="WS.ОтправитьФорму(event)">
+    <fieldset class="flex-row flex_justify-center">
+        <legend>Период</legend>
+        <div class="flex-row">
+        <label for="date_from">
+            <div class="input_name auto">C</div>
+            <input type="date" name="дата_с" id="date_from" placeholder="">
+        </label>
+        </div>
+        <div class="flex-row">
+        <label for="date_to" class="flex-row">
+            <div class="input_name auto">по</div>
+            <input type="date" name="дата_по" id="date_to" placeholder="">
+        </label>
+        </div>
+    </fieldset>
+    <div class="flex-col flex_align-center">
+        <button type="submit">Собрать</button>
+    </div>
+
+</form>
+    <div id="otchet_wrapper" class="block">
+        {{ if .data.периоды_минусовых_отчётов }}
+{{ template "ТаблицаОтчётаМинусовАдмДоходов" .}}
+{{end}}
+    </div>
+
+    </div>
+{{/*    <form action="ведомость минусов по административным доходам" class="io_form flex-col" id="state_enter" onsubmit="WS.ОтправитьФорму(event)">*/}}
+{{/*        <h3>Ведомость минусов по административным доходам</h3>*/}}
+{{/*        <fieldset class="flex-col">*/}}
+{{/*            <button class="io" type="submit">Получить данные</button>*/}}
+{{/*        </fieldset>*/}}
+{{/*    </form>*/}}
+
+{{/*    <table class="io_table">*/}}
+{{/*        <thead>*/}}
+{{/*        <tr>*/}}
+{{/*            <th>ОСП</th>*/}}
+{{/*            <th>Номер исх./Статус</th>*/}}
+{{/*            <th>Отчёт на дату</th>*/}}
+{{/*            <th>Дата начала инвентризации</th>*/}}
+{{/*            <th>Дата окончания инвентризации</th>*/}}
+{{/*            <th>Дата создания</th>*/}}
+{{/*            <th>Дата Изменения</th>*/}}
+{{/*            <th>Количество строк с минусами</th>*/}}
+{{/*            <th>Сумма</th>*/}}
+{{/*        </tr>*/}}
+{{/*        </thead>*/}}
+{{/*        <tbody>*/}}
+{{/*        {{range $осп, $данные := .data.минусовые_строки}}*/}}
+{{/*            {{ $строки := $данные.МассивСтрок}}*/}}
+
+{{/*            */}}{{/*    O_Deposits_Invent_Income.ID, DOC_NUMBER, REPORT_DATE, DATE_INVENT_BEGIN, DATE_INVENT_END, CREATE_DATE, CHANGE_DATE*/}}
+{{/*            */}}{{/*    , count(*), sum(UNREAL_AMOUNT)*/}}
+
+{{/*            {{ if gt (len $строки) 0}}*/}}
+{{/*                {{range  $строка := $строки}}*/}}
+{{/*                    <tr id ="{{$осп}}">*/}}
+{{/*                        <th >*/}}
+{{/*                            {{ (index $.OspList $осп).OspName}}*/}}
+{{/*                        </th>*/}}
+{{/*                        <td >{{$строка.DOC_NUMBER}} {{$строка.DOCSTATUS_CAPTION}}</td>*/}}
+{{/*                        <td>*/}}
+{{/*                            {{ ParseDate $строка.REPORT_DATE}}*/}}
+{{/*                        </td>*/}}
+{{/*                        <td>*/}}
+{{/*                            {{ ParseDate $строка.DATE_INVENT_BEGIN}}*/}}
+{{/*                        </td>*/}}
+{{/*                        <td>{{ ParseDate $строка.DATE_INVENT_END}} </td>*/}}
+{{/*                        <td>{{ ParseTime $строка.CREATE_DATE}}</td>*/}}
+{{/*                        <td>{{ ParseTime $строка.CHANGE_DATE}}</td>*/}}
+{{/*                        <td>{{ $строка.COUNT}}</td>*/}}
+{{/*                        <td>{{ $строка.SUM}}</td>*/}}
+{{/*                    </tr>*/}}
+{{/*                {{end}}*/}}
+{{/*           {{else}}*/}}
+{{/*                <tr>*/}}
+{{/*                    <th >*/}}
+{{/*                        {{ (index $.OspList $осп).OspName}}*/}}
+{{/*                    </th>*/}}
+{{/*                        {{ if $данные.Ошибка }}*/}}
+{{/*                            <td colspan="7">*/}}
+{{/*                                {{$данные.Ошибка }}*/}}
+{{/*                            <td>*/}}
+{{/*                        {{else}}*/}}
+{{/*                            <td colspan="7">*/}}
+{{/*                              Нет строк с минусами*/}}
+{{/*                            <td>*/}}
+{{/*                        {{end}}*/}}
+{{/*                </tr>*/}}
+{{/*            {{end}}*/}}
+{{/*        {{end}}*/}}
+{{/*        </tbody>*/}}
+{{/*    </table>*/}}
+{{end}}

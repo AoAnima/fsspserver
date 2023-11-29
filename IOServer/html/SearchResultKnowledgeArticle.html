@@ -1,0 +1,9 @@
+{{define "SearchResultKnowledgeArticle"}}
+    {{if .data.статьи }}
+        {{range $idx, $статья :=  .data.статьи}}
+            {{template "KnowledgeArticle"  СоздатьКонекст $ $статья}}
+        {{end}}
+        {{else}}
+        {{template "NotArticles"}}
+    {{end}}
+{{end}}

@@ -1,0 +1,26 @@
+{{define "JournalSCZIRow"}}
+{{/*    osp_code,osp_name, container_name, token_number, serial_number, date_start, date_end, common_name, doc_number, doc_date
+
+map[common_name:Апресова Лидия Левоновна container_name:\\.\Aktiv Co. Rutoken S 00 00\APRESOVA@R26-20200724-1 date_end:2021-10-28 08:44:50 date_end_key: date_start:2020-07-28 08:44:50 doc_date:2020-07-27 doc_number:33826/20/26000 id:1 osp_code:26014 osp_name:Изобильненское районное отделение судебных приставов serial_number:018F75610006AC118A4170859AB6760A53 token_number:0752445103]
+*/}}
+
+    <tr style="text-align: center;">
+        <td></td>
+        <td width=200px>{{.osp_name}}</td>
+        <td>ruToken</td>
+        <td>{{.serial_number}}</td>
+        <td>1</td>
+        <td>УФК</td>
+        <td width=110px>{{.date_start}}</td>
+        <td>{{.common_name}}</td>
+        <td width=110px>{{.date_start}}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+{{end}}

@@ -1,0 +1,57 @@
+{{define "index"}}<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:image" content="" />
+    <title>Портал ОИиОИБ - IO</title>
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon">
+    <link id="wsstyle" rel="stylesheet" href="/static/css/wschat.css">
+    <link rel="stylesheet" href="/static/css/table.css">
+    <link rel="stylesheet" href="/static/css/suneditor.min.css">
+    <link rel="stylesheet" href="/static/css/suneditor.css">
+    <link rel="stylesheet" href="/static/css/suneditor-contents.css">
+    <link rel="stylesheet" href="static/js/monaco/min\vs/editor/editor.main.css">
+{{/*    <link rel="stylesheet" href="/static/css/codemirror.css">*/}}
+{{/*interact для перетаскивания блоков на странице, нужно найти другой*/}}
+
+    <script  src="/static/js/suneditor/suneditor.min.js"></script>
+    <script  src="/static/js/suneditor/lang/ru.js"></script>
+    <script  src="/static/js/initSuneditor.js"></script>
+{{/*    <script  src="/static/js/initMonaco.js"></script>*/}}
+    <script  src="/static/js/jszip.min.js"></script>
+    <script  src="/static/js/FileSaver.min.js"></script>
+
+    <script type="module" src="/static/js/suneditor/lang/ru.js"></script>
+{{/*    <script src="static/js/particles/particles.js"></script>*/}}
+    <script src="static/js/monaco/min/vs/loader.js"></script>
+    <script>
+        require.config({ paths: { 'vs': 'static/js/monaco/min/vs' }});
+    </script>
+
+    <script src="/static/js/interact.js"></script>
+    <script src="static/js/other_app.js"></script>
+    <script src="/static/js/ws.js"></script>
+    <script src="/static/js/master.js"></script>
+
+    <script  src="/static/js/journal_control.js"></script>
+{{/*    <script  src="/static/js/sheetjs/xlsx.js"></script>*/}}
+{{/*    <script  src="/static/js/sheetjs_init.js"></script>*/}}
+
+
+</head>
+<body id ="portal" class="">
+{{/*<div id="particles-js"></div>*/}}
+    <div class="main" id="main">
+        <div id="main_content" class="main_content">
+            {{template "content"}}
+        </div>
+    </div>
+<div id="noteContainer"></div>
+
+</body>
+
+</html>
+{{end}}

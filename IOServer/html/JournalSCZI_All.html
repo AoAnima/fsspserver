@@ -1,0 +1,102 @@
+{{define "JournalSCZI_All"}}
+    <div id="journal_sczi">
+        <div class="left_wrapper">
+            <div class="journal_demo">
+                <div class="demo_1">
+                    Образец "Журнала СКЗИ" форма №1
+                </div>
+                <div class="upload_form">
+                    <form action="загрузить журнал скзи" onsubmit="WS.ЗагрузитьФайлы(event)">
+                        <input type="text" class="inviz" name="filePath" value="uploads/documents/journal_sczi/{{.client.OspCode}}" readonly>
+                        <input type="text" class="inviz" name="форма" value="1" readonly>
+                        <label for="upload_form_1" class="btn_upload-with_name">
+                            Загрузить сканы "Журнала СКЗИ" форма №1
+                            <input type="file" class="inviz" id="upload_form_1" name="form_1" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))" multiple>
+                        </label>
+                    </form>
+                </div>
+                <div class="demo_2">
+                    Образец "Журнала СКЗИ" форма №2
+                </div>
+                <div class="upload_form">
+                    <form action="загрузить журнал скзи" onsubmit="WS.ЗагрузитьФайлы(event)">
+                        <input type="text" class="inviz" name="filePath" value="uploads/documents/journal_sczi/{{.client.OspCode}}" readonly>
+                        <input type="text" class="inviz" name="форма" value="2" readonly>
+                        <label for="upload_form_2" class="btn_upload-with_name">
+                            Загрузить сканы "Журнала СКЗИ" форма №2
+                            <input class="inviz"  type="file" name="form_2" id="upload_form_1" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))" multiple>
+                        </label>
+                    </form>
+                </div>
+            </div>
+
+            <div class="journal_lists">
+                <div class="panel_header">
+                    {{.client.OspName}}
+                </div>
+                {{if .data.журнал}}
+                    {{range $i, $формы := .data.журнал}}
+
+                        <div id="sczi_form_{{$формы.форма}}">
+                            <div class="panel_header">
+                                Форма журнала СКЗИ {{$формы.форма}}
+                            </div>
+                            <div class="files_list" id="file_list_form_{{$формы.форма}}">
+                                {{range $n,$лист := $формы.файлы}}
+
+                                    {{if not $лист.контроль}}
+
+                                        <button id="file_{{$лист.ид_листа}}"
+                                                class="btn_preview file pending"
+                                                onclick="ПросмотрФайла('{{$лист.ид_листа}}','/{{$лист.путь}}/{{$лист.папка}}/{{$лист.файл}}', this)">
+                                            <img class="icon" src="/static/images/pending.svg" title="Ожидает проверки">
+                                            <div class="file_status">Ожидает проверки</div>
+                                        </button>
+
+
+                                    {{else}}
+                                        {{if eq $лист.контроль "верно"}}
+                                            <button id="file_{{$лист.ид_листа}}"
+                                                    class="btn_preview file success"
+                                                    onclick="ПросмотрФайла('{{$лист.ид_листа}}', '/{{$лист.путь}}/{{$лист.папка}}/{{$лист.файл}}',this)">
+                                                <img class="icon" src="/static/images/succes.svg" title="Проверка пройдена">
+                                                <div class="file_status">Проверка пройдена</div>
+                                            </button>
+
+
+                                        {{else if eq $лист.контроль  "исправить"}}
+
+                                            <button id="file_{{$лист.ид_листа}}"
+                                                    class="btn_preview file broken"
+                                                    onclick="ПросмотрФайла('{{$лист.ид_листа}}','/{{$лист.путь}}/{{$лист.папка}}/{{$лист.файл}}',this)">
+                                                <img class="icon" src="/static/images/broken.svg" title="Необходима корректировка">
+
+                                                {{if $лист.комментарий}}
+                                                    <div class="file_status">
+                                                        {{$лист.комментарий}}
+                                                    </div>
+                                                {{else}}
+                                                    <div class="file_status">
+                                                        Необходима корректировка
+                                                    </div>
+                                                {{end}}
+                                            </button>
+
+
+
+                                        {{end}}
+                                    {{end}}
+
+                                {{end}}
+                            </div>
+                        </div>
+                    {{end}}
+                {{else}}
+                {{end}}
+            </div>
+        </div>
+        <div id="file_preview" class="preview">
+
+        </div>
+    </div>
+{{end}}

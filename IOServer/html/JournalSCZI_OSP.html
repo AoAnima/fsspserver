@@ -1,0 +1,183 @@
+{{define "JournalSCZI_OSP"}}
+    <div id="journal_sczi">
+        <div class="left_wrapper">
+
+            <div class="journal_demo">
+
+                {{$Образцы :=  (index .data.образец 0).файлы}}
+
+                <div class="demo_1">
+                    <div id="file_demo_1" class="files_list">
+                        <div class="panel_header">Образец Формы 1</div>
+                        <div class="btn_wrapper"  id="" >
+                            <button class="btn_preview file"
+                                    onclick="WS.ОтправитьСообщениеИО('показать форму 1 журанала скзи',{'осп':{{.client.OspCode}}}, true)">
+                                <img class="icon"
+                                     src="/static/images/metod_doc.svg">
+                                <div class="file_status">Форма 1 журнала СКЗИ</div>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="demo_2">
+                    <div id="file_demo_2" class="files_list">
+                        <div class="panel_header">Образец Формы 2</div>
+                        {{/*                        {{$Образец = (index (index (index .data.образец 0).файлы "2") 0)}}*/}}
+                        {{if $Образцы}}
+                            {{if index $Образцы "2"}}
+                            {{$Образцы_2 := index $Образцы "2"}}
+                            {{range $i, $DemoFile := $Образцы_2}}
+                                {{template "JournalSCZIDemoFileButton"  $DemoFile}}
+                            {{end}}
+                        {{end}}
+                        {{end}}
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="journal_demo">
+                <div class="upload_form">
+                    <form action="загрузить журнал скзи" onsubmit="WS.ЗагрузитьФайлы(event)">
+                        <input type="text" class="inviz" name="filePath" value="uploads/documents/journal_sczi/{{.client.OspCode}}" readonly>
+                        <input type="text" class="inviz" name="форма" value="1" readonly>
+                        <label for="upload_form_1" class="file">
+                            <div class="input_name">
+                                <img class="icon"
+                                     src="/static/images/upload(1).svg">
+                            </div>
+                            Загрузить сканы "Журнала СКЗИ" форма №1
+                            <input type="file" class="inviz" id="upload_form_1" name="form_1" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))" multiple>
+                        </label>
+                    </form>
+                </div>
+                <div class="upload_form">
+                    <form action="загрузить журнал скзи" onsubmit="WS.ЗагрузитьФайлы(event)">
+                        <input type="text" class="inviz" name="filePath" value="uploads/documents/journal_sczi/{{.client.OspCode}}" readonly>
+                        <input type="text" class="inviz" name="форма" value="2" readonly>
+                        <label for="upload_form_2" class="file">
+                            <div class="input_name">
+                                <img class="icon"
+                                     src="/static/images/upload(1).svg">
+                            </div>
+                            Загрузить сканы "Журнала СКЗИ" форма №2
+                            <input class="inviz"  type="file" name="form_2" id="upload_form_2" onchange="this.form.dispatchEvent(new Event('submit', {cancelable: true}))" multiple>
+                        </label>
+                    </form>
+                </div>
+            </div>
+
+            <div class="journal_lists">
+                <div class="panel_header">
+                    {{.client.OspName}}
+                </div>
+                {{if .data.журнал}}
+                    {{range $i, $формы := .data.журнал}}
+
+                        <div id="sczi_form_{{$формы.форма}}">
+                            <div class="panel_header">
+                                Форма журнала СКЗИ {{$формы.форма}}
+                            </div>
+                            <div class="files_list" id="file_list_form_{{$формы.форма}}">
+                                {{range $n,$лист := $формы.файлы}}
+
+                                    {{template "UploadJournalSCZI" $лист}}
+
+                                {{end}}
+                            </div>
+                        </div>
+                    {{end}}
+                {{else}}
+                {{end}}
+            </div>
+        </div>
+        <div id="file_preview" class="preview">
+            <div class="instruction">
+                <div>
+                    Скачайте образец Журнала СКЗИ по ссылку слева:
+                    <div class="flex-row">
+                        <div class="btn_wrapper"  >
+                            <button class="btn_preview file">
+                                <img class="icon"
+                                     src="/static/images/metod_doc.svg">
+                                <div class="file_status">Название ОСП Журнал СКЗИ.docx</div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    1.Берем журнал СКЗИ
+                <div><img style="width: 450px" src="/uploads/documents/journal_sczi/instruction/1.jpg" alt=""></div>
+                </div>
+                <div>
+                    2.Переворачиваем его
+                <div><img style="width: 450px"  src="/uploads/documents/journal_sczi/instruction/2.jpg" alt="">
+                </div>
+                </div>
+                <div>
+                    3.Необходимо отчитать 13 листов
+
+                    <div><img style="width: 450px"  src="/uploads/documents/journal_sczi/instruction/3.png" alt=""></div>
+                </div>
+                <div>
+                   4. Заполните свой журнал в соответсвии с образцов
+                </div>
+                <div>
+                    5. Сделайте фото или скан заполненного журнала.
+                </div>
+                <div>
+                 6. Загрузките сканы/фото нажав соответсвующую кнопку
+                <div class=" flex-row">
+                    <div class="btn_wrapper"  >
+                        <label for="upload_form_2" class="btn_upload-with_name">
+                            <div class="input_name">
+                                <img class="icon"
+                                     src="/static/images/upload(1).svg">
+                            </div>
+                            Загрузить сканы "Журнала СКЗИ" форма №1/2
+                            <input class="inviz"  type="file" name="form_2" id="upload_form_2">
+                        </label>
+                 </div>
+                </div>
+                </div>
+                <div>
+                    Дожидаетесь проверки правильности заполнения. Если Вы допустите ошибку то кнопка изменит вид на <div class=" flex-row">
+                    <div class="btn_wrapper"  >
+                    <button class="btn_preview file broken">
+                        <img class="icon" src="/static/images/broken.svg" title="Необходима корректировка">
+                        <div class="file_status">
+                            Комментарий ошибки
+                        </div>
+                    </button>
+                    </div>
+                </div>
+                </div>
+                <div>
+                    Внесите необходимые корректировки и загрузите новый скан/фото. А Затем удалите ошибочный документ нажав красный крест <span class="input_name">
+                    <img class="icon" src="/static/images/close_red.svg" alt="">
+                </span> рядом с кнопкой
+                </div>
+                <div class="">
+                    Если всё заполненно верно, кнопка документа примет вид
+                    <div class=" flex-row">
+                        <div class="btn_wrapper"  >
+                    <div class="btn_wrapper"  >
+                        <button class="btn_preview file success">
+                            <img class="icon" src="/static/images/success.svg" title="Необходима корректировка">
+                            <div class="file_status">
+                                Проерка пройдена
+                            </div>
+                        </button>
+
+                    </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{{end}}

@@ -1,0 +1,10 @@
+{{define "KnowledgeArticles"}}
+<div id="knowledge_list_articles">
+
+    {{range $idx, $статья := .data.статьи}}
+{{/*        {{template "KnowledgeArticle" $статья}}*/}}
+        {{template "KnowledgeArticle" СоздатьКонекст $ $статья}}
+    {{end}}
+</div>
+
+{{end}}

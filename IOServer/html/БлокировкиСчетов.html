@@ -1,0 +1,103 @@
+{{define "БлокировкиСчетов"}}
+{{$СтрокиТаблицы := ""}}
+
+    {{ range $n, $Строка:= .data.блокировки}}
+        {{ $данные := $Строка.МассивСтрок }}
+{{/*        <td>{{$данные}}</td>*/}}
+{{/*        <tr id="osp_{{$n}}">*/}}
+
+        {{ if gt (len $данные) 0}}
+            {{$СтрокаТаблицы := "<tr>"}}
+            {{range $н, $д := $данные}}
+                {{ if eq $н 0}}
+
+                    {{$СтрокаТаблицы = Строка $СтрокаТаблицы "<td>" $д.DIV_NAME  "</td>"}}
+                {{end}}
+
+                    {{ if eq $д.FFIELD_NAME "BLOCK_B_ACCOUNTS"}}
+                        {{  $BLOCK_B_ACCOUNTS := ""}}
+                        {{ if eq (len $д.BLOCK_B_ACCOUNTS) 0}}
+
+                        {{else }}
+                            {{ $BLOCK_B_ACCOUNTS =  $д.BLOCK_B_ACCOUNTS}}
+                        {{end}}
+                        {{$СтрокаТаблицы = Строка $СтрокаТаблицы "<td>"  "</td>" $BLOCK_B_ACCOUNTS "<td>" $д.LOG_TIMESTAMP "(" $д.LOG_USER ")" "</td>"}}
+                    {{end}}
+
+                    {{ if eq $д.FFIELD_NAME "BLOCK_N_ACCOUNTS"}}
+
+                        {{  $BLOCK_N_ACCOUNTS := ""}}
+                        {{ if eq (len $д.BLOCK_N_ACCOUNTS) 0}}
+
+                        {{else }}
+                            {{ $BLOCK_N_ACCOUNTS = $д.BLOCK_N_ACCOUNTS}}
+                        {{end}}
+
+                        {{$СтрокаТаблицы = Строка $СтрокаТаблицы "<td>" $BLOCK_N_ACCOUNTS "</td>" "<td>" $д.LOG_TIMESTAMP "(" $д.LOG_USER ")" "</td>"}}
+                    {{end}}
+
+                    {{ if eq $д.FFIELD_NAME "BLOCK_V_ACCOUNTS"}}
+
+                        {{  $BLOCK_V_ACCOUNTS := ""}}
+                        {{ if eq ( len $д.BLOCK_V_ACCOUNTS) 0}}
+
+                        {{else }}
+                            {{ $BLOCK_V_ACCOUNTS =  $д.BLOCK_V_ACCOUNTS}}
+                        {{end}}
+                        {{$СтрокаТаблицы = Строка $СтрокаТаблицы "<td>" $BLOCK_V_ACCOUNTS "</td>" "<td>" $д.LOG_TIMESTAMP "(" $д.LOG_USER ")" "</td>"}}
+                    {{end}}
+            {{end}}
+            {{$СтрокаТаблицы = Строка $СтрокаТаблицы "</tr>"}}
+            {{$СтрокиТаблицы = Строка $СтрокиТаблицы $СтрокаТаблицы}}
+{{/*            </tr>*/}}
+        {{end}}
+
+    {{end}}
+
+
+
+
+
+
+
+    <table class="io_table">
+            <thead>
+                <tr>
+                    <th>ОСП</th>
+                    <th>Блокировка депозитного счёта</th>
+                    <th>Дата изменния блокировки депозитных счетов</th>
+                    <th>Блокировать счета начислений</th>
+                    <th>Дата изменния блокировки счетов начислений</th>
+                    <th>Блокировать счета администрирования доходов</th>
+                    <th>Дата изменния блокировки счетов администрирования доходов</th>
+                </tr>
+            <tbody>
+
+        {{ СтрокуВHTML $СтрокиТаблицы nil}}
+{{/*            {{ range $n, $Строка:= .data.блокировки}}*/}}
+{{/*               {{ $данные := $Строка.МассивСтрок }}*/}}
+{{/*               <td>{{$данные}}</td>*/}}
+{{/*                    <tr id="osp_{{$n}}">*/}}
+{{/*                        {{ if gt (len $данные) 0}}*/}}
+{{/*                       {{range $д := $данные}}*/}}
+
+{{/*                        <td>{{$данные.DIV_NAME}}</td>*/}}
+{{/*                        <td>{{$данные.BLOCK_B_ACCOUNTS}}</td>*/}}
+{{/*                        <td>{{$данные.BLOCK_B_ACCOUNT_DATE}}</td>*/}}
+{{/*                        <td>{{$данные.BLOCK_N_ACCOUNTS}}</td>*/}}
+{{/*                        <td>{{$данные.BLOCK_N_ACCOUNT_DATE}}</td>*/}}
+{{/*                        <td>{{$данные.BLOCK_V_ACCOUNTS}}</td>*/}}
+{{/*                        <td>{{$данные.BLOCK_V_ACCOUNT_DATE}}</td>*/}}
+{{/*                        <td>{{$данные.BLOCK_V_ACCOUNT_DATE}}</td>*/}}
+{{/*                       {{end}}*/}}
+{{/*                    </tr>*/}}
+{{/*              {{end}}*/}}
+
+{{/*      {{end}}*/}}
+
+            </tbody>
+            </thead>
+        </table>
+
+
+{{end}}

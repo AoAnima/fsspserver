@@ -1,0 +1,10 @@
+{{define "СбросСессии"}}
+<div id="session_reset" class="  note info">
+Закрытие сессии пользователя:
+    {{.client.Initials}}
+    {{.client.Givenname}}
+    {{.client.SecondName}},
+    {{.client.OspName}}
+    <button type="button" onclick="WS.ОтправитьСообщениеИО('закрыть сессию', null, true)">Закрыть сессию</button>
+</div>
+{{end}}

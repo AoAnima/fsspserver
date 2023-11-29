@@ -1,0 +1,182 @@
+{{define "НовыйSqlЗапрос"}}
+
+   <div id="new_sql_script" class="tab hidden">
+
+      <form action="добавит категорию sql запроса" class="io_form inviz" name="new_sql_category" id="new_sql_category" onsubmit="WS.ОтправитьФорму(event)">
+      </form>
+      <form class="io_form" action="сохранить sql запрос" onsubmit="WS.ОтправитьФорму(event)">
+         <fieldset class="border flex-row flex_justify-center">
+         <div class="flex-row">
+            <label for="sql_name" class="">
+               <div class="input_name auto">Название скрипта/столбца</div>
+               <input type="text" name="имя_запроса" id="sql_name" placeholder="" value="">
+            </label>
+
+            <label for="category">
+               <div class="input_name auto">Категория</div>
+
+               <select required name="папка" id="category">
+                  <option disabled value="">Выбрать</option>
+                  {{range $n, $строка :=  .data.каталог_sql_запросов }}
+                     <option value="{{$строка.ид_папки}}">{{$строка.имя_папки}}</option>
+                  {{end}}
+               </select>
+
+            </label>
+         </div>
+         </fieldset>
+            <fieldset class="border flex-col left">
+               <legend>Новая категория</legend>
+               <div class="flex-row">
+
+                  <label for="">
+               <div class="input_name auto">Папка</div>
+
+                        <select id="parrent_category" form="new_sql_category" name="родительская_папка">
+                           <option value=""></option>
+                           {{range $n, $строка :=  .data.каталог_sql_запросов }}
+                              <option value="{{$строка.ид_папки}}">{{$строка.имя_папки}}</option>
+                           {{end}}
+                        </select>
+
+
+                  </label>
+                  <label for="">
+               <div class="input_name auto">Название</div>
+               <input form="new_sql_category" type="text" name="папка" id="new_category" placeholder="" value="">
+                  </label>
+               <button form="new_sql_category" class="io" type="submit">Добавить</button>
+               </div>
+            </fieldset>
+
+
+
+        <div class="note green">
+           каждый запрос должен сожержать поле:
+           <strong>OSP.DEPARTMENT as OSP_CODE</strong>
+           из таблицы
+          <strong> JOIN OSP ON OSP.DIV_NAME = DOCUMENT.OSP_DEP_NAME</strong>
+        </div>
+         <label for="sql_query">
+            <div class="input_name flex-full">Текст SQL запроса</div>
+            <textarea name="запрос" id="sql_query" cols="30" rows="10"></textarea>
+         </label>
+{{/*         <label for="details">*/}}
+{{/*            <div class="input_name auto">Детализация</div>*/}}
+{{/*            <input type="text" name="детализация[]" id="details" placeholder="имена полей через запятую для детализации" value="">*/}}
+{{/*         </label>*/}}
+
+         <fieldset class="border">
+            <legend>Детализация</legend>
+            <label for="">
+               <div class="input_name">Сохранять историю</div>
+               <input type="checkbox" name="кэшировать" id="" placeholder="" value="true">
+            </label>
+
+            <fieldset class="flex-col left" id = "detail_field_wrapper">
+               <legend>Описания полей для детализации</legend>
+
+               <div class="flex-row detail_field" id="detail_field-0" >
+                  <label for="field_name">
+                     <div class="input_name auto">Название</div>
+                     <input value="" type="text" name="детализация[0].имя_поля" id="field_name" placeholder="">
+                  </label>
+                  <label for="field_id">
+                     <div class="input_name auto">SQL идентификатор</div>
+                     <input type="text" name="детализация[0].идентификатор" id="field_id" placeholder="" value="">
+                  </label>
+                  <button data-target="detail_field-0" data-class_name="detail_field"  data-number="0" class="minus" onclick="УдалитьАргумент(event)" type="button">-</button>
+               </div>
+
+
+            </fieldset>
+            <fieldset class="fieldset">
+               <button id="btn_add_detail_field" data-target="detail_field_wrapper" data-deleted="[]" data-count="0" onclick="ДобавитьАргументы(event, 'detail_field')" class="green button" type="button">Добавить аргументы запроса</button>
+            </fieldset>
+         </fieldset>
+
+
+
+
+         <div class="flex-row">
+            <fieldset class="flex-col left border">
+               <legend>Источних данных</legend>
+               <label for="db_osp">
+                  <div class="input_name">ОСП</div>
+                  <input type="checkbox" name="база[]" id="db_osp" placeholder="" value="osp">
+               </label>
+               <label for="">
+                  <div class="input_name">РБД</div>
+                  <input checked type="checkbox" name="база[]" id="db_rdb" placeholder="" value="rdb">
+               </label>
+            </fieldset>
+
+            <fieldset  class="flex-col left border">
+               <legend>Динамический запрос?</legend>
+               <div class="flex-col">
+                  <label for="dynamic_true" class="space-between">
+                     <div class="input_name auto">Да</div>
+                     <input type="radio" name="динамический" id="dynamic_true" placeholder="" value="true">
+                  </label>
+                  <label for="dynamic_false" class="space-between">
+                     <div class="input_name auto">Нет</div>
+                     <input type="radio" checked name="динамический" id="dynamic_false" placeholder="" value="false">
+                  </label>
+               </div>
+            </fieldset>
+         </div>
+         <fieldset class="border">
+         <fieldset class="flex-col left " id = "arguments_wrapper">
+            <legend>Аргументы для добавления в запрос</legend>
+            <div class="flex-col left">
+               <div class="flex-row flex_justify-evenly argument" id="arg_wrapper-1" >
+                  <label for="arg_name-1" class="space-between">
+                     <div class="input_name auto">Период</div>
+                     <input value='[{"имя_аргумента":"Дата с", "идентификатор":"date_from","тип":"date"},{"имя_аргумента":"по", "идентификатор":"date_to","тип":"date"}]' type="checkbox" name="аргументы.1" id="arg_name-1" placeholder="">
+                  </label>
+               </div>
+               <div class="flex-row argument" id="arg_wrapper-2" >
+                  <label for="arg_name-2" class="space-between">
+                     <div class="input_name auto">Дата</div>
+                     <input value='{"имя_аргумента":"Дата", "идентификатор":"date","тип":"date"}' type="checkbox" name="аргументы.2" id="arg_name-2" placeholder="">
+                  </label>
+               </div>
+               <div class="flex-row argument" id="arg_wrapper-3" >
+                  <label for="arg_name-3" class="space-between">
+                     <div class="input_name auto">Число</div>
+                     <input value='{"имя_аргумента":"Число", "идентификатор":"number","тип":"number"}' type="checkbox" name="аргументы.3" id="arg_name-3" placeholder="">
+                  </label>
+               </div>
+            </div>
+            <div class="flex-row argument" id="arg_wrapper-0" >
+
+               <label for="arg_name">
+                  <div class="input_name auto">Название</div>
+                  <input value="" type="text" name="аргументы[0].имя_аргумента" id="arg_name" placeholder="">
+               </label>
+               <label for="arg_id">
+                  <div class="input_name auto">идентификатор</div>
+                  <input type="text" name="аргументы[0].идентификатор" id="arg_id" placeholder="" value="">
+               </label>
+               <label for="arg_type">
+                  <div class="input_name auto">тип</div>
+                  <select name="аргументы[0].тип" id="arg_type">
+                     <option disabled selected value="">Выбрать Тип</option>
+                     <option value="date">Дата</option>
+                     <option value="number">Число</option>
+                     <option value="text"> Текст</option>
+                  </select>
+               </label>
+               <button data-target="arg_wrapper-0" data-class_name="argument"  data-number="0" class="minus" onclick="УдалитьАргумент(event)" type="button">-</button>
+            </div>
+
+         </fieldset>
+         <fieldset class="fieldset">
+            <button id="btn_add_argument" data-target="arguments_wrapper" data-deleted="[]" data-count="3" onclick="ДобавитьАргументы(event, 'argument')" class="green button" type="button">Добавить аргументы запроса</button>
+         </fieldset>
+         </fieldset>
+         <fieldset>   <button class="io" type="submit">Сохранить</button></fieldset>
+      </form>
+   </div>
+
+{{end}}

@@ -1,0 +1,19 @@
+{{define "NewTicket"}}
+    <div class="" id="ticket_wrapper_{{.ticket_id}}">
+        <div class="ticket_problem">
+            №: {{.ticket_id}} от {{.date_create}} {{.status}}.
+            {{if eq .status "в очереди"}}
+               <div class="stack">Перед Вами {{.очередь}} заявок</div>
+            {{end}}
+        </div>
+        <div class="ticket_problem">
+           Проблема: {{.problem}}
+        </div>
+        <div class="ticket_login">
+            Ваш логин: {{.login}}
+        </div>
+        <div class="ticket_login">
+            Ваш IP: {{.ip}}
+        </div>
+    </div>
+{{end}}

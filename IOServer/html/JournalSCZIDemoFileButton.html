@@ -1,0 +1,24 @@
+{{define "JournalSCZIDemoFileButton"}}
+    {{$Образец:=.}}
+    <div class="btn_wrapper"  id="file_{{$Образец.ид_листа}}" >
+        <button class="btn_preview file"
+                onclick="ПросмотрФайла('{{$Образец.ид_листа}}','/{{$Образец.путь}}/{{$Образец.папка}}/{{$Образец.файл}}', this)">
+            <img class="icon"
+                 src="/static/images/metod_doc.svg">
+            <div class="file_status">{{$Образец.файл}} <div>ОСП: {{$Образец.осп}}</div> </div>
+        </button>
+
+        <div class="file_action">
+            <form action="удалить образец журнала скзи" onsubmit="WS.ОтправитьФорму(event)">
+                <input type="text" class="inviz" name="ид_листа" value="{{$Образец.ид_листа}}" readonly>
+                <input type="text" class="inviz" name="образец" value="true" readonly>
+                <input type="text" class="inviz" name="форма" value="{{$Образец.форма}}" readonly>
+                <button type="submit" class="transparent">
+                    <div class="input_name">
+                        <img class="icon" src="/static/images/close_red.svg" alt="">
+                    </div>
+                </button>
+            </form>
+        </div>
+    </div>
+{{end}}

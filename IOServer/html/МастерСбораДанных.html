@@ -1,0 +1,146 @@
+{{define "МастерСбораДанных"}}
+
+    <div class="master_data_collector panel_wrapper white flex-full" id="master_data_collector">
+{{/*        [map[ид:74 столбцы:map[asd:[map[-615:Документы, с отредактированной уcтановочной и/или постановочной частями]]]]]*/}}
+{{/*        {{$данные := ""}}*/}}
+        {{$ИмяТабицы:=""}}
+        {{$ИдТабицы:=""}}
+
+        {{ if .data.список_таблиц}}
+             {{ $данные := .data.список_таблиц}}
+             {{$ИмяТабицы =(index $данные 0).имя_таблицы}}
+             {{$ИдТабицы = (index $данные 0).ид}}
+        {{else}}
+            {{ $данные := .data.стат_таблица }}
+            {{ $столбцы := (index $данные 0).столбцы }}
+            {{ $ИдТабицы = (index $данные 0).ид }}
+            {{range $Имя,$Ст := $столбцы }}
+                    {{$ИмяТабицы = $Имя}}
+            {{end}}
+       {{end}}
+
+
+
+
+<div class="panel_content">
+    <h3 class="">  Выберите каким образом будет происходить сбор данных для таблицы: {{$ИмяТабицы}} </h3>
+        <div class="flex-row">
+        <label for="head_collector">
+            <div class="input_name">По требованию, по нажатию на кнопку</div>
+            <input id="head_collector" onclick="СвернутьПанель('form_collector_wrapper', event)" checked type="radio" name="collect_switcher" value="По требованию, по нажатию на кнопку">
+        </label>
+
+          <label for="auto_collect">
+              <div class="input_name">Автоматически по расписанию</div>
+              <input  onclick="СвернутьПанель('form_collector_wrapper' , event)" id="auto_collect" class="visible_switcher"  name="collect_switcher" type="radio" value="Автоматически по расписанию">
+          </label>
+        </div>
+
+    <div id="form_collector_wrapper" class="mini">
+            <form id="form_collector" class="flex-full  io_form" action="задать расписание сбора данных" onsubmit="WS.ОтправитьФорму(event)">
+
+                <input readonly name="ид" type="text" value="{{$ИдТабицы}}">
+
+               <table class="io_table with-auto">
+                   <thead>
+                   <tr>
+                       <th>День недели</th>
+                       <th>Время</th>
+                   </tr>
+                   </thead>
+                   <tbody>
+                   <tr>
+                       <td>
+                           <label for="mon">
+                               <div class="input_name">Понедельник</div>
+                               <input id="mon" type="checkbox" name="день[]" value="1">
+                           </label>
+                       </td>
+                       <td id="mon_time">
+                           <input type="time"  name="время[1][]"  min="00:00" max="23:59"  value="">
+                           <button class="plus" type="button" onclick="ДобавитьВремя('mon_time',1, event)" title="Добавить время, елси нужно обновлять несколько раз в день">+</button>
+                       </td>
+                   </tr>
+                   <tr>
+                       <td >
+                           <label for="tues">
+                               <div class="input_name">Вторник</div>
+                               <input id="tues" type="checkbox" name="день[]"  value="2">
+                           </label>
+                       </td>
+                       <td id="tues_time">
+                           <input type="time"  name="время[2][]"  min="00:00" max="23:59"  value="">
+                           <button class="plus" type="button" onclick="ДобавитьВремя('tues_time',2, event)" title="Добавить время, елси нужно обновлять несколько раз в день">+</button>
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>
+                           <label for="wednes">
+                               <div class="input_name">Среда</div>
+                               <input id="wednes" type="checkbox" name="день[]" value="3">
+                           </label>
+                       </td>
+                       <td id="wednes_time">
+                           <input type="time"  name="время[3][]"  min="00:00" max="23:59"  value="">
+                           <button class="plus" type="button" onclick="ДобавитьВремя('wednes_time',3, event)" title="Добавить время, елси нужно обновлять несколько раз в день">+</button>
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>
+                           <label for="thurs">
+                               <div class="input_name">Четверг</div>
+                               <input type="checkbox" name="день[]" id="thurs" value="4">
+                           </label>
+                       </td>
+                       <td id="thurs_time">
+                           <input type="time"  name="время[4][]"  min="00:00" max="23:59"  value="">
+                           <button class="plus" type="button" onclick="ДобавитьВремя('thurs_time',4, event)" title="Добавить время, елси нужно обновлять несколько раз в день">+</button>
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>
+                           <label for="fri">
+                               <div class="input_name">Пятница</div>
+                               <input type="checkbox" name="день[]" id="fri" value="5">
+                           </label>
+                       </td>
+                       <td id="fri_time">
+                           <input type="time"  name="время[5][]"  min="00:00" max="23:59"  value="">
+                           <button class="plus" type="button" onclick="ДобавитьВремя('fri_time',5, event)" title="Добавить время, елси нужно обновлять несколько раз в день">+</button>
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>
+                           <label for="satur">
+                               <div class="input_name">Суббота</div>
+                               <input type="checkbox" name="день[]" id="satur" value="6">
+                           </label>
+                       </td>
+                       <td id="satur_time">
+                           <input type="time"  name="время[6][]"  min="00:00" max="23:59"  value="">
+                           <button class="plus" type="button" onclick="ДобавитьВремя('satur_time',6, event)" title="Добавить время, елси нужно обновлять несколько раз в день">+</button>
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>
+                           <label for="sun">
+                               <div class="input_name">Воскресение</div>
+                               <input type="checkbox" name="день[]" id="sun" value="7">
+                           </label>
+                       </td>
+                       <td id="sun_time">
+                           <input type="time"  name="время[7][]"  min="00:00" max="23:59"  value="">
+                           <button type="button" class="plus" onclick="ДобавитьВремя('sun_time', 7, event)" title="Добавить время, елси нужно обновлять несколько раз в день">+</button>
+                       </td>
+                   </tr>
+                   </tbody>
+               </table>
+
+
+            </form>
+    </div>
+    <button form="form_collector" class="io" type="submit">Сохранить</button>
+</div>
+
+    </div>
+{{end}}

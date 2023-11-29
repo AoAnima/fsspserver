@@ -1,0 +1,26 @@
+{{define "КнопкиНомерАД"}}
+    {{range $osp, $данные := (index .data.карточки 0).массив}}
+        <div id="osp_{{$osp}}" class="flex-row">
+                {{range $дата, $карточки := $данные}}
+                    <div id="osp_{{$osp}}_container" class="accordeon hidden">
+                        {{range $ДатаВремя, $Номер := $карточки}}
+                            <div class="flex-row nowrap" id="card_{{$Номер}}">
+                                <button class="noradius bordered red " type="button" onclick="if(confirm('Удалить карточку?')){WS.ОтправитьСообщениеИО('удалить карточку ап', {n_prot:{{$Номер}} })}">
+                                    Удалить
+                                </button>
+                                <button class="noradius bordered" type="button" onclick="WS.ОтправитьСообщениеИО('открыть карточку ап', {n_prot:{{$Номер}} })">
+                                    Открыть карточку: {{$Номер}}; от: {{$ДатаВремя}}
+                                </button>
+                                <button class="noradius bordered green" type="button" onclick="WS.ОтправитьСообщениеИО('скачать карточку ап',  {n_prot:{{$Номер}}})">
+                                    Скачать архив
+                                </button>
+                            </div>
+
+                        {{end}}
+                    </div>
+                {{end}}
+
+        </div>
+    {{end}}
+
+{{end}}

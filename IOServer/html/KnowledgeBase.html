@@ -1,0 +1,52 @@
+{{define "KnowledgeBase"}}
+
+    <div id="knowledge_base">
+{{/*            <div class="contents_links" id="knowledge_categories">*/}}
+{{/*                {{template "KnowledgeCategories" .}}*/}}
+{{/*            </div>*/}}
+
+{{/*        </div>*/}}
+
+        <div id="knowledge_content_wrapper">
+
+        <div id="knowledge_content">
+            <div id="search_knowledge">
+                <button class="new_kb_article" onclick="WS.SendFastMessageIO('добавить статью в базу знаний', null)">Добавить статью</button>
+                <form action="Найти" onsubmit="WS.SendForm(event)">
+                    <input class="inviz" readonly type="text" name="что" value="статью">
+                    <label class="nowrap" for="search_input">
+                        <input  class="full-width" type="text" placeholder="Введите вопрос..."
+                                id="search_input"
+                                name = "что" onkeypress="WS.ПоискСтатей(event)" onfocus="">
+                        <button class="search" type="submit"></button>
+                    </label>
+                </form>
+                <div class="real_time_result" id="real_time_result"></div>
+            </div>
+            <article id="articles">
+            <div class="tags_list" id="tags_list_wrapper">
+                <button class="tag_link" onclick="WS.ОтправитьСообщениеИО('показать все статьи')">
+                    <object width="20" height="20"
+                            type="image/svg+xml"
+                            data="/static/images/list.svg">
+                    </object>
+                    Все статьи
+                </button>
+                {{range $метка := .data.метки}}
+                <button  class="tag_link"  onclick="WS.ОтправитьСообщениеИО('показать статьи с меткой', {'метки':'{{$метка.метка}}'})"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16zM16 17H5V7h11l3.55 5L16 17z"></path></svg>{{$метка.метка}}</button>
+                {{end}}
+            </div>
+
+            {{template "KnowledgeArticles" .}}
+
+            </article>
+
+        </div>
+            <div id="full_article_wrapper">
+{{/*                {{$статья := index .data.статья 0}}*/}}
+
+                {{template "KnowledgeArticle" СоздатьКонекст . (index .data.статья 0)}}
+            </div>
+        </div>
+    </div>
+{{end}}

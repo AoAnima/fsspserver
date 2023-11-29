@@ -1,0 +1,37 @@
+{{define "NewSkillForm"}}
+
+    <div class="skill_wrapper" >
+        <form class="io_form" action="СоздатьНавык" onsubmit="WS.SendForm(event, true);" onreset="WS.CloseForm(event)">
+            <label >
+                <div class="input_name">Название нового навыка</div>
+                <input type="text" required name="skill_name" placeholder="Переустановка СОС">
+            </label>
+            <label>
+                <div class="input_name">Описание нового навыка</div>
+                <input type="text" name="skill_description"  placeholder="Что делает навык">
+            </label>
+            <label>
+                <div class="input_name">Комманды которые будет выполнять бот</div>
+                <textarea required row="4" name="skill_action" ></textarea>
+            </label>
+            <label>
+                <div class="input_name">Какие проблемы исправляет навык, через запятую</div>
+                <input type="text" name="skill_problems" placeholder="нет папки обмена, не запускается АИС">
+            </label>
+            <label >
+                <div class="input_name flex-full">Разрешить пользователям самостоятельно запускать навык?</div>
+                Да <input type="checkbox" name="skill_self_use"  placeholder="">
+            </label>
+            <label>
+                <div class="input_name">Ключевые слова/метки, через запятую</div>
+                <input type="text" name="skill_keywords" placeholder="папка обмена, АИС, принтер, IC5">
+            </label>
+            <div class="ws_btn_wrapper">
+
+           <button type="reset" class="ws_btn">Отменить</button>
+           <button type="submit" class="ws_btn">Создать</button>
+            </div>
+
+        </form>
+    </div>
+{{end}}

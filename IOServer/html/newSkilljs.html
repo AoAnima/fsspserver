@@ -1,0 +1,70 @@
+{{define "newSkilljs"}}
+    <div class="ws_new_skill_wrapper" id="ws_new_skill_wrapper">
+        <form action="creatSkill" onsubmit="WS.sendFrom()">
+            <label for="caption">
+                <div class="input_name">Название навыка/скрипта</div>
+                <div class="input_tips">Например: перезапуск rc.local</div>
+                <input type="text" name="caption" id="caption" placeholder="Название проблемы">
+            </label>
+            <label for="problems">
+                <div class="input_name">Решаемые проблемы</div>
+                <div class="input_tips">
+                    Через запятую, описание решаемых проблем, например:
+                    <ul>
+                        <li>Не работает папка обмена, не запускается АИС</li>
+                        <li>Не печатает принтер</li>
+                        <li>Не видит рутокен, проблема с сертификатом</li>
+                    </ul>
+                </div>
+                <input type="text" name="problems" id="problems" placeholder="Решаемые проблемы">
+            </label>
+            <label for="keywords">
+                <div class="input_name">Метки/Ключевые слова</div>
+                <div class="input_tips">
+                    Через запятую, метки для быстрого поиска, например:
+                    <ul>
+                        <li>rc.local, АИС, папка обмена</li>
+                        <li>принтер, ic4, ic5</li>
+                        <li>рутокен, подпись</li>
+                    </ul>
+                </div>
+                <input type="text" name="keywords" id="keywords" placeholder="Метки/Ключевые слова">
+            </label>
+            <label for="skill_dir">
+                <div class="input_name">Каталог</div>
+                <select name="skill_dir" id="skill_dir">
+                    <option value="" onselect="WS.NewSkillDirectory('Создать новую папку для скилов')">Новый каталог</option>
+                </select>
+            </label>
+            <label for="">
+                <div class="input_name">Скрипт</div>
+                <textarea cols="10" rows="2" name="cmd" id="cmd"></textarea>
+            </label>
+
+        </form>
+    </div>
+
+
+    <template>
+        <div class="ws_new_skill_dir_wrapper modal" id="NewSkillDirectory">
+            <div class="ws_terminal_control_panel">
+                <button onclick="CloseModal(event)" class="window_btn close_ws_terminal" type="button">X</button>
+            </div>
+        <form action="NewSkillDirectory" onsubmit="WS.sendFrom()">
+            <label for="dir_name">
+                <div class="input_name">Название каталога</div>
+                <input type="text" name="dir_name" id="dir_name" placeholder="азвание каталога
+">
+            </label>
+            <label for="parrent_dir_name">
+                <div class="input_name">Родительский каталог</div>
+                <select name="parrent_dir_name" id="parrent_dir_name">
+                    <option value="root">Корень</option>
+                </select>
+            </label>
+            <button type="submit" class="btn green">Создать</button>
+            <button type="reset" class="btn red">Отмена</button>
+        </form>
+        </div>
+    </template>
+{{end}}

@@ -1,0 +1,23 @@
+{{define "ПоляДетализацииSQLЗапроса"}}
+    {{ $id := index .данные (Строка .данные.тип "_id")  }}
+    <div class="">
+        Список полей для детализации запроса
+        <button type="button" data-button_name="Развернуть" onclick="СвернутьПанель('{{.данные.тип}}_fields_list_{{$id}}', event)">Свернуть</button>
+    </div>
+    <div class="details_filed_list" id='{{.данные.тип}}_fields_list_{{$id}}'>
+        {{range $ид, $имя := (index .data.поля_sql_запроса 0).детализация  }}
+
+            <label class="left" for="field_{{$ид}}_{{$id}}">
+                <input checked type="checkbox"
+                                    id="field_ {{$ид}}_{{$id}}"
+                                    value="{{$ид}}"
+                                    name="запрос[{{$id}}].детализация[]"
+                                    form="new_data-table"
+                >
+                <div class="input_name">
+                    {{$имя}}
+                </div>
+            </label>
+        {{end}}
+    </div>
+{{end}}
